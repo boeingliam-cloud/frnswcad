@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "id": "seed-dispatch",
+      "username": "dispatch",
+      "pin": "0000",
+      "role": "dispatch",
+      "created_at": 1772792517749
+    },
+    {
+      "id": "seed-unit",
+      "username": "unit1",
+      "pin": "0000",
+      "role": "unit",
+      "created_at": 1772792517749
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-unit1",
+      "callsign": "UNIT1",
+      "status": "AVAILABLE",
+      "created_at": 1772792851841,
+      "last_update": 1772792851841
+    }
+  ],
+  "incidents": [],
+  "assignments": []
+}

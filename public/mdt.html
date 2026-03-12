@@ -1,0 +1,932 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>MDT | FRNSW Fire CAD</title>
+  <link rel="stylesheet" href="/mdt.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <style>
+    html, body { height: 100%; margin: 0; overflow: hidden; }
+    body.mdt-irl { display: flex; flex-direction: column; }
+
+    .mdt-shell { display: flex; flex-direction: column; flex: 1; min-height: 0; border: 4px solid var(--mdt-border); box-sizing: border-box; transition: border-color .3s; }
+    .mdt-shell.offline { border-color: var(--mdt-offline-border) !important; }
+    .mdt-shell.duress  { border-color: var(--mdt-status-emr) !important; animation: duressPulse 1s infinite; }
+    @keyframes duressPulse { 0%,100%{border-color:var(--mdt-status-emr)} 50%{border-color:rgba(220,53,69,.3)} }
+
+    /* TOP BAR */
+    .mdt-top-bar {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 8px 12px; background: var(--mdt-header);
+      flex-shrink: 0; min-height: 46px;
+    }
+    .mdt-appliance { font-weight: 700; font-size: 15px; letter-spacing: .5px; }
+    .mdt-status-badge { padding: 4px 10px; border-radius: 4px; font-weight: 700; font-size: 12px; }
+    .mdt-status-badge.ALT { background: var(--mdt-status-alt);  color:#fff; }
+    .mdt-status-badge.MOB { background: var(--mdt-status-mob);  color:#fff; }
+    .mdt-status-badge.PRO { background: var(--mdt-status-pro);  color:#1a1a1a; }
+    .mdt-status-badge.INS { background: var(--mdt-status-ins);  color:#fff; }
+    .mdt-status-badge.EMR { background: var(--mdt-status-emr);  color:#fff; }
+    .mdt-status-badge.NAV { background: var(--mdt-status-nav);  color:#fff; }
+    .mdt-status-badge.STN { background: var(--mdt-status-stn);  color:#1a1a1a; }
+    .mdt-status-badge.AVL { background: var(--mdt-status-avl);  color:#fff; }
+    .mdt-elapsed  { font-weight: 700; font-family: monospace; font-size: 14px; letter-spacing: 1px; }
+    .mdt-datetime { color: var(--mdt-text-secondary); font-size: 12px; }
+    .mdt-conn { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--mdt-text-secondary); }
+    .mdt-conn .dot { width:9px; height:9px; border-radius:50%; background:#28a745; }
+    .mdt-conn.offline .dot { background: var(--mdt-offline-border); }
+    .mdt-conn.offline { color: var(--mdt-offline-border); }
+    .mdt-offline-label { color: var(--mdt-offline-border); font-weight:700; font-size:12px; display:none; }
+    .mdt-inc-id { color: var(--mdt-text-secondary); font-size: 12px; font-family: monospace; }
+    .ml-auto { margin-left: auto; }
+    .logout-btn { background:transparent; border:1px solid rgba(255,255,255,.4); color:#fff; padding:4px 10px; font-size:11px; cursor:pointer; border-radius:4px; }
+    .logout-btn:hover { background:rgba(255,255,255,.1); }
+
+    /* MAIN */
+    .mdt-main { display: flex; flex: 1; min-height: 0; }
+
+    /* LEFT STATUS PANEL */
+    .mdt-left-panel {
+      width: 90px; flex-shrink: 0; display: flex; flex-direction: column;
+      gap: 4px; padding: 8px 6px;
+      background: var(--mdt-panel); border-right: 2px solid var(--mdt-border);
+    }
+    .mdt-status-btn {
+      border: none; color: #fff; font-family: inherit; font-size: 11px;
+      font-weight: 700; padding: 0; cursor: pointer; text-align: center;
+      border-radius: 4px; flex: 1; min-height: 38px;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 1px; transition: filter .15s, transform .1s;
+    }
+    .mdt-status-btn:active { transform: scale(.97); }
+    .mdt-status-btn .code { font-size: 13px; font-weight: 800; }
+    .mdt-status-btn .lbl  { font-size: 9px; opacity: .85; }
+    .mdt-status-btn.ALT { background: var(--mdt-status-alt); }
+    .mdt-status-btn.MOB { background: var(--mdt-status-mob); }
+    .mdt-status-btn.PRO { background: var(--mdt-status-pro); color:#1a1a1a; }
+    .mdt-status-btn.INS { background: var(--mdt-status-ins); }
+    .mdt-status-btn.EMR { background: var(--mdt-status-emr); }
+    .mdt-status-btn.NAV { background: var(--mdt-status-nav); }
+    .mdt-status-btn.STN { background: var(--mdt-status-stn); color:#1a1a1a; }
+    .mdt-status-btn.AVL { background: var(--mdt-status-avl); }
+    .mdt-status-btn.active { box-shadow: inset 0 0 0 3px #fff; filter: brightness(1.1); }
+
+    /* CONTENT */
+    .mdt-content { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
+
+    /* SCREENS */
+    .mdt-screen { display: none; flex: 1; flex-direction: column; overflow-y: auto; padding: 14px; }
+    .mdt-screen.active { display: flex; }
+
+    /* INCIDENT SCREEN */
+    .inc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .inc-field label { display:block; font-size:11px; color:var(--mdt-text-secondary); margin-bottom:3px; }
+    .inc-field .val { font-size:15px; font-weight:600; color:var(--mdt-text); }
+    .inc-field .val.big { font-size:20px; font-weight:800; letter-spacing:.5px; }
+    .inc-notes { background:var(--mdt-panel); padding:10px 12px; border-radius:4px; font-size:13px; white-space:pre-wrap; margin-top:6px; border-left:3px solid var(--mdt-accent); line-height:1.5; }
+    .no-incident { color:var(--mdt-text-secondary); text-align:center; padding:40px 20px; font-size:14px; }
+
+    /* MAP SCREEN */
+    .map-screen-wrap { display:flex; flex-direction:column; flex:1; gap:8px; }
+    .map-toolbar { display:flex; gap:8px; flex-shrink:0; flex-wrap:wrap; }
+    .map-toolbar select, .map-toolbar button {
+      background:var(--mdt-panel); border:1px solid var(--mdt-border);
+      color:var(--mdt-text); padding:5px 10px; border-radius:4px;
+      cursor:pointer; font-size:12px;
+    }
+    #mdtMap { flex:1; min-height:280px; border:1px solid var(--mdt-border); border-radius:4px; }
+
+    /* RESOURCES SCREEN */
+    .res-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .res-table th { text-align:left; color:var(--mdt-text-secondary); font-size:11px; padding:6px 8px; border-bottom:1px solid var(--mdt-border); }
+    .res-table td { padding:8px 8px; border-bottom:1px solid var(--mdt-border); }
+    .res-status { padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; color:#fff; display:inline-block; }
+
+    /* MESSAGES SCREEN */
+    .msg-empty { color:var(--mdt-text-secondary); text-align:center; padding:30px; font-size:13px; }
+    .msg-item { padding:10px 12px; border-bottom:1px solid var(--mdt-border); }
+    .msg-meta { font-size:11px; color:var(--mdt-text-secondary); margin-bottom:4px; }
+    .msg-body { font-size:14px; color:var(--mdt-accent); font-weight:600; }
+
+    /* SITREP SCREEN */
+    .sitrep-compose { background:var(--mdt-panel); border:1px solid var(--mdt-border); border-radius:6px; padding:12px; margin-bottom:14px; flex-shrink:0; }
+    .sitrep-compose label { display:block; font-size:11px; color:var(--mdt-text-secondary); margin-bottom:6px; letter-spacing:1px; }
+    .sitrep-compose textarea {
+      width:100%; min-height:80px; background:var(--mdt-bg);
+      border:1px solid var(--mdt-border); color:var(--mdt-text);
+      font-family:inherit; font-size:13px; padding:8px 10px;
+      border-radius:4px; resize:vertical; box-sizing:border-box;
+    }
+    .sitrep-compose textarea:focus { border-color:var(--mdt-accent); outline:none; }
+    .sitrep-btn-row { display:flex; gap:8px; margin-top:8px; align-items:center; }
+    .sitrep-submit {
+      padding:8px 18px; background:var(--mdt-accent); border:none;
+      color:#fff; font-family:inherit; font-size:13px; font-weight:700;
+      border-radius:4px; cursor:pointer;
+    }
+    .sitrep-submit:hover { filter:brightness(1.1); }
+    .sitrep-no-inc { color:var(--mdt-text-secondary); font-size:12px; }
+    .sitrep-msg { font-size:12px; color:#28a745; }
+    .sitrep-log { flex:1; overflow-y:auto; }
+    .sitrep-entry { padding:10px 12px; border-bottom:1px solid var(--mdt-border); }
+    .sitrep-entry-meta { font-size:11px; color:var(--mdt-text-secondary); margin-bottom:4px; }
+    .sitrep-entry-text { font-size:13px; line-height:1.5; white-space:pre-wrap; }
+    .sitrep-empty { color:var(--mdt-text-secondary); text-align:center; padding:24px; font-size:13px; }
+
+    /* BOTTOM MENU BAR */
+    .mdt-bottom-bar { background:var(--mdt-panel); border-top:2px solid var(--mdt-border); flex-shrink:0; }
+    .menu-row { display:flex; gap:3px; padding:5px 8px; overflow-x:auto; }
+    .mdt-menu-btn {
+      flex:1; min-width:70px; border:1px solid var(--mdt-border);
+      background:var(--mdt-card); color:var(--mdt-text);
+      font-family:inherit; font-size:11px; font-weight:700;
+      padding:9px 6px; cursor:pointer; border-radius:4px;
+      position:relative; transition:background .15s, border-color .15s;
+      white-space:nowrap; text-align:center;
+    }
+    .mdt-menu-btn:hover  { background:#333; border-color:#555; }
+    .mdt-menu-btn:active { transform:scale(.98); }
+    .mdt-menu-btn.active { background:var(--mdt-accent); border-color:var(--mdt-accent); color:#fff; }
+    .mdt-menu-btn .badge {
+      position:absolute; top:-5px; right:-5px;
+      min-width:17px; height:17px; padding:0 4px;
+      background:var(--mdt-badge); color:#1a1a1a;
+      font-size:10px; font-weight:800; border-radius:999px;
+      display:flex; align-items:center; justify-content:center;
+    }
+
+    /* OVERLAY */
+    .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:2000; align-items:center; justify-content:center; padding:20px; box-sizing:border-box; }
+    .overlay.open { display:flex; }
+    .overlay-panel { background:var(--mdt-panel); border:2px solid var(--mdt-border); border-radius:8px; padding:20px; max-width:400px; width:100%; max-height:90vh; overflow-y:auto; }
+    .overlay-panel h3 { margin:0 0 14px; font-size:14px; border-bottom:1px solid var(--mdt-border); padding-bottom:8px; }
+    .overlay-panel label { display:block; font-size:11px; color:var(--mdt-text-secondary); margin:10px 0 4px; }
+    .overlay-panel input { width:100%; padding:7px 10px; background:var(--mdt-bg); border:1px solid var(--mdt-border); color:var(--mdt-text); font-size:12px; border-radius:4px; box-sizing:border-box; }
+    .overlay-panel input:focus { border-color:var(--mdt-accent); outline:none; }
+    .ov-btns { display:flex; gap:8px; margin-top:14px; }
+    .ov-btn { flex:1; padding:8px; background:var(--mdt-card); border:1px solid var(--mdt-border); color:var(--mdt-text); font-family:inherit; font-size:12px; cursor:pointer; border-radius:4px; }
+    .ov-btn.primary { background:var(--mdt-accent); border-color:var(--mdt-accent); color:#fff; }
+    .ov-msg { color:var(--mdt-text-secondary); font-size:11px; margin-top:8px; min-height:16px; }
+  </style>
+</head>
+<body class="mdt-irl">
+<div class="mdt-shell" id="mdtShell">
+
+  <!-- TOP STATUS BAR -->
+  <div class="mdt-top-bar">
+    <span class="mdt-appliance" id="applianceId">—</span>
+    <span id="permsBadge" style="font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.08);color:var(--mdt-text-secondary);font-family:var(--mdt-mono);display:none"></span>
+    <span class="mdt-status-badge AVL" id="topBadge">AVL</span>
+    <span class="mdt-inc-id" id="incId">NO INCIDENT</span>
+    <span class="mdt-elapsed" id="elapsed">00:00:00</span>
+    <span class="mdt-datetime" id="datetime"></span>
+    <div class="mdt-conn" id="connIndicator"><span class="dot"></span><span>Online</span></div>
+    <span class="mdt-offline-label" id="offlineLabel">⚠ SERVER DISCONNECTED</span>
+    <div class="ml-auto"></div>
+    <button class="logout-btn" id="btnLogout">LOGOUT</button>
+  </div>
+
+  <div class="mdt-main">
+
+    <!-- LEFT: FRNSW STATUS BUTTONS -->
+    <div class="mdt-left-panel">
+      <button class="mdt-status-btn ALT" data-frnsw="ALT">
+        <span class="code">ALT</span><span class="lbl">Alerted</span>
+      </button>
+      <button class="mdt-status-btn MOB" data-frnsw="MOB">
+        <span class="code">MOB</span><span class="lbl">Mobile</span>
+      </button>
+      <button class="mdt-status-btn PRO" data-frnsw="PRO">
+        <span class="code">PRO</span><span class="lbl">Responding</span>
+      </button>
+      <button class="mdt-status-btn INS" data-frnsw="INS">
+        <span class="code">INS</span><span class="lbl">Inspecting</span>
+      </button>
+      <button class="mdt-status-btn EMR" data-frnsw="EMR">
+        <span class="code">EMR</span><span class="lbl">Duress</span>
+      </button>
+      <button class="mdt-status-btn NAV" data-frnsw="NAV">
+        <span class="code">NAV</span><span class="lbl">Unavailable</span>
+      </button>
+      <button class="mdt-status-btn STN" data-frnsw="STN">
+        <span class="code">STN</span><span class="lbl">At Station</span>
+      </button>
+      <button class="mdt-status-btn AVL active" data-frnsw="AVL">
+        <span class="code">AVL</span><span class="lbl">Available</span>
+      </button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="mdt-content">
+
+      <!-- INCIDENT SCREEN -->
+      <div class="mdt-screen active" id="screenIncident">
+        <div id="incContent">
+          <div class="no-incident">No incident assigned.<br><span style="font-size:12px;opacity:.6">Details appear here when dispatched.</span></div>
+        </div>
+      </div>
+
+      <!-- MAP SCREEN -->
+      <div class="mdt-screen" id="screenMap">
+        <div class="map-screen-wrap">
+          <div class="map-toolbar">
+            <select id="mdtMapVariant">
+              <option value="fall_postals" selected>Fall – Postals</option>
+              <option value="fall_blank">Fall – Blank</option>
+              <option value="snow_postals">Winter – Postals</option>
+              <option value="snow_blank">Winter – Blank</option>
+            </select>
+            <button id="btnMdtRecenter">⊕ Recenter</button>
+          </div>
+          <div id="mdtMap"></div>
+        </div>
+      </div>
+
+      <!-- RESOURCES SCREEN -->
+      <div class="mdt-screen" id="screenResources">
+        <table class="res-table">
+          <thead><tr><th>Callsign</th><th>Role</th><th>Status</th></tr></thead>
+          <tbody id="resTbody"></tbody>
+        </table>
+      </div>
+
+      <!-- MESSAGES SCREEN -->
+      <div class="mdt-screen" id="screenMessages">
+        <div id="msgList"></div>
+      </div>
+
+      <!-- SITREP SCREEN -->
+      <div class="mdt-screen" id="screenSitrep">
+        <div class="sitrep-compose" id="sitrepCompose">
+          <label>SITUATION REPORT</label>
+          <textarea id="sitrepText" placeholder="Describe the situation on scene — resources deployed, conditions, actions taken…"></textarea>
+          <div class="sitrep-btn-row">
+            <button class="sitrep-submit" id="btnSubmitSitrep">Submit SitRep</button>
+            <span class="sitrep-msg" id="sitrepMsg"></span>
+            <span class="sitrep-no-inc" id="sitrepNoInc" style="display:none">⚠ No active incident assigned</span>
+          </div>
+        </div>
+        <div class="sitrep-log" id="sitrepLog"></div>
+      </div>
+
+      <!-- BULLETINS SCREEN -->
+      <div class="mdt-screen" id="screenBulletins">
+        <div id="bulletinsList" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+
+      <!-- PRE-PLAN SCREEN -->
+      <div class="mdt-screen" id="screenPreplan">
+        <div style="margin-bottom:10px">
+          <input id="ppSearch" placeholder="🔍  Search address…" style="width:100%;padding:8px 12px;border-radius:8px;border:1px solid var(--mdt-border);background:rgba(0,0,0,.4);color:var(--mdt-text);font-size:13px;outline:none;box-sizing:border-box"/>
+        </div>
+        <div id="preplanList" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- BOTTOM MENU BAR — Row 1 -->
+  <div class="mdt-bottom-bar">
+    <div class="menu-row">
+      <button class="mdt-menu-btn active" data-screen="Incident">INCIDENT</button>
+      <button class="mdt-menu-btn" data-screen="Map">MAP</button>
+      <button class="mdt-menu-btn" data-screen="Resources">RESOURCES</button>
+      <button class="mdt-menu-btn" data-screen="Messages" id="btnMessages">
+        MESSAGES <span class="badge" id="msgBadge" style="display:none">0</span>
+      </button>
+    </div>
+    <!-- Row 2 -->
+    <div class="menu-row">
+      <button class="mdt-menu-btn" data-screen="Sitrep" id="btnSitrep">
+        SIT REP <span class="badge" id="sitrepBadge" style="display:none">!</span>
+      </button>
+      <button class="mdt-menu-btn" id="btnErlcName">ER:LC NAME</button>
+      <button class="mdt-menu-btn" data-screen="Preplan">PRE-PLAN</button>
+      <button class="mdt-menu-btn" data-screen="Bulletins">
+        BULLETINS <span class="badge" id="bulBadge" style="display:none">!</span>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ER:LC NAME OVERLAY -->
+<div class="overlay" id="overlayErlc">
+  <div class="overlay-panel">
+    <h3>ER:LC Auto-Location</h3>
+    <label>Your Roblox / ER:LC username</label>
+    <input id="erlcNameInput" placeholder="Your in-game username" autocomplete="off"/>
+    <p style="color:var(--mdt-text-secondary);font-size:11px;margin-top:8px">
+      The server will automatically pull your location from the ER:LC API every 15 seconds once your username is set here and a server key is configured.
+    </p>
+    <div class="ov-btns">
+      <button class="ov-btn primary" id="btnSaveErlc">Save</button>
+      <button class="ov-btn" id="btnCloseErlc">Close</button>
+    </div>
+    <div class="ov-msg" id="ovMsg"></div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/shared.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+(function() {
+  const { toast, logout, whoami, buildTone } = window.CAD_SHARED;
+  const tone = buildTone();
+  const socket = io();
+
+  let state = { units: [], incidents: [], assignments: [], mapPins: [] };
+  let myUnitId  = null;
+  let myCallsign = '—';
+  let myPerms = 'truck';
+  let prevIncidentId = null; // track to detect when a call closes
+  let currentFrnsw = 'AVL';
+  let unread = 0;
+  let mapLoaded = false;
+
+  // ── STATUS COLOURS ───────────────────────────────────────────────────────────
+  const STATUS_COLORS = {
+    ALT:'#1e90ff', MOB:'#f26522', PRO:'#ffc107',
+    INS:'#28a745', EMR:'#dc3545', NAV:'#6c757d',
+    STN:'#adb5bd', AVL:'#5cb85c',
+    // legacy backend names → colour
+    AVAILABLE:'#5cb85c', ENROUTE:'#f26522', ONSCENE:'#28a745',
+    CLEAR:'#adb5bd', OFFLINE:'#6c757d'
+  };
+
+  // Map FRNSW display code ↔ stored status (we now store the FRNSW code directly)
+  // The server accepts ALT/MOB/PRO/INS/EMR/NAV/STN/AVL directly
+  function resolveDisplayCode(status) {
+    // If it's already a FRNSW code, return as-is
+    const FRNSW = ['ALT','MOB','PRO','INS','EMR','NAV','STN','AVL'];
+    if (FRNSW.includes(status)) return status;
+    // Legacy backend → display
+    const map = { AVAILABLE:'AVL', ENROUTE:'MOB', ONSCENE:'INS', CLEAR:'STN', OFFLINE:'NAV' };
+    return map[status] || 'AVL';
+  }
+
+  // ── MAP ──────────────────────────────────────────────────────────────────────
+  const lmap = L.map('mdtMap', { crs: L.CRS.Simple, minZoom: -3, maxZoom: 3, zoomSnap: 0.25 });
+  let overlay = null, W = 4096, H = 4096;
+  let myMarker = null;
+  const uMarkers = new Map();
+
+  function loadMap(variant) {
+    const url = '/api/map-proxy?variant=' + encodeURIComponent(variant || 'fall_postals');
+    if (overlay) { overlay.remove(); overlay = null; }
+    overlay = L.imageOverlay(url, [[0, 0], [H, W]]).addTo(lmap);
+    lmap.setMaxBounds([[-500, -500], [H + 500, W + 500]]);
+    lmap.fitBounds([[0, 0], [H, W]]);
+    mapLoaded = true;
+    redrawMapMarkers();
+  }
+
+  function ll(x, z) {
+    const nx = +x, nz = +z;
+    if (!isFinite(nx) || !isFinite(nz)) return null;
+    return [H - nz, nx];
+  }
+
+  function mkTruckIcon(unit, isMe) {
+    const code  = resolveDisplayCode(unit.status || 'AVL');
+    const color = isMe ? '#00e676' : (STATUS_COLORS[code] || '#5cc8ff');
+    const label = (unit.callsign || unit.id).slice(0, 6);
+    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 5px rgba(0,0,0,.8));">
+      <div style="background:${color};color:#111;font-size:9px;font-weight:800;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-bottom:2px;${isMe?'outline:2px solid #fff;':''}">${label}${isMe?' ◀':''}</div>
+      <div style="font-size:${isMe?'26':'20'}px;line-height:1">🚒</div>
+    </div>`;
+    return L.divIcon({ html, iconSize:[52, isMe?44:38], iconAnchor:[26, isMe?42:36], className:'' });
+  }
+
+  function mkFireIcon(inc) {
+    const pri   = inc.priority || 'P2';
+    const color = pri==='P1'?'#ff4d6d': pri==='P2'?'#ffd166':'#9bb0d1';
+    const nature = (inc.nature || 'INCIDENT').slice(0, 12);
+    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 5px rgba(0,0,0,.8));">
+      <div style="font-size:22px;line-height:1">🔥</div>
+      <div style="background:${color};color:#111;font-size:9px;font-weight:800;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:2px;">[${pri}] ${nature}</div>
+    </div>`;
+    return L.divIcon({ html, iconSize:[80,40], iconAnchor:[40,6], className:'' });
+  }
+
+  function mkPinIcon(pin) {
+    const ico = pin.icon || '📍';
+    const extra = ico !== '📍' ? `<div style="font-size:16px;line-height:1;margin-bottom:-4px">${ico}</div>` : '';
+    const lbl = pin.label
+      ? `<div style="background:rgba(11,18,32,.92);color:#e8eaf6;font-size:9px;font-weight:700;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:2px;border:1px solid rgba(255,255,255,.2)">${pin.label}</div>`
+      : '';
+    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.9))">${extra}<div style="font-size:26px;line-height:1">📍</div>${lbl}</div>`;
+    return L.divIcon({ html, iconSize:[50, lbl?48:34], iconAnchor:[25, lbl?48:34], className:'' });
+  }
+
+  function mkPinTooltip(pin) {
+    const inc = state.incidents.find(i => i.id === pin.incident_id);
+    const assignedUnits = inc
+      ? state.assignments.filter(a => a.incident_id === inc.id)
+          .map(a => { const u = state.units.find(x => x.id === a.unit_id); return u ? (u.callsign || u.id) : null; })
+          .filter(Boolean).join(', ')
+      : null;
+    const loc = inc ? (inc.location_label || [inc.postal_code, inc.street_name].filter(Boolean).join(' ') || '—') : '—';
+    return inc
+      ? `<b>${pin.label || pin.icon || 'Pin'}</b><br><span style="color:#ffd166">${inc.id} — ${inc.nature}</span><br><span style="opacity:.7;font-size:11px">📍 ${loc}</span><br><span style="opacity:.7;font-size:11px">🚒 ${assignedUnits || 'No units'}</span>`
+      : `<b>${pin.label || pin.icon || 'Pin'}</b><br><span style="opacity:.6">No linked call</span>`;
+  }
+
+  function redrawMapMarkers() {
+    uMarkers.forEach(m => m.remove()); uMarkers.clear();
+    for (const u of state.units) {
+      if (u.location_x == null) continue;
+      const p = ll(u.location_x, u.location_z);
+      if (!p) continue;
+      const isMe = u.id === myUnitId;
+      const m = L.marker(p, { icon: mkTruckIcon(u, isMe), zIndexOffset: isMe ? 1000 : 100 }).addTo(lmap);
+      const assignedCalls = state.assignments.filter(a => a.unit_id === u.id).map(a => {
+        const inc = state.incidents.find(i => i.id === a.incident_id && i.status !== 'CLOSED');
+        return inc ? `${inc.id} – ${inc.nature}` : null;
+      }).filter(Boolean);
+      const callLine = assignedCalls.length ? `📋 ${assignedCalls.join(', ')}` : 'No active call';
+      m.bindTooltip(
+        `<b>${u.callsign || u.id}</b>${isMe ? ' (YOU)' : ''}<br>${u.status || '—'}<br>${callLine}`,
+        { direction: 'top', permanent: false }
+      );
+      uMarkers.set(u.id, m);
+      if (isMe) myMarker = m;
+    }
+    for (const inc of state.incidents) {
+      if (inc.status === 'CLOSED' || inc.location_x == null) continue;
+      const p = ll(inc.location_x, inc.location_z);
+      if (!p) continue;
+      const loc = inc.location_label || [inc.postal_code, inc.street_name].filter(Boolean).join(' ') || '—';
+      const m = L.marker(p, { icon: mkFireIcon(inc), zIndexOffset: 50 }).addTo(lmap);
+      m.bindPopup(`<b>${inc.nature}</b> [${inc.priority}]<br>${loc}`);
+      uMarkers.set('inc-' + inc.id, m);
+    }
+
+    // Dispatch map pins — only show pins linked to MY assigned calls
+    const myAssignedIncidentIds = new Set(
+      state.assignments.filter(a => a.unit_id === myUnitId).map(a => a.incident_id)
+    );
+    for (const pin of (state.mapPins || [])) {
+      // Show pin if it's linked to one of my calls, or has no call linked (general pin)
+      if (pin.incident_id && !myAssignedIncidentIds.has(pin.incident_id)) continue;
+      const p = ll(pin.location_x, pin.location_z);
+      if (!p) continue;
+      const m = L.marker(p, { icon: mkPinIcon(pin), zIndexOffset: 400 }).addTo(lmap);
+      m.bindTooltip(mkPinTooltip(pin), { direction: 'top' });
+      uMarkers.set('pin-' + pin.id, m);
+    }
+  }
+
+  // ── HELPERS ──────────────────────────────────────────────────────────────────
+  function esc(s) {
+    const d = document.createElement('div'); d.textContent = String(s||''); return d.innerHTML;
+  }
+  function fmt(ts) {
+    return new Date(ts).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  }
+  function myUnit() { return state.units.find(u => u.id === myUnitId); }
+  function myIncident() {
+    const ids = new Set(state.assignments.filter(a => a.unit_id === myUnitId).map(a => a.incident_id));
+    return state.incidents.find(i => ids.has(i.id) && i.status !== 'CLOSED') || null;
+  }
+
+  // ── SET STATUS ───────────────────────────────────────────────────────────────
+  function setStatus(frnsw) {
+    currentFrnsw = frnsw;
+    const badge = document.getElementById('topBadge');
+    badge.textContent = frnsw;
+    badge.className = 'mdt-status-badge ' + frnsw;
+    document.querySelectorAll('.mdt-status-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.frnsw === frnsw);
+    });
+    document.getElementById('mdtShell').classList.toggle('duress', frnsw === 'EMR');
+  }
+
+  // ── INCIDENT SCREEN ──────────────────────────────────────────────────────────
+  function renderIncident() {
+    const inc = myIncident();
+    const el  = document.getElementById('incContent');
+
+    // Detect call just closed — find my most recent assignment's incident even if CLOSED
+    const myIncidentIds = new Set(state.assignments.filter(a => a.unit_id === myUnitId).map(a => a.incident_id));
+    const closedInc = !inc && prevIncidentId
+      ? state.incidents.find(i => i.id === prevIncidentId && i.status === 'CLOSED')
+      : null;
+
+    if (closedInc) {
+      // Show closed banner and auto-set AVL if not already
+      document.getElementById('incId').textContent = closedInc.id + ' — CLOSED';
+      if (currentFrnsw !== 'AVL' && currentFrnsw !== 'STN') {
+        setStatus('AVL');
+        socket.emit('unit:setStatus', { status: 'AVL' });
+      }
+      el.innerHTML = `
+        <div style="background:rgba(220,53,69,.12);border:2px solid #dc3545;border-radius:10px;padding:18px;text-align:center;margin-bottom:14px">
+          <div style="font-size:28px;margin-bottom:6px">🔴</div>
+          <div style="font-size:16px;font-weight:800;color:#dc3545;letter-spacing:1px">CALL CLOSED</div>
+          <div style="font-size:12px;color:var(--mdt-text-secondary);margin-top:6px">${closedInc.id} — ${closedInc.nature}</div>
+          <div style="font-size:11px;color:var(--mdt-text-secondary);margin-top:2px">Closed by ${closedInc.closed_by || 'Dispatch'} · ${fmt(closedInc.closed_at)}</div>
+          <div style="font-size:11px;color:#5cb85c;margin-top:8px;font-weight:700">✓ Status set to AVAILABLE</div>
+        </div>
+        <div style="color:var(--mdt-text-secondary);font-size:13px;text-align:center;opacity:.7">Waiting for next dispatch…</div>`;
+      return;
+    }
+
+    if (!inc) {
+      prevIncidentId = null;
+      el.innerHTML = '<div class="no-incident">No incident assigned.<br><span style="font-size:12px;opacity:.6">Waiting for dispatch…</span></div>';
+      document.getElementById('incId').textContent = 'NO INCIDENT';
+      return;
+    }
+
+    prevIncidentId = inc.id;
+    const loc = inc.location_label || [inc.postal_code, inc.street_name, inc.building_number].filter(Boolean).join(' ') || '—';
+    document.getElementById('incId').textContent = inc.id;
+    const priColor = inc.priority==='P1'?'#dc3545': inc.priority==='P2'?'#ffc107':'#adb5bd';
+
+    // Command/Senior: show edit form
+    const canEdit  = myPerms === 'command' || myPerms === 'senior';
+    const canClose = myPerms === 'senior';
+    const editBlock = canEdit ? `
+      <div style="margin-top:14px;border-top:1px solid var(--mdt-border);padding-top:12px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--mdt-accent);margin-bottom:8px">⚙ COMMAND — EDIT INCIDENT</div>
+        <div style="display:grid;grid-template-columns:1fr 80px;gap:6px;margin-bottom:6px">
+          <input id="cmdNature" value="${inc.nature}" style="padding:5px 8px;border-radius:6px;border:1px solid var(--mdt-border);background:rgba(0,0,0,.4);color:var(--mdt-text);font-size:12px;outline:none"/>
+          <select id="cmdPriority" style="padding:5px 4px;border-radius:6px;border:1px solid var(--mdt-border);background:rgba(0,0,0,.4);color:var(--mdt-text);font-size:12px;outline:none">
+            <option ${inc.priority==='P1'?'selected':''}>P1</option>
+            <option ${inc.priority==='P2'?'selected':''}>P2</option>
+            <option ${inc.priority==='P3'?'selected':''}>P3</option>
+          </select>
+        </div>
+        <input id="cmdLocation" value="${inc.location_label||''}" placeholder="Location label" style="width:100%;padding:5px 8px;border-radius:6px;border:1px solid var(--mdt-border);background:rgba(0,0,0,.4);color:var(--mdt-text);font-size:12px;outline:none;box-sizing:border-box;margin-bottom:6px"/>
+        <textarea id="cmdNotes" placeholder="Call comments…" style="width:100%;padding:5px 8px;border-radius:6px;border:1px solid var(--mdt-border);background:rgba(0,0,0,.4);color:var(--mdt-text);font-size:12px;outline:none;box-sizing:border-box;min-height:50px;resize:vertical">${inc.notes||''}</textarea>
+        <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
+          <button id="cmdSaveBtn" style="padding:5px 14px;border-radius:6px;border:none;background:var(--mdt-accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer">Save Changes</button>
+          ${canClose ? `<button id="cmdCloseBtn" style="padding:5px 14px;border-radius:6px;border:1px solid #dc3545;background:transparent;color:#dc3545;font-size:12px;font-weight:700;cursor:pointer">Close Call</button>` : ''}
+          <span id="cmdMsg" style="font-size:11px;color:#5cb85c"></span>
+        </div>
+      </div>` : '';
+
+    el.innerHTML = `
+      <div class="inc-grid">
+        <div class="inc-field">
+          <label>INCIDENT TYPE</label>
+          <div class="val big">${esc(inc.nature)}</div>
+        </div>
+        <div class="inc-field">
+          <label>PRIORITY</label>
+          <div class="val big" style="color:${priColor}">${esc(inc.priority)}</div>
+        </div>
+        <div class="inc-field" style="grid-column:1/-1">
+          <label>INCIDENT ADDRESS</label>
+          <div class="val">${esc(loc)}</div>
+        </div>
+        <div class="inc-field">
+          <label>INCIDENT NUMBER</label>
+          <div class="val" style="font-family:monospace">${esc(inc.id)}</div>
+        </div>
+        <div class="inc-field">
+          <label>TIME OF CALL</label>
+          <div class="val">${fmt(inc.created_at)}</div>
+        </div>
+        ${inc.updated_at ? `<div class="inc-field"><label>LAST UPDATED</label><div class="val" style="font-size:12px;color:var(--mdt-text-secondary)">${fmt(inc.updated_at)}${inc.updated_by ? ' by '+inc.updated_by : ''}</div></div>` : ''}
+      </div>
+      ${inc.notes ? `<div class="inc-field"><label>CALL COMMENTS</label><div class="inc-notes">${esc(inc.notes)}</div></div>` : ''}
+      ${editBlock}
+    `;
+
+    if (canEdit) {
+      document.getElementById('cmdSaveBtn').addEventListener('click', () => {
+        const nature = document.getElementById('cmdNature').value.trim();
+        if (!nature) return;
+        socket.emit('unit:updateIncident', {
+          incident_id:    inc.id,
+          nature,
+          priority:       document.getElementById('cmdPriority').value,
+          location_label: document.getElementById('cmdLocation').value.trim(),
+          notes:          document.getElementById('cmdNotes').value
+        });
+        const m = document.getElementById('cmdMsg');
+        m.textContent = '✓ Saved'; setTimeout(() => { m.textContent = ''; }, 2000);
+      });
+    }
+    if (canClose) {
+      document.getElementById('cmdCloseBtn').addEventListener('click', () => {
+        if (confirm(`Close call ${inc.id}?`)) socket.emit('unit:closeIncident', { incident_id: inc.id });
+      });
+    }
+  }
+
+  // ── ELAPSED TIMER ────────────────────────────────────────────────────────────
+  function updateElapsed() {
+    const inc = myIncident();
+    const el  = document.getElementById('elapsed');
+    if (!inc) { el.textContent = '00:00:00'; return; }
+    const s = Math.max(0, Math.floor((Date.now() - inc.created_at) / 1000));
+    el.textContent = [Math.floor(s/3600), Math.floor((s%3600)/60), s%60]
+      .map(n => String(n).padStart(2,'0')).join(':');
+  }
+
+  // ── RESOURCES ────────────────────────────────────────────────────────────────
+  function renderResources() {
+    const tbody = document.getElementById('resTbody');
+    tbody.innerHTML = '';
+    const inc = myIncident();
+    const assignedIds = inc
+      ? new Set(state.assignments.filter(a => a.incident_id === inc.id).map(a => a.unit_id))
+      : new Set();
+    const units = inc ? state.units.filter(u => assignedIds.has(u.id)) : state.units;
+    if (!units.length) {
+      tbody.innerHTML = '<tr><td colspan="3" style="color:var(--mdt-text-secondary);text-align:center;padding:20px">No units assigned to this incident</td></tr>';
+      return;
+    }
+    for (const u of units) {
+      const code  = resolveDisplayCode(u.status || 'AVL');
+      const color = STATUS_COLORS[code] || '#6c757d';
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="font-weight:700;font-family:monospace">${esc(u.callsign||u.id)}</td>
+        <td style="color:var(--mdt-text-secondary)">${u.id === myUnitId ? '(YOU)' : '—'}</td>
+        <td><span class="res-status" style="background:${color}">${code}</span></td>
+      `;
+      tbody.appendChild(tr);
+    }
+  }
+
+  // ── MESSAGES ─────────────────────────────────────────────────────────────────
+  const messages = [];
+  function addMessage(msg) {
+    messages.unshift(msg);
+    const active = document.getElementById('screenMessages').classList.contains('active');
+    if (!active) {
+      unread++;
+      const b = document.getElementById('msgBadge');
+      b.textContent = unread; b.style.display = 'flex';
+    }
+    renderMessages();
+  }
+  function renderMessages() {
+    const list = document.getElementById('msgList');
+    if (!messages.length) { list.innerHTML = '<div class="msg-empty">No messages.</div>'; return; }
+    list.innerHTML = '';
+    for (const m of messages) {
+      const d = document.createElement('div'); d.className = 'msg-item';
+      d.innerHTML = `<div class="msg-meta">${m.at} — ${esc(m.from)}</div><div class="msg-body">${esc(m.text)}</div>`;
+      list.appendChild(d);
+    }
+  }
+
+  // ── SITREP ───────────────────────────────────────────────────────────────────
+  function renderSitrep() {
+    const inc     = myIncident();
+    const noInc   = document.getElementById('sitrepNoInc');
+    const compose = document.getElementById('sitrepCompose');
+    const log     = document.getElementById('sitrepLog');
+
+    if (!inc) {
+      noInc.style.display = 'inline';
+      document.getElementById('btnSubmitSitrep').disabled = true;
+      log.innerHTML = '<div class="sitrep-empty">No active incident.</div>';
+      return;
+    }
+    noInc.style.display = 'none';
+    document.getElementById('btnSubmitSitrep').disabled = false;
+
+    const sitreps = inc.sitreps || [];
+    if (!sitreps.length) {
+      log.innerHTML = '<div class="sitrep-empty">No situation reports yet for this incident.</div>';
+      return;
+    }
+    log.innerHTML = '';
+    for (const s of [...sitreps].reverse()) {
+      const d = document.createElement('div'); d.className = 'sitrep-entry';
+      d.innerHTML = `<div class="sitrep-entry-meta">${fmt(s.at)} — <b>${esc(s.author)}</b></div><div class="sitrep-entry-text">${esc(s.text)}</div>`;
+      log.appendChild(d);
+    }
+  }
+
+  // ── SCREEN SWITCHING ─────────────────────────────────────────────────────────
+  function showScreen(name) {
+    document.querySelectorAll('.mdt-screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.mdt-menu-btn[data-screen]').forEach(b => b.classList.remove('active'));
+    const screen = document.getElementById('screen' + name);
+    if (screen) screen.classList.add('active');
+    const btn = document.querySelector(`.mdt-menu-btn[data-screen="${name}"]`);
+    if (btn) btn.classList.add('active');
+
+    if (name === 'Map') { setTimeout(() => { if (mapLoaded) lmap.invalidateSize(); }, 60); }
+    if (name === 'Messages') {
+      unread = 0;
+      const b = document.getElementById('msgBadge'); b.style.display = 'none';
+    }
+    if (name === 'Sitrep') renderSitrep();
+    if (name === 'Resources') renderResources();
+    if (name === 'Bulletins') { renderBulletins(); document.getElementById('bulBadge').style.display = 'none'; newBulletins = 0; }
+    if (name === 'Preplan') renderPreplans();
+  }
+
+  // ── BULLETINS ─────────────────────────────────────────────────────────────────
+  let newBulletins = 0;
+  let knownBulletinIds = new Set();
+
+  function renderBulletins() {
+    const list = document.getElementById('bulletinsList');
+    const bulls = state.bulletins || [];
+    if (!bulls.length) { list.innerHTML = '<div style="color:var(--mdt-text-secondary);font-size:13px;text-align:center;padding:20px 0">No bulletins</div>'; return; }
+    list.innerHTML = '';
+    for (const b of bulls) {
+      const div = document.createElement('div');
+      div.style.cssText = 'background:rgba(255,209,102,.06);border:1px solid rgba(255,209,102,.25);border-radius:8px;padding:12px;';
+      div.innerHTML = `
+        <div style="font-size:13px;font-weight:700;color:#ffd166;margin-bottom:6px">📣 ${b.title || 'Bulletin'}</div>
+        <div style="font-size:13px;line-height:1.6;white-space:pre-wrap">${b.text}</div>
+        <div style="font-size:10px;color:var(--mdt-text-secondary);margin-top:8px">Posted by <b>${b.author}</b> · ${fmt(b.at)}</div>`;
+      list.appendChild(div);
+    }
+  }
+
+  // ── PRE-PLANS ──────────────────────────────────────────────────────────────────
+  function renderPreplans() {
+    const list = document.getElementById('preplanList');
+    const query = (document.getElementById('ppSearch').value || '').toLowerCase();
+    let plans = state.preplans || [];
+    if (query) plans = plans.filter(p => p.address.toLowerCase().includes(query));
+    if (!plans.length) { list.innerHTML = '<div style="color:var(--mdt-text-secondary);font-size:13px;text-align:center;padding:20px 0">No pre-plans' + (query ? ' matching search' : '') + '</div>'; return; }
+    list.innerHTML = '';
+    for (const p of plans) {
+      const div = document.createElement('div');
+      div.style.cssText = 'background:rgba(92,200,255,.05);border:1px solid rgba(92,200,255,.2);border-radius:8px;padding:12px;';
+      const rows = [
+        p.hazards ? `<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:700;color:#ff4d6d;letter-spacing:1px;margin-bottom:2px">⚠ HAZARDS</div><div style="font-size:12px">${p.hazards}</div></div>` : '',
+        p.access  ? `<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:700;color:#ffd166;letter-spacing:1px;margin-bottom:2px">🚪 ACCESS</div><div style="font-size:12px">${p.access}</div></div>` : '',
+        p.water   ? `<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:700;color:#5cc8ff;letter-spacing:1px;margin-bottom:2px">💧 WATER SUPPLY</div><div style="font-size:12px">${p.water}</div></div>` : '',
+        p.notes   ? `<div><div style="font-size:10px;font-weight:700;color:var(--mdt-text-secondary);letter-spacing:1px;margin-bottom:2px">📋 NOTES</div><div style="font-size:12px">${p.notes}</div></div>` : ''
+      ].filter(Boolean).join('');
+      div.innerHTML = `<div style="font-size:14px;font-weight:700;color:var(--mdt-accent);margin-bottom:10px">🏠 ${p.address}</div>${rows}<div style="font-size:10px;color:var(--mdt-text-secondary);margin-top:8px">Updated by <b>${p.author}</b></div>`;
+      list.appendChild(div);
+    }
+  }
+
+  document.getElementById('ppSearch').addEventListener('input', renderPreplans);
+
+  function updateClock() {
+    document.getElementById('datetime').textContent = new Date().toLocaleString([], { dateStyle:'short', timeStyle:'medium' });
+  }
+
+  // ── SOCKET ───────────────────────────────────────────────────────────────────
+  socket.on('connect', () => {
+    document.getElementById('mdtShell').classList.remove('offline');
+    document.getElementById('connIndicator').classList.remove('offline');
+    document.getElementById('offlineLabel').style.display = 'none';
+  });
+  socket.on('kicked', () => {
+    window.location.href = '/index.html';
+  });
+  socket.on('disconnect', () => {
+    document.getElementById('mdtShell').classList.add('offline');
+    document.getElementById('connIndicator').classList.add('offline');
+    document.getElementById('offlineLabel').style.display = 'inline';
+  });
+  socket.on('state', s => {
+    // Track previous active incident before state updates
+    const prevInc = myIncident();
+    if (prevInc) prevIncidentId = prevInc.id;
+
+    state = s;
+    const me = myUnit();
+    if (me && me.status) setStatus(resolveDisplayCode(me.status));
+    renderIncident();
+    renderResources();
+    redrawMapMarkers();
+    updateElapsed();
+    if (document.getElementById('screenSitrep').classList.contains('active')) renderSitrep();
+    if (document.getElementById('screenBulletins').classList.contains('active')) renderBulletins();
+    if (document.getElementById('screenPreplan').classList.contains('active')) renderPreplans();
+
+    // Badge for new bulletins
+    const bulls = state.bulletins || [];
+    let hasNew = false;
+    for (const b of bulls) {
+      if (!knownBulletinIds.has(b.id)) { hasNew = true; knownBulletinIds.add(b.id); }
+    }
+    if (hasNew && !document.getElementById('screenBulletins').classList.contains('active')) {
+      newBulletins++;
+      const badge = document.getElementById('bulBadge');
+      badge.style.display = 'inline';
+      badge.textContent = '!';
+    }
+
+    // Auto-centre map on my truck if on map screen and I have location
+    const myU = myUnit();
+    if (myU && myU.location_x != null && document.getElementById('screenMap').classList.contains('active')) {
+      const p = ll(myU.location_x, myU.location_z);
+      if (p && myMarker) {
+        // Smoothly pan to keep me in view without forcing full recenter
+        const bounds = lmap.getBounds();
+        const pt = L.latLng(p);
+        if (!bounds.contains(pt)) lmap.panTo(pt, { animate: true, duration: 0.5 });
+      }
+    }
+  });
+  socket.on('page', async p => {
+    await tone.play(p.tone || 'default');
+    addMessage({ from: p.from || 'Dispatch', text: p.message || 'Station call', at: new Date().toLocaleTimeString() });
+    toast('📢 Page', p.message || 'Station call');
+  });
+
+  // ── STATUS BUTTONS ───────────────────────────────────────────────────────────
+  document.querySelectorAll('.mdt-status-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const frnsw = btn.dataset.frnsw;
+      if (!frnsw) return;
+      if (frnsw === 'EMR' && !confirm('⚠ ACTIVATE DURESS / EMERGENCY?\nThis will alert dispatch immediately.')) return;
+      // Send the FRNSW code directly — server now accepts it
+      socket.emit('unit:setStatus', { status: frnsw });
+      setStatus(frnsw);
+    });
+  });
+
+  // ── SCREEN BUTTONS ───────────────────────────────────────────────────────────
+  document.querySelectorAll('.mdt-menu-btn[data-screen]').forEach(btn => {
+    btn.addEventListener('click', () => showScreen(btn.dataset.screen));
+  });
+
+  // ── ER:LC NAME OVERLAY ───────────────────────────────────────────────────────
+  document.getElementById('btnErlcName').addEventListener('click', () => {
+    document.getElementById('overlayErlc').classList.add('open');
+  });
+  document.getElementById('btnCloseErlc').addEventListener('click', () => {
+    document.getElementById('overlayErlc').classList.remove('open');
+  });
+  document.getElementById('btnSaveErlc').addEventListener('click', () => {
+    const name = document.getElementById('erlcNameInput').value.trim();
+    socket.emit('unit:setErlcPlayer', { erlc_player_name: name || null });
+    document.getElementById('ovMsg').textContent = name ? `✓ Saved: ${name}` : '✓ Cleared';
+    setTimeout(() => {
+      document.getElementById('ovMsg').textContent = '';
+      document.getElementById('overlayErlc').classList.remove('open');
+    }, 1500);
+  });
+
+  // ── SITREP SUBMIT ────────────────────────────────────────────────────────────
+  document.getElementById('btnSubmitSitrep').addEventListener('click', () => {
+    const inc  = myIncident();
+    const text = document.getElementById('sitrepText').value.trim();
+    const msg  = document.getElementById('sitrepMsg');
+    if (!inc) { msg.style.color='#dc3545'; msg.textContent = '⚠ No active incident'; return; }
+    if (!text) { msg.style.color='#dc3545'; msg.textContent = '⚠ Enter a situation report first'; return; }
+    socket.emit('incident:addSitrep', { incident_id: inc.id, text });
+    document.getElementById('sitrepText').value = '';
+    msg.style.color = '#28a745';
+    msg.textContent = '✓ Submitted';
+    setTimeout(() => { msg.textContent = ''; }, 2500);
+  });
+
+  // ── MAP CONTROLS ─────────────────────────────────────────────────────────────
+  document.getElementById('mdtMapVariant').addEventListener('change', e => loadMap(e.target.value));
+  document.getElementById('btnMdtRecenter').addEventListener('click', () => lmap.fitBounds([[0,0],[H,W]]));
+
+  // ── LOGOUT ───────────────────────────────────────────────────────────────────
+  document.getElementById('btnLogout').addEventListener('click', logout);
+
+  // ── INIT ─────────────────────────────────────────────────────────────────────
+  renderMessages();
+
+  (async () => {
+    const me = await whoami();
+    if (!me) { window.location.href = '/index.html'; return; }
+    myUnitId   = `unit-${me.username}`;
+    myCallsign = me.callsign || me.username.toUpperCase();
+    myPerms    = me.perms || 'truck';
+    document.getElementById('applianceId').textContent = myCallsign;
+    const pb = document.getElementById('permsBadge');
+    if (myPerms !== 'truck') {
+      pb.style.display = 'inline';
+      pb.textContent = myPerms.toUpperCase();
+      pb.style.background = myPerms === 'senior' ? 'rgba(220,53,69,.25)' : 'rgba(255,193,7,.2)';
+      pb.style.color = myPerms === 'senior' ? '#ff4d6d' : '#ffc107';
+    }
+
+    const res  = await fetch('/api/state');
+    const data = await res.json().catch(() => ({}));
+    if (data.ok) {
+      state = data;
+      const me2 = myUnit();
+      if (me2) {
+        setStatus(resolveDisplayCode(me2.status || 'AVL'));
+        if (me2.erlc_player_name) document.getElementById('erlcNameInput').value = me2.erlc_player_name;
+      }
+      renderIncident();
+      renderResources();
+    }
+
+    updateClock(); setInterval(updateClock, 1000);
+    updateElapsed(); setInterval(updateElapsed, 1000);
+    loadMap('fall_postals');
+  })();
+})();
+</script>
+</body>
+</html>

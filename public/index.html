@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fire CAD/MDT</title>
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <div class="topbar">
+        <div class="brand">
+          <h1>Fire CAD/MDT</h1>
+          <span class="mono">localhost</span>
+        </div>
+      </div>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="hd"><h2>Login</h2></div>
+          <div class="bd">
+            <div class="row">
+              <div>
+                <label>Role</label>
+                <select id="role">
+                  <option value="dispatch">Dispatcher</option>
+                  <option value="unit">Unit (MDT)</option>
+                </select>
+              </div>
+              <div id="callsignWrap" style="display: none">
+                <label>Callsign</label>
+                <input id="callsign" placeholder="e.g. PUMPA1" />
+              </div>
+            </div>
+            <div class="row" style="margin-top: 10px">
+              <div>
+                <label>Roblox username</label>
+                <input id="username" placeholder="Your Roblox username" autocomplete="username" />
+              </div>
+              <div>
+                <label>Password</label>
+                <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+              </div>
+            </div>
+
+            <div style="margin-top: 12px; display: flex; gap: 10px; align-items: center;">
+              <button class="btn primary" id="loginBtn">Login</button>
+              <span class="muted" id="msg"></span>
+            </div>
+
+            <div style="margin-top: 12px" class="alert">
+              <div style="font-weight: 800; margin-bottom: 6px;">Accounts (username / password in server script)</div>
+              <div class="muted">
+                <div><span class="kbd">dispatch</span> / <span class="kbd">dispatch123</span> (Dispatcher)</div>
+                <div><span class="kbd">unit1</span> / <span class="kbd">unit123</span> (Unit)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="hd"><h2>ER:LC mapping</h2></div>
+          <div class="bd">
+            <p class="muted" style="margin-top: 0;">
+              This CAD/MDT plots ER:LC <span class="kbd">LocationX</span> / <span class="kbd">LocationZ</span> on the official map image,
+              as described in
+              <a href="https://apidocs.policeroleplay.community/for-developers/v2-api-reference/er-lc-location-information" target="_blank" rel="noreferrer">ER:LC Location Information</a>.
+            </p>
+            <p class="muted" style="margin-bottom: 0;">
+              Next step after login: set up a unit to send location updates (manual entry for now; can wire to the ER:LC API key later).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const roleEl = document.getElementById("role");
+      const callsignWrap = document.getElementById("callsignWrap");
+      roleEl.addEventListener("change", () => {
+        callsignWrap.style.display = roleEl.value === "unit" ? "block" : "none";
+      });
+
+      async function login() {
+        const role = roleEl.value;
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value;
+        const callsign = document.getElementById("callsign").value;
+        const msg = document.getElementById("msg");
+        msg.textContent = "Logging in...";
+
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ role, username, password, callsign })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) {
+          msg.textContent = data.error || "Login failed";
+          return;
+        }
+        window.location.href = role === "dispatch" ? "/dispatch" : "/mdt";
+      }
+
+      document.getElementById("loginBtn").addEventListener("click", login);
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") login();
+      });
+    </script>
+  </body>
+</html>
+
