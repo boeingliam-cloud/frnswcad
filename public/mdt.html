@@ -716,7 +716,7 @@
     const btn = document.querySelector(`.mdt-menu-btn[data-screen="${name}"]`);
     if (btn) btn.classList.add('active');
 
-    if (name === 'Map') { setTimeout(() => { if (mapLoaded) lmap.invalidateSize(); }, 60); }
+    if (name === 'Map') { setTimeout(() => { lmap.invalidateSize(); if (!mapLoaded) loadMap('fall_postals'); }, 150); }
     if (name === 'Messages') {
       unread = 0;
       const b = document.getElementById('msgBadge'); b.style.display = 'none';
@@ -794,7 +794,7 @@
     const prevInc = myIncident();
     if (prevInc) prevIncidentId = prevInc.id;
 
-    state = s;
+    state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...s };
     const me = myUnit();
     if (me && me.status) setStatus(resolveDisplayCode(me.status));
     renderIncident();
@@ -912,7 +912,7 @@
     const res  = await fetch('/api/state');
     const data = await res.json().catch(() => ({}));
     if (data.ok) {
-      state = data;
+      state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...data };
       const me2 = myUnit();
       if (me2) {
         setStatus(resolveDisplayCode(me2.status || 'AVL'));
