@@ -32,45 +32,50 @@ const ERLC_POLL_MS = Number(process.env.ERLC_POLL_MS || 15000);
 const AUTH_USERS = [
 
   // Dispatchers
-  { username: "dispatch",  password: "dispatch", role: "dispatch" },
-  { username: "GovGenGGAussie", password: "Officalggtothecommenwealthofaustraila", role: "dispatch" }
+  { username: "dispatch",       password: "dispatch",                                role: "dispatch" },
+  { username: "GovGenGGAussie", password: "Officalggtothecommenwealthofaustraila",   role: "dispatch" },
 
   // Pump crews
-  { username: "pump1a",     password: "password",     role: "unit", truck: "PUMP1A",  perms: "command"   },
-  { username: "pump1b",     password: "password",     role: "unit", truck: "PUMP1B",  perms: "command"   },
-  { username: "pump2a",     password: "password",     role: "unit", truck: "PUMP2A",  perms: "command"   },
-  { username: "pump2b",     password: "password",     role: "unit", truck: "PUMP2B",  perms: "command"   },
+  { username: "pump1a",     password: "password", role: "unit", truck: "PUMP1A",  perms: "command" },
+  { username: "pump1b",     password: "password", role: "unit", truck: "PUMP1B",  perms: "command" },
+  { username: "pump2a",     password: "password", role: "unit", truck: "PUMP2A",  perms: "command" },
+  { username: "pump2b",     password: "password", role: "unit", truck: "PUMP2B",  perms: "command" },
 
-  // Recues
-  { username: "rescue1",    password: "password",     role: "unit", truck: "RESCUE1", perms: "command"   },
-  { username: "rescue2",    password: "password",     role: "unit", truck: "RESCUE2", perms: "command"   },
+  // Rescues
+  { username: "rescue1",    password: "password", role: "unit", truck: "RESCUE1", perms: "command" },
+  { username: "rescue2",    password: "password", role: "unit", truck: "RESCUE2", perms: "command" },
 
   // Aerials
-  { username: "aerial1",    password: "password",     role: "unit", truck: "AERIAL1", perms: "command"   },
-  { username: "aerial2",    password: "password",     role: "unit", truck: "AERIAL2", perms: "command"   },
+  { username: "aerial1",    password: "password", role: "unit", truck: "AERIAL1", perms: "command" },
+  { username: "aerial2",    password: "password", role: "unit", truck: "AERIAL2", perms: "command" },
 
   // Special units
-  { username: "hazmat1",    password: "password",     role: "unit", truck: "HAZMAT1", perms: "command"   },
-  { username: "hazmat2",    password: "password",     role: "unit", truck: "HAZMAT2", perms: "command"   },
+  { username: "hazmat1",    password: "password", role: "unit", truck: "HAZMAT1", perms: "command" },
+  { username: "hazmat2",    password: "password", role: "unit", truck: "HAZMAT2", perms: "command" },
 
-   // extra units
-  { username: "pump3a",     password: "password",     role: "unit", truck: "PUMP3A",  perms: "command"   },
-  { username: "pump3b",     password: "password",     role: "unit", truck: "PUMP3B",  perms: "command"   },
-  { username: "rescue3",    password: "password",     role: "unit", truck: "RESCUE3", perms: "command"   },
-  { username: "aerial3",    password: "password",     role: "unit", truck: "AERIAL3", perms: "command"   },
-  { username: "hazmat3",    password: "password",     role: "unit", truck: "HAZMAT3", perms: "command"   },
-{ username: "GovGenGGAussie" password: "Officalggtothecommenwealthofaustraila" role: "unit", truck: "GovGen", perms: "senior" }
-
+  // Extra units
+  { username: "pump3a",     password: "password", role: "unit", truck: "PUMP3A",  perms: "command" },
+  { username: "pump3b",     password: "password", role: "unit", truck: "PUMP3B",  perms: "command" },
+  { username: "rescue3",    password: "password", role: "unit", truck: "RESCUE3", perms: "command" },
+  { username: "aerial3",    password: "password", role: "unit", truck: "AERIAL3", perms: "command" },
+  { username: "hazmat3",    password: "password", role: "unit", truck: "HAZMAT3", perms: "command" },
 
   // Command vehicles
-  { username: "cmd1",       password: "password",     role: "unit", truck: "CMD1",    perms: "command" },
-  { username: "cmd2",       password: "password",     role: "unit", truck: "CMD2",    perms: "command" },
+  { username: "cmd1",       password: "password", role: "unit", truck: "CMD1",    perms: "command" },
+  { username: "cmd2",       password: "password", role: "unit", truck: "CMD2",    perms: "command" },
 
   // Senior officers
-  { username: "CMD1",        password: "password",     role: "unit", truck: "CMD1",     perms: "senior"  },
-  { username: "CMD2",        password: "password",     role: "unit", truck: "CMD2",     perms: "senior"  },
-  { username: "CMD3",         password: "password",     role: "unit", truck: "CMD3",    perms: "senior"  },
-  
+  { username: "CMD1",       password: "password", role: "unit", truck: "CMD1",    perms: "senior"  },
+  { username: "CMD2",       password: "password", role: "unit", truck: "CMD2",    perms: "senior"  },
+  { username: "CMD3",       password: "password", role: "unit", truck: "CMD3",    perms: "senior"  },
+  { username: "GovGenGGAussie", password: "Officalggtothecommenwealthofaustraila", role: "unit", truck: "GovGen", perms: "senior" },
+  // ── Add more accounts below ─────────────────────────────────────────────────
+  // { username: "boeinrblx", password: "yourpassword", role: "unit", truck: "PUMPA2",  perms: "truck"   },
+  // { username: "rescue1",   password: "yourpassword", role: "unit", truck: "RESCUE1", perms: "truck"   },
+  // { username: "cmd1",      password: "yourpassword", role: "unit", truck: "CMD1",    perms: "command" },
+  // { username: "so1",       password: "yourpassword", role: "unit", truck: "SO1",     perms: "senior"  },
+  // { username: "dispatch2", password: "yourpassword", role: "dispatch" },
+];
 
 // =============================================================================
 //  ER:LC / PRC PRIVATE SERVER API KEY
@@ -592,4 +597,4 @@ httpServer.listen(PORT, HOST, () => {
   console.log(`\n🔥 FRNSW CAD/MDT running at http://localhost:${PORT}`);
   console.log(`   Dispatch → http://localhost:${PORT}/dispatch`);
   console.log(`   Unit MDT → http://localhost:${PORT}/mdt\n`);
-});
+});;
