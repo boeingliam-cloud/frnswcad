@@ -33,6 +33,7 @@ const AUTH_USERS = [
 
   // Dispatchers
   { username: "dispatch",  password: "dispatch", role: "dispatch" },
+  { username: "GovGenGGAussie", password: "Officalggtothecommenwealthofaustraila" role: "dispatch" }
 
   // Pump crews
   { username: "pump1a",     password: "password",     role: "unit", truck: "PUMP1A",  perms: "truck"   },
@@ -58,6 +59,7 @@ const AUTH_USERS = [
   { username: "rescue3",    password: "password",     role: "unit", truck: "RESCUE3", perms: "truck"   },
   { username: "aerial3",    password: "password",     role: "unit", truck: "AERIAL3", perms: "truck"   },
   { username: "hazmat3",    password: "password",     role: "unit", truck: "HAZMAT3", perms: "truck"   },
+{ username: "GovGenGGAussie" password: "Officalggtothecommenwealthofaustraila" role: "unit", truck: "GovGen", perms: "senior" }
 
 
   // Command vehicles
