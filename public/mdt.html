@@ -20,6 +20,7 @@
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
       padding: 8px 12px; background: var(--mdt-header);
       flex-shrink: 0; min-height: 46px;
+      transition: background 0.4s ease, border-color 0.4s ease;
     }
     .mdt-appliance { font-weight: 700; font-size: 15px; letter-spacing: .5px; }
     .mdt-status-badge { padding: 4px 10px; border-radius: 4px; font-weight: 700; font-size: 12px; }
@@ -48,49 +49,29 @@
 
     /* LEFT STATUS PANEL */
     .mdt-left-panel {
-      width: 82px; flex-shrink: 0; display: flex; flex-direction: column;
-      gap: 2px; padding: 4px;
-      background: #1a1a1a; border-right: 3px solid #000;
+      width: 90px; flex-shrink: 0; display: flex; flex-direction: column;
+      gap: 4px; padding: 8px 6px;
+      background: var(--mdt-panel); border-right: 2px solid var(--mdt-border);
     }
     .mdt-status-btn {
-      border: 2px solid rgba(0,0,0,0.5); color: #fff; font-family: 'Arial', sans-serif;
-      font-weight: 900; padding: 0; cursor: pointer; text-align: center;
-      border-radius: 0; flex: 1; min-height: 36px;
+      border: none; color: #fff; font-family: inherit; font-size: 11px;
+      font-weight: 700; padding: 0; cursor: pointer; text-align: center;
+      border-radius: 4px; flex: 1; min-height: 38px;
       display: flex; flex-direction: column; align-items: center;
-      justify-content: center; gap: 0; transition: filter .1s, transform .08s;
-      letter-spacing: 1.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-      position: relative; overflow: hidden;
+      justify-content: center; gap: 1px; transition: filter .15s, transform .1s;
     }
-    .mdt-status-btn::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.15) 100%);
-      pointer-events: none;
-    }
-    .mdt-status-btn:active { transform: scale(.97); filter: brightness(0.85); }
-    .mdt-status-btn .code { font-size: 15px; font-weight: 900; line-height: 1; letter-spacing: 2px; }
-    .mdt-status-btn .lbl  { font-size: 7.5px; font-weight: 700; letter-spacing: 0.5px; opacity: 0.9; margin-top: 2px; text-transform: uppercase; }
-    /* FRNSW exact colours */
-    .mdt-status-btn.ALT { background: #1565C0; border-color: #0D47A1; }
-    .mdt-status-btn.MOB { background: #E65100; border-color: #BF360C; }
-    .mdt-status-btn.PRO { background: #F9A825; border-color: #F57F17; color: #1a1a1a; text-shadow: none; }
-    .mdt-status-btn.INS { background: #2E7D32; border-color: #1B5E20; }
-    .mdt-status-btn.EMR { background: #C62828; border-color: #7F0000; }
-    .mdt-status-btn.NAV { background: #424242; border-color: #212121; }
-    .mdt-status-btn.STN { background: #757575; border-color: #424242; color: #f0f0f0; }
-    .mdt-status-btn.AVL { background: #388E3C; border-color: #1B5E20; }
-    /* Active: bright white border glow like real MDT "selected" state */
-    .mdt-status-btn.active {
-      border: 3px solid #fff;
-      filter: brightness(1.15);
-      box-shadow: 0 0 8px rgba(255,255,255,0.5), inset 0 0 6px rgba(255,255,255,0.15);
-    }
-    .mdt-status-btn.EMR.active {
-      animation: duressBtnPulse 0.8s infinite;
-    }
-    @keyframes duressBtnPulse {
-      0%,100% { filter: brightness(1.15); box-shadow: 0 0 8px rgba(255,255,255,0.5); }
-      50%      { filter: brightness(1.5);  box-shadow: 0 0 18px rgba(255,80,80,0.9); }
-    }
+    .mdt-status-btn:active { transform: scale(.97); }
+    .mdt-status-btn .code { font-size: 13px; font-weight: 800; }
+    .mdt-status-btn .lbl  { font-size: 9px; opacity: .85; }
+    .mdt-status-btn.ALT { background: var(--mdt-status-alt); }
+    .mdt-status-btn.MOB { background: var(--mdt-status-mob); }
+    .mdt-status-btn.PRO { background: var(--mdt-status-pro); color:#1a1a1a; }
+    .mdt-status-btn.INS { background: var(--mdt-status-ins); }
+    .mdt-status-btn.EMR { background: var(--mdt-status-emr); }
+    .mdt-status-btn.NAV { background: var(--mdt-status-nav); }
+    .mdt-status-btn.STN { background: var(--mdt-status-stn); color:#1a1a1a; }
+    .mdt-status-btn.AVL { background: var(--mdt-status-avl); }
+    .mdt-status-btn.active { box-shadow: inset 0 0 0 3px #fff; filter: brightness(1.1); }
 
     /* CONTENT */
     .mdt-content { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
@@ -218,7 +199,7 @@
         <span class="code">MOB</span><span class="lbl">Mobile</span>
       </button>
       <button class="mdt-status-btn PRO" data-frnsw="PRO">
-        <span class="code">PRO</span><span class="lbl">Proceeding</span>
+        <span class="code">PRO</span><span class="lbl">Responding</span>
       </button>
       <button class="mdt-status-btn INS" data-frnsw="INS">
         <span class="code">INS</span><span class="lbl">Inspecting</span>
@@ -513,6 +494,17 @@
   }
 
   // ── SET STATUS ───────────────────────────────────────────────────────────────
+  const STATUS_BAR_COLORS = {
+    ALT: { bg: '#1565C0', text: '#fff' },
+    MOB: { bg: '#E65100', text: '#fff' },
+    PRO: { bg: '#F9A825', text: '#1a1a1a' },
+    INS: { bg: '#2E7D32', text: '#fff' },
+    EMR: { bg: '#C62828', text: '#fff' },
+    NAV: { bg: '#424242', text: '#fff' },
+    STN: { bg: '#757575', text: '#f0f0f0' },
+    AVL: { bg: '#388E3C', text: '#fff' },
+  };
+
   function setStatus(frnsw) {
     currentFrnsw = frnsw;
     const badge = document.getElementById('topBadge');
@@ -522,6 +514,17 @@
       b.classList.toggle('active', b.dataset.frnsw === frnsw);
     });
     document.getElementById('mdtShell').classList.toggle('duress', frnsw === 'EMR');
+    // Change top bar colour to match status
+    const topBar = document.querySelector('.mdt-top-bar');
+    const col = STATUS_BAR_COLORS[frnsw] || { bg: 'var(--mdt-header)', text: '#fff' };
+    topBar.style.background = col.bg;
+    const isDark = col.text === '#fff';
+    topBar.querySelectorAll('span, button, div').forEach(el => {
+      el.style.color = isDark ? '' : 'rgba(0,0,0,0.8)';
+    });
+    badge.style.background = 'rgba(0,0,0,0.25)';
+    badge.style.color = col.text;
+    badge.style.border = `1px solid ${isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.3)'}`;
   }
 
   // ── INCIDENT SCREEN ──────────────────────────────────────────────────────────
