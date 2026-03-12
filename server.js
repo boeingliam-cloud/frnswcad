@@ -36,7 +36,7 @@ const AUTH_USERS = [
   { username: "GovGenGGAussie", password: "Officalggtothecommenwealthofaustraila" role: "dispatch" }
 
   // Pump crews
-  { username: "pump1a",     password: "password",     role: "unit", truck: "PUMP1A",  perms: "truck"   },
+  { username: "pump1a",     password: "password",     role: "unit", truck: "PUMP1A",  perms: "command"   },
   { username: "pump1b",     password: "password",     role: "unit", truck: "PUMP1B",  perms: "truck"   },
   { username: "pump2a",     password: "password",     role: "unit", truck: "PUMP2A",  perms: "truck"   },
   { username: "pump2b",     password: "password",     role: "unit", truck: "PUMP2B",  perms: "truck"   },
@@ -70,13 +70,7 @@ const AUTH_USERS = [
   { username: "CMD1",        password: "password",     role: "unit", truck: "CMD1",     perms: "senior"  },
   { username: "CMD2",        password: "password",     role: "unit", truck: "CMD2",     perms: "senior"  },
   { username: "CMD3",         password: "password",     role: "unit", truck: "CMD3",    perms: "senior"  },
-  // ── Add more accounts below ─────────────────────────────────────────────────
-  // { username: "boeinrblx", password: "yourpassword", role: "unit", truck: "PUMPA2",  perms: "truck"   },
-  // { username: "rescue1",   password: "yourpassword", role: "unit", truck: "RESCUE1", perms: "truck"   },
-  // { username: "cmd1",      password: "yourpassword", role: "unit", truck: "CMD1",    perms: "command" },
-  // { username: "so1",       password: "yourpassword", role: "unit", truck: "SO1",     perms: "senior"  },
-  // { username: "dispatch2", password: "yourpassword", role: "dispatch" },
-];
+  
 
 // =============================================================================
 //  ER:LC / PRC PRIVATE SERVER API KEY
