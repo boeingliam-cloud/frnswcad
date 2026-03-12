@@ -476,18 +476,14 @@
   }
 
   function customPinIcon(pin) {
-    const ico = pin.icon || '📍';
-    // Always anchor with a 📍 drop-pin visual; chosen icon sits above it
-    const extra = ico !== '📍' ? `<div style="font-size:16px;line-height:1;margin-bottom:-4px">${ico}</div>` : '';
     const lbl = pin.label
       ? `<div style="background:rgba(11,18,32,.92);color:#e8eaf6;font-size:9px;font-weight:700;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:2px;border:1px solid rgba(255,255,255,.2)">${pin.label}</div>`
       : '';
-    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.9))">
-      ${extra}
-      <div style="font-size:26px;line-height:1">📍</div>
+    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 3px 8px rgba(0,0,0,.85))">
+      <img src="/map-pin.png" style="width:32px;height:auto;" />
       ${lbl}
     </div>`;
-    return L.divIcon({ html, iconSize:[50, lbl?48:34], iconAnchor:[25, lbl?48:34], className:'' });
+    return L.divIcon({ html, iconSize:[32, lbl?52:38], iconAnchor:[16, 36], className:'' });
   }
 
   function pinTooltip(pin) {
@@ -498,17 +494,24 @@
           .filter(Boolean).join(', ')
       : null;
     const loc = inc ? (inc.location_label || [inc.postal_code, inc.street_name].filter(Boolean).join(' ') || '—') : '—';
+    const priColor = inc ? (inc.priority==='P1'?'#ff4d6d': inc.priority==='P2'?'#ffd166':'#9bb0d1') : '#9bb0d1';
     return `
-      <div style="min-width:160px">
-        <b style="font-size:13px">${pin.icon || '📍'} ${pin.label || 'Pin'}</b><br>
-        ${inc
-          ? `<span style="color:#ffd166;font-weight:700">${inc.id} — ${inc.nature}</span><br>
-             <span style="color:#8899aa;font-size:11px">📍 ${loc}</span><br>
-             <span style="color:#8899aa;font-size:11px">🚒 ${assignedUnits || 'No units'}</span><br>`
-          : `<span style="color:#8899aa;font-size:11px">No linked call</span><br>`}
-        <span style="color:#8899aa;font-size:10px">By ${pin.added_by} · ${fmtTime(pin.added_at)}</span><br>
-        <button onclick="window._removePin('${pin.id}')" style="margin-top:6px;padding:2px 8px;font-size:11px;border-radius:5px;border:1px solid #ff4d6d;background:transparent;color:#ff4d6d;cursor:pointer">✕ Remove</button>
+      <div style="min-width:200px;font-family:system-ui,sans-serif">
+        ${pin.label ? `<div style="font-size:13px;font-weight:800;margin-bottom:6px;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:5px">${pin.label}</div>` : ''}
+        ${inc ? `
+          <div style="margin-bottom:4px">
+            <span style="background:${priColor};color:#111;font-size:10px;font-weight:800;padding:1px 6px;border-radius:3px">${inc.priority}</span>
+            <span style="color:#ffd166;font-weight:700;font-size:13px;margin-left:6px">${inc.id}</span>
+          </div>
+          <div style="font-size:13px;font-weight:700;margin-bottom:4px">${inc.nature}</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:3px">📍 ${loc}</div>
+          <div style="font-size:11px;color:#aaa;margin-bottom:3px">🚒 ${assignedUnits || 'No units assigned'}</div>
+          ${inc.notes ? `<div style="font-size:11px;color:#aaa;margin-bottom:3px;border-top:1px solid rgba(255,255,255,.1);padding-top:4px;margin-top:4px">📋 ${inc.notes}</div>` : ''}
+        ` : `<div style="color:#888;font-size:12px">No linked incident</div>`}
+        <div style="font-size:10px;color:#666;margin-top:5px;border-top:1px solid rgba(255,255,255,.1);padding-top:4px">By ${pin.added_by} · ${fmtTime(pin.added_at)}</div>
+        <button onclick="window._removePin('${pin.id}')" style="margin-top:6px;padding:3px 10px;font-size:11px;border-radius:5px;border:1px solid #ff4d6d;background:transparent;color:#ff4d6d;cursor:pointer;width:100%">✕ Remove Pin</button>
       </div>`;
+  }
   }
 
   function redrawMarkers() {
@@ -548,10 +551,9 @@
       const p = ll(pin.location_x, pin.location_z);
       if (!p) continue;
       const m = L.marker(p, { icon: customPinIcon(pin), zIndexOffset: 300 }).addTo(lmap);
-      // Hover tooltip: quick summary
-      const inc = state.incidents.find(i => i.id === pin.incident_id);
-      const tipText = inc ? `${inc.id} — ${inc.nature}` : 'No linked call';
-      m.bindTooltip(`<b>${pin.label || pin.icon || 'Pin'}</b><br><span style="color:#ffd166">${tipText}</span>`, { direction: 'top' });
+      const inc2 = state.incidents.find(i => i.id === pin.incident_id);
+      const tipText = inc2 ? `${inc2.id} — ${inc2.nature}` : 'No linked call';
+      m.bindTooltip(`<b>${pin.label || 'Pin'}</b><br><span style="color:#ffd166">${tipText}</span>`, { direction: 'top' });
       // Click popup: full details + remove
       m.bindPopup(pinTooltip(pin), { maxWidth: 260 });
       pinMarkers.set(pin.id, m);
