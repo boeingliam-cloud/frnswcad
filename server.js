@@ -33,32 +33,32 @@ const AUTH_USERS = [
 
   // Dispatchers
   { username: "dispatch",  password: "dispatch", role: "dispatch" },
-  { username: "GovGenGGAussie", password: "Officalggtothecommenwealthofaustraila" role: "dispatch" }
+  { username: "GovGenGGAussie", password: "Officalggtothecommenwealthofaustraila", role: "dispatch" }
 
   // Pump crews
   { username: "pump1a",     password: "password",     role: "unit", truck: "PUMP1A",  perms: "command"   },
-  { username: "pump1b",     password: "password",     role: "unit", truck: "PUMP1B",  perms: "truck"   },
-  { username: "pump2a",     password: "password",     role: "unit", truck: "PUMP2A",  perms: "truck"   },
-  { username: "pump2b",     password: "password",     role: "unit", truck: "PUMP2B",  perms: "truck"   },
+  { username: "pump1b",     password: "password",     role: "unit", truck: "PUMP1B",  perms: "command"   },
+  { username: "pump2a",     password: "password",     role: "unit", truck: "PUMP2A",  perms: "command"   },
+  { username: "pump2b",     password: "password",     role: "unit", truck: "PUMP2B",  perms: "command"   },
 
   // Recues
-  { username: "rescue1",    password: "password",     role: "unit", truck: "RESCUE1", perms: "truck"   },
-  { username: "rescue2",    password: "password",     role: "unit", truck: "RESCUE2", perms: "truck"   },
+  { username: "rescue1",    password: "password",     role: "unit", truck: "RESCUE1", perms: "command"   },
+  { username: "rescue2",    password: "password",     role: "unit", truck: "RESCUE2", perms: "command"   },
 
   // Aerials
-  { username: "aerial1",    password: "password",     role: "unit", truck: "AERIAL1", perms: "truck"   },
-  { username: "aerial2",    password: "password",     role: "unit", truck: "AERIAL2", perms: "truck"   },
+  { username: "aerial1",    password: "password",     role: "unit", truck: "AERIAL1", perms: "command"   },
+  { username: "aerial2",    password: "password",     role: "unit", truck: "AERIAL2", perms: "command"   },
 
   // Special units
-  { username: "hazmat1",    password: "password",     role: "unit", truck: "HAZMAT1", perms: "truck"   },
-  { username: "hazmat2",    password: "password",     role: "unit", truck: "HAZMAT2", perms: "truck"   },
+  { username: "hazmat1",    password: "password",     role: "unit", truck: "HAZMAT1", perms: "command"   },
+  { username: "hazmat2",    password: "password",     role: "unit", truck: "HAZMAT2", perms: "command"   },
 
    // extra units
-  { username: "pump3a",     password: "password",     role: "unit", truck: "PUMP3A",  perms: "truck"   },
-  { username: "pump3b",     password: "password",     role: "unit", truck: "PUMP3B",  perms: "truck"   },
-  { username: "rescue3",    password: "password",     role: "unit", truck: "RESCUE3", perms: "truck"   },
-  { username: "aerial3",    password: "password",     role: "unit", truck: "AERIAL3", perms: "truck"   },
-  { username: "hazmat3",    password: "password",     role: "unit", truck: "HAZMAT3", perms: "truck"   },
+  { username: "pump3a",     password: "password",     role: "unit", truck: "PUMP3A",  perms: "command"   },
+  { username: "pump3b",     password: "password",     role: "unit", truck: "PUMP3B",  perms: "command"   },
+  { username: "rescue3",    password: "password",     role: "unit", truck: "RESCUE3", perms: "command"   },
+  { username: "aerial3",    password: "password",     role: "unit", truck: "AERIAL3", perms: "command"   },
+  { username: "hazmat3",    password: "password",     role: "unit", truck: "HAZMAT3", perms: "command"   },
 { username: "GovGenGGAussie" password: "Officalggtothecommenwealthofaustraila" role: "unit", truck: "GovGen", perms: "senior" }
 
 
