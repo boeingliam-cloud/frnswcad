@@ -32,43 +32,42 @@ const ERLC_POLL_MS = Number(process.env.ERLC_POLL_MS || 15000);
 const AUTH_USERS = [
 
   // Dispatchers
-  { username: "dispatch",       password: "dispatch",                                role: "dispatch" },
-  { username: "GovGenGGAussie", password: "Officalggtothecommenwealthofaustraila",   role: "dispatch" },
+  { username: "dispatch",  password: "dispatch", role: "dispatch" },
 
   // Pump crews
-  { username: "pump1a",     password: "password", role: "unit", truck: "PUMP1A",  perms: "command" },
-  { username: "pump1b",     password: "password", role: "unit", truck: "PUMP1B",  perms: "command" },
-  { username: "pump2a",     password: "password", role: "unit", truck: "PUMP2A",  perms: "command" },
-  { username: "pump2b",     password: "password", role: "unit", truck: "PUMP2B",  perms: "command" },
+  { username: "pump1a",     password: "password",     role: "unit", truck: "PUMP1A",  perms: "truck"   },
+  { username: "pump1b",     password: "password",     role: "unit", truck: "PUMP1B",  perms: "truck"   },
+  { username: "pump2a",     password: "password",     role: "unit", truck: "PUMP2A",  perms: "truck"   },
+  { username: "pump2b",     password: "password",     role: "unit", truck: "PUMP2B",  perms: "truck"   },
 
-  // Rescues
-  { username: "rescue1",    password: "password", role: "unit", truck: "RESCUE1", perms: "command" },
-  { username: "rescue2",    password: "password", role: "unit", truck: "RESCUE2", perms: "command" },
+  // Recues
+  { username: "rescue1",    password: "password",     role: "unit", truck: "RESCUE1", perms: "truck"   },
+  { username: "rescue2",    password: "password",     role: "unit", truck: "RESCUE2", perms: "truck"   },
 
   // Aerials
-  { username: "aerial1",    password: "password", role: "unit", truck: "AERIAL1", perms: "command" },
-  { username: "aerial2",    password: "password", role: "unit", truck: "AERIAL2", perms: "command" },
+  { username: "aerial1",    password: "password",     role: "unit", truck: "AERIAL1", perms: "truck"   },
+  { username: "aerial2",    password: "password",     role: "unit", truck: "AERIAL2", perms: "truck"   },
 
   // Special units
-  { username: "hazmat1",    password: "password", role: "unit", truck: "HAZMAT1", perms: "command" },
-  { username: "hazmat2",    password: "password", role: "unit", truck: "HAZMAT2", perms: "command" },
+  { username: "hazmat1",    password: "password",     role: "unit", truck: "HAZMAT1", perms: "truck"   },
+  { username: "hazmat2",    password: "password",     role: "unit", truck: "HAZMAT2", perms: "truck"   },
 
-  // Extra units
-  { username: "pump3a",     password: "password", role: "unit", truck: "PUMP3A",  perms: "command" },
-  { username: "pump3b",     password: "password", role: "unit", truck: "PUMP3B",  perms: "command" },
-  { username: "rescue3",    password: "password", role: "unit", truck: "RESCUE3", perms: "command" },
-  { username: "aerial3",    password: "password", role: "unit", truck: "AERIAL3", perms: "command" },
-  { username: "hazmat3",    password: "password", role: "unit", truck: "HAZMAT3", perms: "command" },
+   // extra units
+  { username: "pump3a",     password: "password",     role: "unit", truck: "PUMP3A",  perms: "truck"   },
+  { username: "pump3b",     password: "password",     role: "unit", truck: "PUMP3B",  perms: "truck"   },
+  { username: "rescue3",    password: "password",     role: "unit", truck: "RESCUE3", perms: "truck"   },
+  { username: "aerial3",    password: "password",     role: "unit", truck: "AERIAL3", perms: "truck"   },
+  { username: "hazmat3",    password: "password",     role: "unit", truck: "HAZMAT3", perms: "truck"   },
+
 
   // Command vehicles
-  { username: "cmd1",       password: "password", role: "unit", truck: "CMD1",    perms: "command" },
-  { username: "cmd2",       password: "password", role: "unit", truck: "CMD2",    perms: "command" },
+  { username: "cmd1",       password: "password",     role: "unit", truck: "CMD1",    perms: "command" },
+  { username: "cmd2",       password: "password",     role: "unit", truck: "CMD2",    perms: "command" },
 
   // Senior officers
-  { username: "CMD1",       password: "password", role: "unit", truck: "CMD1",    perms: "senior"  },
-  { username: "CMD2",       password: "password", role: "unit", truck: "CMD2",    perms: "senior"  },
-  { username: "CMD3",       password: "password", role: "unit", truck: "CMD3",    perms: "senior"  },
-  { username: "GovGenGGAussie", password: "Officalggtothecommenwealthofaustraila", role: "unit", truck: "GovGen", perms: "senior" },
+  { username: "CMD1",        password: "password",     role: "unit", truck: "CMD1",     perms: "senior"  },
+  { username: "CMD2",        password: "password",     role: "unit", truck: "CMD2",     perms: "senior"  },
+  { username: "CMD3",         password: "password",     role: "unit", truck: "CMD3",    perms: "senior"  },
   // ── Add more accounts below ─────────────────────────────────────────────────
   // { username: "boeinrblx", password: "yourpassword", role: "unit", truck: "PUMPA2",  perms: "truck"   },
   // { username: "rescue1",   password: "yourpassword", role: "unit", truck: "RESCUE1", perms: "truck"   },
@@ -176,8 +175,8 @@ app.get("/mdt",      requireRole("unit"),     (req, res) => res.redirect("/mdt.h
 app.get("/whoami",   requireAuth,             (req, res) => res.json({ ok: true, user: req.session.user }));
 
 app.get("/api/state", requireAuth, (req, res) => {
-  const { units, incidents, assignments } = db.getState();
-  res.json({ ok: true, units, incidents, assignments });
+  const { units, incidents, assignments, mapPins, bulletins, preplans } = db.getState();
+  res.json({ ok: true, units, incidents, assignments, mapPins, bulletins, preplans });
 });
 
 // ── Socket.IO auth ────────────────────────────────────────────────────────────
@@ -188,8 +187,8 @@ function requireSocketAuth(socket) {
 }
 
 function broadcastState() {
-  const { units, incidents, assignments } = db.getState();
-  io.emit("state", { units, incidents, assignments });
+  const { units, incidents, assignments, mapPins, bulletins, preplans } = db.getState();
+  io.emit("state", { units, incidents, assignments, mapPins, bulletins, preplans });
 }
 
 // ── ER:LC API ─────────────────────────────────────────────────────────────────
@@ -597,4 +596,4 @@ httpServer.listen(PORT, HOST, () => {
   console.log(`\n🔥 FRNSW CAD/MDT running at http://localhost:${PORT}`);
   console.log(`   Dispatch → http://localhost:${PORT}/dispatch`);
   console.log(`   Unit MDT → http://localhost:${PORT}/mdt\n`);
-});;
+});
