@@ -20,7 +20,10 @@ const ERLC_POLL_MS = Number(process.env.ERLC_POLL_MS || 15000);
 const AUTH_USERS = [
 
   // Dispatchers
+  { username: "boeingliam",  password: "boe", role: "dispatch" },
+  { username: "CSUPT2323",  password: "CSUPT2323", role: "dispatch" },
   { username: "dispatch",  password: "dispatch", role: "dispatch" },
+  
 
   // Pump crews
   { username: "pump1a",     password: "password",     role: "unit", truck: "PUMP1A",  perms: "truck"   },
@@ -51,6 +54,7 @@ const AUTH_USERS = [
   // Command vehicles
   { username: "cmd1",       password: "password",     role: "unit", truck: "CMD1",    perms: "command" },
   { username: "cmd2",       password: "password",     role: "unit", truck: "CMD2",    perms: "command" },
+  { username: "CSUPT2323",       password: "Thekiller67",     role: "unit", truck: "CMD3",    perms: "command" },
 
   // Senior officers
   { username: "com1",        password: "password",     role: "unit", truck: "COM1",     perms: "senior"  },
