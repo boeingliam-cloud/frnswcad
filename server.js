@@ -21,7 +21,7 @@ const AUTH_USERS = [
 
   // Dispatchers
   { username: "boeingliam",  password: "boe", role: "dispatch" },
-  { username: "CSUPT2323",  password: "CSUPT2323", role: "dispatch" },
+  { username: "CSUPT2323",  password: "Thekiller67", role: "dispatch" },
   { username: "dispatch",  password: "dispatch", role: "dispatch" },
   
 
