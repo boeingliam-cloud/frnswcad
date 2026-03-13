@@ -77,14 +77,12 @@ body.mdt-irl {
   font-size: 12px;
 }
 
-.mdt-top-bar .mdt-status-badge.ALT { background: var(--mdt-status-alt); color: #fff; }
-.mdt-top-bar .mdt-status-badge.MOB { background: var(--mdt-status-mob); color: #fff; }
-.mdt-top-bar .mdt-status-badge.PRO { background: var(--mdt-status-pro); color: #1a1a1a; }
-.mdt-top-bar .mdt-status-badge.INS { background: var(--mdt-status-ins); color: #fff; }
-.mdt-top-bar .mdt-status-badge.EMR { background: var(--mdt-status-emr); color: #fff; }
-.mdt-top-bar .mdt-status-badge.NAV { background: var(--mdt-status-nav); color: #fff; }
-.mdt-top-bar .mdt-status-badge.STN { background: var(--mdt-status-stn); color: #1a1a1a; }
-.mdt-top-bar .mdt-status-badge.AVL { background: var(--mdt-status-avl); color: #fff; }
+.mdt-top-bar .mdt-status-badge.AVAIL   { background: #388E3C; color: #fff; }
+.mdt-top-bar .mdt-status-badge.UNAVAIL { background: #424242; color: #fff; }
+.mdt-top-bar .mdt-status-badge.RESPOND { background: #F9A825; color: #1a1a1a; }
+.mdt-top-bar .mdt-status-badge.ONSCENE { background: #2E7D32; color: #fff; }
+.mdt-top-bar .mdt-status-badge.MOBILE  { background: #E65100; color: #fff; }
+.mdt-top-bar .mdt-status-badge.EMR     { background: #C62828; color: #fff; }
 
 .mdt-top-bar .mdt-incident-num { color: var(--mdt-text-secondary); }
 .mdt-top-bar .mdt-elapsed { font-weight: 600; font-variant-numeric: tabular-nums; }
@@ -120,14 +118,14 @@ body.mdt-irl {
 
 /* Left: FRNSW Status Panel */
 .mdt-left-panel {
-  width: 110px;
-  min-width: 110px;
+  width: 88px;
+  min-width: 88px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 10px 8px;
-  background: var(--mdt-panel);
-  border-right: 2px solid var(--mdt-border);
+  gap: 2px;
+  padding: 4px;
+  background: #1a1a1a;
+  border-right: 3px solid #000;
 }
 
 .mdt-status-btn {
@@ -153,16 +151,14 @@ body.mdt-irl {
 
 .mdt-status-btn:active { transform: scale(0.98); }
 
-.mdt-status-btn.ALT { background: var(--mdt-status-alt); }
-.mdt-status-btn.MOB { background: var(--mdt-status-mob); }
-.mdt-status-btn.PRO { background: var(--mdt-status-pro); color: #1a1a1a; }
-.mdt-status-btn.INS { background: var(--mdt-status-ins); }
-.mdt-status-btn.EMR { background: var(--mdt-status-emr); }
-.mdt-status-btn.NAV { background: var(--mdt-status-nav); }
-.mdt-status-btn.STN { background: var(--mdt-status-stn); color: #1a1a1a; }
-.mdt-status-btn.AVL { background: var(--mdt-status-avl); }
+.mdt-status-btn.AVAIL   { background: #388E3C; }
+.mdt-status-btn.UNAVAIL { background: #424242; }
+.mdt-status-btn.RESPOND { background: #F9A825; color: #1a1a1a; }
+.mdt-status-btn.ONSCENE { background: #2E7D32; }
+.mdt-status-btn.MOBILE  { background: #E65100; }
+.mdt-status-btn.EMR     { background: #C62828; }
 
-.mdt-status-btn.active { box-shadow: inset 0 0 0 3px #fff; filter: brightness(1.1); }
+.mdt-status-btn.active { border: 3px solid #fff; filter: brightness(1.15); box-shadow: 0 0 8px rgba(255,255,255,0.5); }
 
 .mdt-status-btn .label { font-size: 10px; letter-spacing: 0.3px; }
 
