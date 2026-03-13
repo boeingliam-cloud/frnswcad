@@ -20,6 +20,7 @@
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
       padding: 8px 12px; background: var(--mdt-header);
       flex-shrink: 0; min-height: 46px;
+      transition: background 0.4s ease;
     }
     .mdt-appliance { font-weight: 700; font-size: 15px; letter-spacing: .5px; }
     .mdt-status-badge { padding: 4px 10px; border-radius: 4px; font-weight: 700; font-size: 12px; }
@@ -97,6 +98,36 @@
       cursor:pointer; font-size:12px;
     }
     #mdtMap { flex:1; min-height:280px; border:1px solid var(--mdt-border); border-radius:4px; }
+
+    /* ROUTE PANEL */
+    #routePanel {
+      display:none; flex-shrink:0;
+      background: #0e1a0e;
+      border: 1px solid #2a4a2a;
+      border-radius:6px;
+      padding:8px 12px;
+      font-size:12px;
+      font-family: ui-monospace, monospace;
+    }
+    #routePanel.active { display:block; }
+    #routePanel .rp-header {
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:6px;
+    }
+    #routePanel .rp-title {
+      color:#4caf50; font-weight:700; font-size:13px; letter-spacing:.5px;
+    }
+    #routePanel .rp-clear {
+      background:transparent; border:1px solid #555; color:#aaa;
+      padding:2px 8px; border-radius:4px; cursor:pointer; font-size:11px;
+    }
+    #routePanel .rp-rows { display:flex; gap:16px; flex-wrap:wrap; }
+    #routePanel .rp-item { display:flex; flex-direction:column; gap:1px; }
+    #routePanel .rp-label { color:#666; font-size:10px; text-transform:uppercase; letter-spacing:.5px; }
+    #routePanel .rp-value { color:#e0ffe0; font-size:14px; font-weight:700; }
+    #routePanel .rp-value.warn { color:#ffd166; }
+    #routePanel .rp-value.danger { color:#ff6b6b; }
+    #routePanel .rp-inc { color:#ffd166; font-size:11px; margin-bottom:4px; }
 
     /* RESOURCES SCREEN */
     .res-table { width:100%; border-collapse:collapse; font-size:13px; }
@@ -178,7 +209,7 @@
   <div class="mdt-top-bar">
     <span class="mdt-appliance" id="applianceId">—</span>
     <span id="permsBadge" style="font-size:9px;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:999px;background:rgba(255,255,255,.08);color:var(--mdt-text-secondary);font-family:var(--mdt-mono);display:none"></span>
-    <span class="mdt-status-badge AVL" id="topBadge">AVL</span>
+    <span class="mdt-status-badge AVAIL" id="topBadge">AVAIL</span>
     <span class="mdt-inc-id" id="incId">NO INCIDENT</span>
     <span class="mdt-elapsed" id="elapsed">00:00:00</span>
     <span class="mdt-datetime" id="datetime"></span>
@@ -233,6 +264,21 @@
               <option value="snow_blank">Winter – Blank</option>
             </select>
             <button id="btnMdtRecenter">⊕ Recenter</button>
+          </div>
+          <!-- Route info panel — shown when assigned to a call -->
+          <div id="routePanel">
+            <div class="rp-header">
+              <span class="rp-title">🧭 ROUTE TO CALL</span>
+              <button class="rp-clear" id="btnClearRoute">✕ Dismiss</button>
+            </div>
+            <div class="rp-inc" id="rpIncLabel"></div>
+            <div class="rp-rows">
+              <div class="rp-item"><span class="rp-label">Distance</span><span class="rp-value" id="rpDist">—</span></div>
+              <div class="rp-item"><span class="rp-label">Bearing</span><span class="rp-value" id="rpBearing">—</span></div>
+              <div class="rp-item"><span class="rp-label">Direction</span><span class="rp-value" id="rpDir">—</span></div>
+              <div class="rp-item"><span class="rp-label">ETA</span><span class="rp-value" id="rpETA">—</span></div>
+              <div class="rp-item"><span class="rp-label">Location</span><span class="rp-value" id="rpLoc" style="font-size:11px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">—</span></div>
+            </div>
           </div>
           <div id="mdtMap"></div>
         </div>
@@ -332,7 +378,7 @@
   const tone = buildTone();
   const socket = io();
 
-  let state = { units: [], incidents: [], assignments: [], mapPins: [] };
+  let state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [] };
   let myUnitId  = null;
   let myCallsign = '—';
   let myPerms = 'truck';
@@ -385,6 +431,137 @@
     const nx = +x, nz = +z;
     if (!isFinite(nx) || !isFinite(nz)) return null;
     return [H - nz, nx];
+  }
+
+  // ── ROUTING ───────────────────────────────────────────────────────────────────
+  let routeLines = [];       // active polylines on map
+  let routeDismissed = false; // user manually dismissed route panel
+
+  const COMPASS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  function bearing(x1,z1,x2,z2) {
+    // In ER:LC: x = east/west, z = north/south (higher z = north)
+    // Bearing from (x1,z1) to (x2,z2): 0° = North (+z), 90° = East (+x)
+    const dx = x2 - x1, dz = z2 - z1;
+    const deg = (Math.atan2(dx, dz) * 180 / Math.PI + 360) % 360;
+    return deg;
+  }
+  function compassDir(deg) {
+    return COMPASS[Math.round(deg / 22.5) % 16];
+  }
+  // ER:LC map: roughly 1 unit ≈ 1 metre. Speed ~60 km/h ≈ 1000 units/min
+  function calcETA(dist) {
+    const mins = dist / 1000; // approx
+    if (mins < 0.5) return '< 30s';
+    if (mins < 1)   return '~1 min';
+    return `~${Math.ceil(mins)} min`;
+  }
+
+  function clearRouteLines() {
+    routeLines.forEach(l => l.remove());
+    routeLines = [];
+  }
+
+  function drawRoutes() {
+    clearRouteLines();
+    if (routeDismissed) { document.getElementById('routePanel').classList.remove('active'); return; }
+
+    const me = state.units.find(u => u.id === myUnitId);
+    if (!me || me.location_x == null) {
+      document.getElementById('routePanel').classList.remove('active');
+      return;
+    }
+
+    const myAssigned = state.assignments
+      .filter(a => a.unit_id === myUnitId)
+      .map(a => state.incidents.find(i => i.id === a.incident_id && i.status !== 'CLOSED'))
+      .filter(Boolean)
+      .filter(i => i.location_x != null);
+
+    if (!myAssigned.length) {
+      document.getElementById('routePanel').classList.remove('active');
+      return;
+    }
+
+    // Use first assigned open incident for the route panel
+    const primary = myAssigned[0];
+    const dx = primary.location_x - me.location_x;
+    const dz = primary.location_z - me.location_z;
+    const dist = Math.sqrt(dx*dx + dz*dz);
+    const deg  = bearing(me.location_x, me.location_z, primary.location_x, primary.location_z);
+    const dir  = compassDir(deg);
+    const eta  = calcETA(dist);
+    const incLoc = primary.location_label
+                || [primary.postal_code, primary.street_name].filter(Boolean).join(' ')
+                || `${Number(primary.location_x).toFixed(0)}, ${Number(primary.location_z).toFixed(0)}`;
+
+    // Update panel
+    const panel = document.getElementById('routePanel');
+    panel.classList.add('active');
+    document.getElementById('rpIncLabel').textContent = `${primary.id} — ${primary.nature}`;
+    const distVal = dist < 100 ? `${dist.toFixed(0)}m` : dist < 2000 ? `${dist.toFixed(0)}m` : `${(dist/1000).toFixed(2)}km`;
+    const rpDist = document.getElementById('rpDist');
+    rpDist.textContent = distVal;
+    rpDist.className = 'rp-value' + (dist < 200 ? ' warn' : '');
+    document.getElementById('rpBearing').textContent = `${deg.toFixed(0)}°`;
+    document.getElementById('rpDir').textContent = dir;
+    document.getElementById('rpETA').textContent = eta;
+    document.getElementById('rpLoc').textContent = incLoc;
+
+    // Draw a line for each assigned incident
+    for (const inc of myAssigned) {
+      if (inc.location_x == null) continue;
+      const from = ll(me.location_x, me.location_z);
+      const to   = ll(inc.location_x, inc.location_z);
+      if (!from || !to) continue;
+
+      const isPrimary = (inc.id === primary.id);
+      const color = isPrimary ? '#00e676' : '#ffd166';
+
+      // Dashed animated line from truck to call
+      const line = L.polyline([from, to], {
+        color,
+        weight: isPrimary ? 3 : 2,
+        opacity: 0.85,
+        dashArray: '10, 8',
+        lineCap: 'round'
+      }).addTo(lmap);
+
+      // Arrow head at destination
+      const arrowHtml = `<div style="font-size:16px;line-height:1;filter:drop-shadow(0 1px 3px rgba(0,0,0,.8))">🎯</div>`;
+      const arrowIcon = L.divIcon({ html: arrowHtml, iconSize:[20,20], iconAnchor:[10,10], className:'' });
+      const arrow = L.marker(to, { icon: arrowIcon, zIndexOffset: 900, interactive: false }).addTo(lmap);
+
+      // Midpoint distance label
+      const mid = [(from[0]+to[0])/2, (from[1]+to[1])/2];
+      const dx2 = inc.location_x - me.location_x, dz2 = inc.location_z - me.location_z;
+      const d2 = Math.sqrt(dx2*dx2+dz2*dz2);
+      const dLabel = d2 < 2000 ? `${d2.toFixed(0)}m` : `${(d2/1000).toFixed(1)}km`;
+      const midLabel = L.marker(mid, {
+        icon: L.divIcon({
+          html: `<div style="background:rgba(0,0,0,.75);color:${color};font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;border:1px solid ${color};white-space:nowrap;font-family:monospace">${dLabel}</div>`,
+          iconSize:[60,18], iconAnchor:[30,9], className:''
+        }),
+        zIndexOffset: 800,
+        interactive: false
+      }).addTo(lmap);
+
+      routeLines.push(line, arrow, midLabel);
+    }
+  }
+
+  document.getElementById('btnClearRoute').addEventListener('click', () => {
+    routeDismissed = true;
+    clearRouteLines();
+    document.getElementById('routePanel').classList.remove('active');
+  });
+
+  // Re-show route when new assignment comes in
+  function checkRouteReset() {
+    const myAssigned = state.assignments
+      .filter(a => a.unit_id === myUnitId)
+      .map(a => state.incidents.find(i => i.id === a.incident_id && i.status !== 'CLOSED'))
+      .filter(Boolean);
+    if (myAssigned.length > 0) routeDismissed = false;
   }
 
   function mkTruckIcon(unit, isMe) {
@@ -445,8 +622,13 @@
         return inc ? `${inc.id} – ${inc.nature}` : null;
       }).filter(Boolean);
       const callLine = assignedCalls.length ? `📋 ${assignedCalls.join(', ')}` : 'No active call';
+      const locStr = [u.postal_code, u.street_name].filter(Boolean).join(' ')
+                   || (u.location_x != null ? `${Number(u.location_x).toFixed(0)}, ${Number(u.location_z).toFixed(0)}` : '');
       m.bindTooltip(
-        `<b>${u.callsign || u.id}</b>${isMe ? ' (YOU)' : ''}<br>${u.status || '—'}<br>${callLine}`,
+        `<b>${u.callsign || u.id}</b>${isMe ? ' <span style="color:#00e676">(YOU)</span>' : ''}<br>` +
+        `<span style="opacity:.8">${u.status || '—'}</span>` +
+        (locStr ? `<br><span style="opacity:.6;font-size:11px">📍 ${locStr}</span>` : '') +
+        `<br><span style="opacity:.8">${callLine}</span>`,
         { direction: 'top', permanent: false }
       );
       uMarkers.set(u.id, m);
@@ -467,7 +649,6 @@
       state.assignments.filter(a => a.unit_id === myUnitId).map(a => a.incident_id)
     );
     for (const pin of (state.mapPins || [])) {
-      // Show pin if it's linked to one of my calls, or has no call linked (general pin)
       if (pin.incident_id && !myAssignedIncidentIds.has(pin.incident_id)) continue;
       const p = ll(pin.location_x, pin.location_z);
       if (!p) continue;
@@ -475,6 +656,9 @@
       m.bindTooltip(mkPinTooltip(pin), { direction: 'top' });
       uMarkers.set('pin-' + pin.id, m);
     }
+
+    // Draw route lines from this truck to its assigned calls
+    drawRoutes();
   }
 
   // ── HELPERS ──────────────────────────────────────────────────────────────────
@@ -812,7 +996,8 @@
     const prevInc = myIncident();
     if (prevInc) prevIncidentId = prevInc.id;
 
-    state = s;
+    state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...s };
+    checkRouteReset();
     const me = myUnit();
     if (me && me.status) setStatus(resolveDisplayCode(me.status));
     renderIncident();
@@ -930,7 +1115,8 @@
     const res  = await fetch('/api/state');
     const data = await res.json().catch(() => ({}));
     if (data.ok) {
-      state = data;
+      state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...data };
+      checkRouteReset();
       const me2 = myUnit();
       if (me2) {
         setStatus(resolveDisplayCode(me2.status || 'AVAIL'));
