@@ -55,6 +55,16 @@
     /* MAP */
     .map-wrap { flex: 1; position: relative; background: #050c15; }
     #map { width: 100%; height: 100%; }
+    .leaflet-tooltip.truck-tip {
+      background: rgba(8,14,30,0.97) !important;
+      border: 1px solid rgba(255,255,255,0.15) !important;
+      border-radius: 8px !important;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.7) !important;
+      color: #e6eefc !important;
+      padding: 8px 10px !important;
+      pointer-events: none;
+    }
+    .leaflet-tooltip.truck-tip::before { display: none !important; }
     .map-btns {
       position: absolute; top: 10px; right: 10px; z-index: 1000;
       display: flex; gap: 6px; flex-wrap: wrap; max-width: 340px; justify-content: flex-end;
@@ -405,7 +415,7 @@
   const { qs, fmtTime, toast, logout, whoami, buildTone } = window.CAD_SHARED;
   const tone = buildTone();
   const socket = io();
-  let state = { units: [], incidents: [], assignments: [], mapPins: [] };
+  let state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [] };
   let incFilterStatus = 'open';
 
   // ── TABS ─────────────────────────────────────────────────────────────────────
@@ -452,18 +462,66 @@
 
   // ── ICON BUILDERS ─────────────────────────────────────────────────────────────
   const STATUS_COLORS_MAP = {
-    AVAILABLE:'#3ddc97', CLEAR:'#3ddc97',
-    ENROUTE:'#ffd166',   ONSCENE:'#f26522',
-    EMR:'#ff4d6d',       OFFLINE:'#6c757d'
+    AVAIL:   '#388E3C', UNAVAIL: '#424242',
+    MOBILE:  '#E65100', RESPOND: '#F9A825',
+    ONSCENE: '#2E7D32', EMR:     '#C62828',
+    // legacy fallbacks
+    AVAILABLE:'#388E3C', CLEAR:'#388E3C',
+    ENROUTE:'#F9A825',   OFFLINE:'#424242'
   };
 
   function truckIcon(unit) {
-    const color = STATUS_COLORS_MAP[unit.status] || '#5cc8ff';
-    const label = (unit.callsign || unit.id).slice(0, 6);
-    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 4px rgba(0,0,0,.7))">
-      <div style="background:${color};color:#111;font-size:9px;font-weight:800;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-bottom:2px">${label}</div>
-      <div style="font-size:22px;line-height:1">🚒</div></div>`;
-    return L.divIcon({ html, iconSize:[50,40], iconAnchor:[25,38], className:'' });
+    const status = (unit.status || 'AVAIL').toUpperCase();
+    const color = STATUS_COLORS_MAP[status] || '#5cc8ff';
+    const textColor = (status === 'RESPOND') ? '#1a1a1a' : '#fff';
+    const label = (unit.callsign || unit.id).slice(0, 8);
+    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 5px rgba(0,0,0,.85));">
+      <div style="background:${color};color:${textColor};font-size:10px;font-weight:800;font-family:monospace;padding:2px 6px;border-radius:3px;white-space:nowrap;margin-bottom:1px;border:1px solid rgba(255,255,255,.3)">${label}</div>
+      <div style="font-size:26px;line-height:1">🚒</div>
+    </div>`;
+    return L.divIcon({ html, iconSize:[60,46], iconAnchor:[30,44], className:'' });
+  }
+
+  function truckTooltip(unit) {
+    const status = (unit.status || 'AVAIL').toUpperCase();
+    const color = STATUS_COLORS_MAP[status] || '#5cc8ff';
+    const textColor = (status === 'RESPOND') ? '#1a1a1a' : '#fff';
+    const loc = [unit.postal_code, unit.street_name].filter(Boolean).join(' ')
+              || (unit.location_x != null ? `${Number(unit.location_x).toFixed(0)}, ${Number(unit.location_z).toFixed(0)}` : 'Location unknown');
+    const assignedCalls = state.assignments.filter(a => a.unit_id === unit.id).map(a => {
+      const inc = state.incidents.find(i => i.id === a.incident_id && i.status !== 'CLOSED');
+      return inc ? inc : null;
+    }).filter(Boolean);
+
+    const callsHtml = assignedCalls.length
+      ? assignedCalls.map(inc => {
+          const incLoc = inc.location_label || [inc.postal_code, inc.street_name].filter(Boolean).join(' ') || '—';
+          // Calculate straight-line distance if both have location
+          let distHtml = '';
+          if (unit.location_x != null && inc.location_x != null) {
+            const dx = inc.location_x - unit.location_x;
+            const dz = inc.location_z - unit.location_z;
+            const dist = Math.sqrt(dx*dx + dz*dz);
+            // ER:LC map units ≈ 1 unit per metre roughly — show as approx distance
+            distHtml = `<span style="color:#aaa;font-size:10px"> · ~${dist < 1000 ? dist.toFixed(0)+'u' : (dist/1000).toFixed(1)+'ku'}</span>`;
+          }
+          return `<div style="margin-top:5px;padding:5px 7px;background:rgba(255,255,255,.07);border-radius:4px;border-left:3px solid #ffd166">
+            <span style="color:#ffd166;font-weight:700;font-size:12px">${inc.id}</span>
+            <span style="font-size:11px;margin-left:4px">${inc.nature}</span>${distHtml}<br>
+            <span style="color:#aaa;font-size:10px">📍 ${incLoc}</span>
+          </div>`;
+        }).join('')
+      : `<div style="margin-top:5px;color:#666;font-size:11px;font-style:italic">No active call assigned</div>`;
+
+    return `<div style="min-width:200px;max-width:280px;font-family:monospace">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+        <span style="font-size:20px">🚒</span>
+        <span style="font-size:15px;font-weight:800">${unit.callsign || unit.id}</span>
+        <span style="background:${color};color:${textColor};font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px">${status}</span>
+      </div>
+      <div style="color:#aaa;font-size:11px">📍 ${loc}</div>
+      ${callsHtml}
+    </div>`;
   }
 
   function fireIcon(inc) {
@@ -522,13 +580,12 @@
       const p = ll(u.location_x, u.location_z);
       if (!p) continue;
       const m = L.marker(p, { icon: truckIcon(u), zIndexOffset: 200 }).addTo(lmap);
-      const loc = [u.postal_code, u.street_name].filter(Boolean).join(' ') || `${Number(u.location_x).toFixed(0)}, ${Number(u.location_z).toFixed(0)}`;
-      const assignedCalls = state.assignments.filter(a => a.unit_id === u.id).map(a => {
-        const inc = state.incidents.find(i => i.id === a.incident_id && i.status !== 'CLOSED');
-        return inc ? `${inc.id} – ${inc.nature}` : null;
-      }).filter(Boolean);
-      const callLine = assignedCalls.length ? `<br>📋 ${assignedCalls.join(', ')}` : '<br><span style="opacity:.6">No active call</span>';
-      m.bindTooltip(`<b>${u.callsign || u.id}</b><br>${u.status || '—'}${callLine}`, { direction: 'top', permanent: false });
+      m.bindTooltip(truckTooltip(u), {
+        direction: 'top',
+        permanent: false,
+        opacity: 0.97,
+        className: 'truck-tip'
+      });
       uMarkers.set(u.id, m);
     }
 
@@ -605,7 +662,7 @@
     try {
       const res = await fetch('/api/state');
       const data = await res.json();
-      if (data.ok) { state = data; renderAll(); }
+      if (data.ok) { state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...data }; renderAll(); }
     } catch (_) {}
   }
   setInterval(pollState, 5000);
@@ -613,8 +670,9 @@
   // ── STATUS PILL ───────────────────────────────────────────────────────────────
   function pill(status) {
     const s = String(status || '').toUpperCase();
-    const cls = s === 'AVAILABLE' || s === 'CLEAR' ? 'pill-ok'
-              : s === 'ENROUTE' || s === 'ONSCENE' ? 'pill-warn'
+    const cls = s === 'AVAIL' || s === 'AVAILABLE' || s === 'CLEAR' ? 'pill-ok'
+              : s === 'RESPOND' || s === 'MOBILE' || s === 'ENROUTE' ? 'pill-warn'
+              : s === 'ONSCENE' ? 'pill-warn'
               : s === 'EMR' ? 'pill-emr' : 'pill-mut';
     const el = document.createElement('span');
     el.className = 'pill2 ' + cls;
@@ -1033,7 +1091,7 @@
     }, 1500);
   }
 
-  socket.on('state', s => { state = s; renderAll(); flashSync(); });
+  socket.on('state', s => { state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...s }; renderAll(); flashSync(); });
   socket.on('page', async p => {
     await tone.play(p.tone || 'default');
     toast('📢 Page', p.message || 'Station call');
@@ -1114,11 +1172,11 @@
     if (!me) { window.location.href = '/index.html'; return; }
     qs('#who').textContent = `${me.username} · DISPATCH`;
 
+    loadMap('fall_postals');
+
     const res  = await fetch('/api/state');
     const data = await res.json().catch(() => ({}));
-    if (data.ok) { state = data; renderAll(); }
-
-    loadMap('fall_postals');
+    if (data.ok) { state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...data }; renderAll(); }
   })();
 })();
 </script>
