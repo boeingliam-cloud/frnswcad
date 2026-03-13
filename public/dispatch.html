@@ -605,7 +605,7 @@
     try {
       const res = await fetch('/api/state');
       const data = await res.json();
-      if (data.ok) { state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...data }; renderAll(); }
+      if (data.ok) { state = data; renderAll(); }
     } catch (_) {}
   }
   setInterval(pollState, 5000);
@@ -630,6 +630,11 @@
       tbody.innerHTML = '<tr><td colspan="5" class="empty">No units online</td></tr>';
       return;
     }
+    const STATUSES = ['AVAIL','UNAVAIL','MOBILE','RESPOND','ONSCENE','EMR'];
+    const STATUS_COLORS_DISP = {
+      AVAIL:'#388E3C', UNAVAIL:'#555', MOBILE:'#E65100',
+      RESPOND:'#F9A825', ONSCENE:'#2E7D32', EMR:'#C62828'
+    };
     for (const u of state.units) {
       const tr = document.createElement('tr');
 
@@ -638,8 +643,26 @@
       c1.textContent = u.callsign || u.id;
       tr.appendChild(c1);
 
+      // Status dropdown — dispatch can override
       const c2 = document.createElement('td');
-      c2.appendChild(pill(u.status));
+      const sel = document.createElement('select');
+      const currentStatus = (u.status || 'AVAIL').toUpperCase();
+      const bg = STATUS_COLORS_DISP[currentStatus] || '#555';
+      sel.style.cssText = `background:${bg};color:${currentStatus==='RESPOND'?'#1a1a1a':'#fff'};border:none;border-radius:5px;padding:3px 6px;font-size:11px;font-weight:700;font-family:var(--mono);cursor:pointer;outline:none;width:100%`;
+      for (const s of STATUSES) {
+        const opt = document.createElement('option');
+        opt.value = s; opt.textContent = s;
+        if (s === currentStatus) opt.selected = true;
+        sel.appendChild(opt);
+      }
+      sel.addEventListener('change', () => {
+        const newStatus = sel.value;
+        const newBg = STATUS_COLORS_DISP[newStatus] || '#555';
+        sel.style.background = newBg;
+        sel.style.color = newStatus === 'RESPOND' ? '#1a1a1a' : '#fff';
+        socket.emit('dispatch:setUnitStatus', { unit_id: u.id, status: newStatus });
+      });
+      c2.appendChild(sel);
       tr.appendChild(c2);
 
       const c3 = document.createElement('td');
@@ -1010,7 +1033,7 @@
     }, 1500);
   }
 
-  socket.on('state', s => { state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...s }; renderAll(); flashSync(); });
+  socket.on('state', s => { state = s; renderAll(); flashSync(); });
   socket.on('page', async p => {
     await tone.play(p.tone || 'default');
     toast('📢 Page', p.message || 'Station call');
@@ -1091,11 +1114,11 @@
     if (!me) { window.location.href = '/index.html'; return; }
     qs('#who').textContent = `${me.username} · DISPATCH`;
 
-    loadMap('fall_postals');
-
     const res  = await fetch('/api/state');
     const data = await res.json().catch(() => ({}));
     if (data.ok) { state = data; renderAll(); }
+
+    loadMap('fall_postals');
   })();
 })();
 </script>
