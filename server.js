@@ -67,7 +67,7 @@ const AUTH_USERS = [
 //  Paste your server key from in-game settings below, or set the environment
 //  variable ERLC_SERVER_KEY before running.
 // =============================================================================
-const ERLC_SERVER_KEY = process.env.ERLC_SERVER_KEY || "YOUR_SERVER_KEY_HERE";
+const ERLC_SERVER_KEY = process.env.ERLC_SERVER_KEY || "vwBEaJVSrTkRkQABLMzb-BEdSITaBkyNFGjVrupFcHVumliIwoUiiZrYBIgYK";
 
 // =============================================================================
 //  Server setup
@@ -161,8 +161,8 @@ app.get("/mdt",      requireRole("unit"),     (req, res) => res.redirect("/mdt.h
 app.get("/whoami",   requireAuth,             (req, res) => res.json({ ok: true, user: req.session.user }));
 
 app.get("/api/state", requireAuth, (req, res) => {
-  const { units, incidents, assignments } = db.getState();
-  res.json({ ok: true, units, incidents, assignments });
+  const { units, incidents, assignments, mapPins, bulletins, preplans } = db.getState();
+  res.json({ ok: true, units, incidents, assignments, mapPins, bulletins, preplans });
 });
 
 // ── Socket.IO auth ────────────────────────────────────────────────────────────
@@ -173,22 +173,45 @@ function requireSocketAuth(socket) {
 }
 
 function broadcastState() {
-  const { units, incidents, assignments } = db.getState();
-  io.emit("state", { units, incidents, assignments });
+  const { units, incidents, assignments, mapPins, bulletins, preplans } = db.getState();
+  io.emit("state", { units, incidents, assignments, mapPins, bulletins, preplans });
 }
 
 // ── ER:LC API ─────────────────────────────────────────────────────────────────
+// Location data is ONLY available via v2/server — v1/players has no coords.
 async function fetchErlcPlayers() {
   if (!ERLC_SERVER_KEY || ERLC_SERVER_KEY === "YOUR_SERVER_KEY_HERE") return null;
   try {
-    const res = await fetch(`${ERLC_API_BASE}/v2/server/players`, {
-      headers: { "server-key": ERLC_SERVER_KEY }
+    // v2/server with players=true returns Players[].Location with LocationX/Z
+    const res = await fetch(`${ERLC_API_BASE}/v2/server?players=true`, {
+      headers: {
+        "server-key": ERLC_SERVER_KEY,
+        "Accept": "application/json"
+      }
     });
-    if (!res.ok) return null;
+
+    if (res.status === 429) {
+      const retryAfter = Number(res.headers.get("Retry-After") || 30);
+      console.warn(`[ER:LC] Rate limited — waiting ${retryAfter}s`);
+      return null;
+    }
+
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      console.warn(`[ER:LC] API returned ${res.status}: ${body}`);
+      return null;
+    }
+
     const data = await res.json();
-    if (Array.isArray(data)) return data;
-    return data?.Players ?? data?.players ?? null;
-  } catch {
+
+    // v2/server response: { Players: [ { Player, Callsign, Team, Permission, WantedStars, Location: { LocationX, LocationZ, PostalCode, StreetName, BuildingNumber } } ] }
+    const players = data?.Players ?? data?.players;
+    if (Array.isArray(players)) return players;
+
+    console.warn("[ER:LC] Unexpected v2 response shape:", JSON.stringify(data).slice(0, 200));
+    return null;
+  } catch (err) {
+    console.warn("[ER:LC] fetch error:", err.message);
     return null;
   }
 }
@@ -200,44 +223,68 @@ function normalise(name) {
 function applyErlcLocationsToUnits(players) {
   if (!Array.isArray(players)) return;
   const { units } = db.getState();
+  let changed = false;
+
   for (const unit of units) {
     const matchName = unit.erlc_player_name ? normalise(unit.erlc_player_name) : null;
     if (!matchName) continue;
+
     const player = players.find(p => {
-      const fromPlayer = (p.Player && String(p.Player).includes(":"))
-        ? normalise(String(p.Player).split(":")[0]) : "";
-      const u = normalise(p.Username ?? p.PlayerName ?? p.Name ?? fromPlayer);
-      const c = normalise(p.Callsign);
-      return u === matchName || c === matchName || fromPlayer === matchName;
+      // v2 format: "Player": "Username:UserId"
+      const playerStr = String(p.Player ?? p.Username ?? p.Name ?? "");
+      const username = playerStr.includes(":") ? playerStr.split(":")[0] : playerStr;
+      const u = normalise(username);
+      const c = normalise(p.Callsign ?? "");
+      return u === matchName || c === matchName;
     });
+
     if (!player) continue;
-    const loc = player.Location ?? player;
-    const x = Number(loc.LocationX ?? loc.location_x);
-    const z = Number(loc.LocationZ ?? loc.location_z);
+
+    // v2 Location object: { LocationX, LocationZ, PostalCode, StreetName, BuildingNumber }
+    const loc = player.Location;
+    if (!loc) {
+      console.warn(`[ER:LC] Player matched but has no Location data — server may not support v2 locations`);
+      continue;
+    }
+
+    const x = Number(loc.LocationX);
+    const z = Number(loc.LocationZ);
+
     if (!Number.isFinite(x) || !Number.isFinite(z)) continue;
+
     db.setUnitLocation(unit.id, {
       location_x:      x,
       location_z:      z,
-      postal_code:     loc.PostalCode     ?? loc.Postal       ?? loc.postal_code     ?? null,
-      street_name:     loc.StreetName     ?? loc.Street       ?? loc.street_name     ?? null,
-      building_number: loc.BuildingNumber ?? loc.Building     ?? loc.building_number ?? null
+      postal_code:     loc.PostalCode     ?? null,
+      street_name:     loc.StreetName     ?? null,
+      building_number: loc.BuildingNumber ?? null,
     });
+    changed = true;
+    console.log(`[ER:LC] ${unit.callsign} → X:${x.toFixed(1)} Z:${z.toFixed(1)} (${loc.StreetName ?? "?"})`);
   }
-  broadcastState();
+
+  if (changed) broadcastState();
 }
 
 function startErlcPoller() {
   if (!ERLC_SERVER_KEY || ERLC_SERVER_KEY === "YOUR_SERVER_KEY_HERE") {
-    console.log("  ER:LC poller disabled — paste your server key into ERLC_SERVER_KEY in server.js");
+    console.log("  ER:LC poller disabled — set ERLC_SERVER_KEY env var or hardcode key in server.js");
     return;
   }
+  console.log("  ER:LC poller starting...");
   const poll = async () => {
     const players = await fetchErlcPlayers();
-    if (players && players.length > 0) applyErlcLocationsToUnits(players);
+    if (players === null) return; // error already logged in fetchErlcPlayers
+    if (players.length === 0) {
+      console.log("[ER:LC] No players in server");
+      return;
+    }
+    console.log(`[ER:LC] ${players.length} player(s) online — updating locations`);
+    applyErlcLocationsToUnits(players);
   };
   poll();
   setInterval(poll, ERLC_POLL_MS);
-  console.log(`  ER:LC location poller active (every ${ERLC_POLL_MS / 1000}s)`);
+  console.log(`  ER:LC location poller active — polling every ${ERLC_POLL_MS / 1000}s`);
 }
 
 // ── Socket events ─────────────────────────────────────────────────────────────
@@ -399,7 +446,7 @@ io.on("connection", socket => {
     // Auto-AVL all units assigned to this incident
     const assignments = db.getState().assignments.filter(a => a.incident_id === incidentId);
     for (const a of assignments) {
-      db.setUnitStatus(a.unit_id, "AVL");
+      db.setUnitStatus(a.unit_id, "AVAIL");
     }
     db.closeIncident(incidentId, u.callsign || u.username);
     broadcastState();
@@ -413,7 +460,7 @@ io.on("connection", socket => {
     if (!incidentId) return;
     const st = db.getState();
     for (const a of st.assignments.filter(a => a.incident_id === incidentId)) {
-      db.setUnitStatus(a.unit_id, "AVL");
+      db.setUnitStatus(a.unit_id, "AVAIL");
     }
     db.closeIncident(incidentId, u.username);
     broadcastState();
@@ -562,8 +609,25 @@ startErlcPoller();
 
 app.get("/api/erlc/players", requireRole("dispatch"), async (req, res) => {
   const players = await fetchErlcPlayers();
-  if (!players) return res.json({ ok: true, players: [], error: "ER:LC API not configured or unavailable" });
-  res.json({ ok: true, players });
+  if (!players) return res.json({ ok: false, players: [], error: "ER:LC API unavailable or key invalid" });
+  res.json({ ok: true, count: players.length, players });
+});
+
+// Debug: see raw ER:LC response + which units matched
+app.get("/api/erlc/debug", requireRole("dispatch"), async (req, res) => {
+  const players = await fetchErlcPlayers();
+  if (!players) return res.json({ ok: false, error: "ER:LC API unavailable — check key and server status" });
+  const { units } = db.getState();
+  const matches = units.map(u => {
+    const matchName = u.erlc_player_name ? String(u.erlc_player_name).trim().toLowerCase() : null;
+    const matched = matchName ? players.find(p => {
+      const playerStr = String(p.Player ?? p.Username ?? "");
+      const username = playerStr.includes(":") ? playerStr.split(":")[0] : playerStr;
+      return username.toLowerCase() === matchName;
+    }) : null;
+    return { unit: u.callsign, erlc_player_name: u.erlc_player_name, matched: !!matched, position: matched?.Position ?? null };
+  });
+  res.json({ ok: true, player_count: players.length, units_checked: matches, raw_sample: players.slice(0, 3) });
 });
 
 // ── Map image proxy (avoids browser CORS block on PRC map images) ─────────────
