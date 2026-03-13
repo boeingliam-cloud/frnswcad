@@ -17,18 +17,6 @@ const DB_PATH = process.env.DB_PATH || path.join(__dirname, "cad-mdt.json");
 const ERLC_API_BASE = (process.env.ERLC_API_BASE || "https://api.policeroleplay.community").replace(/\/$/, "");
 const ERLC_POLL_MS = Number(process.env.ERLC_POLL_MS || 15000);
 
-// =============================================================================
-//  USER ACCOUNTS
-//  username  = login username (tracked internally + matched to ER:LC)
-//  password  = login password
-//  role      = "dispatch" or "unit"
-//  truck     = (unit only) display callsign shown on MDT, map, dispatch table
-//  perms     = (unit only) permission level:
-//                "truck"   — standard crew, read-only MDT (default)
-//                "command" — crew commander, can edit/update incident details
-//                            from their MDT and submit sitreps
-//                "senior"  — senior officer, same as command + can close calls
-// =============================================================================
 const AUTH_USERS = [
 
   // Dispatchers
@@ -68,12 +56,6 @@ const AUTH_USERS = [
   { username: "com1",        password: "password",     role: "unit", truck: "COM1",     perms: "senior"  },
   { username: "com2",        password: "password",     role: "unit", truck: "COM2",     perms: "senior"  },
   { username: "com3",         password: "password",     role: "unit", truck: "COM3",    perms: "senior"  },
-  // ── Add more accounts below ─────────────────────────────────────────────────
-  // { username: "boeinrblx", password: "yourpassword", role: "unit", truck: "PUMPA2",  perms: "truck"   },
-  // { username: "rescue1",   password: "yourpassword", role: "unit", truck: "RESCUE1", perms: "truck"   },
-  // { username: "cmd1",      password: "yourpassword", role: "unit", truck: "CMD1",    perms: "command" },
-  // { username: "so1",       password: "yourpassword", role: "unit", truck: "SO1",     perms: "senior"  },
-  // { username: "dispatch2", password: "yourpassword", role: "dispatch" },
 ];
 
 // =============================================================================
@@ -175,8 +157,8 @@ app.get("/mdt",      requireRole("unit"),     (req, res) => res.redirect("/mdt.h
 app.get("/whoami",   requireAuth,             (req, res) => res.json({ ok: true, user: req.session.user }));
 
 app.get("/api/state", requireAuth, (req, res) => {
-  const { units, incidents, assignments, mapPins, bulletins, preplans } = db.getState();
-  res.json({ ok: true, units, incidents, assignments, mapPins, bulletins, preplans });
+  const { units, incidents, assignments } = db.getState();
+  res.json({ ok: true, units, incidents, assignments });
 });
 
 // ── Socket.IO auth ────────────────────────────────────────────────────────────
@@ -187,8 +169,8 @@ function requireSocketAuth(socket) {
 }
 
 function broadcastState() {
-  const { units, incidents, assignments, mapPins, bulletins, preplans } = db.getState();
-  io.emit("state", { units, incidents, assignments, mapPins, bulletins, preplans });
+  const { units, incidents, assignments } = db.getState();
+  io.emit("state", { units, incidents, assignments });
 }
 
 // ── ER:LC API ─────────────────────────────────────────────────────────────────
@@ -280,9 +262,21 @@ io.on("connection", socket => {
     const u = requireSocketAuth(socket);
     if (!u || u.role !== "unit") return;
     const status = String(payload?.status || "").toUpperCase();
-    const VALID_STATUSES = ["AVAILABLE","ENROUTE","ONSCENE","CLEAR","OFFLINE","EMR","ALT","MOB","PRO","INS","NAV","STN","AVL"];
+    const VALID_STATUSES = ["AVAIL","UNAVAIL","RESPOND","ONSCENE","MOBILE","EMR"];
     if (!VALID_STATUSES.includes(status)) return;
     db.setUnitStatus(`unit-${u.username}`, status);
+    broadcastState();
+  });
+
+  // Dispatch: override a unit's status
+  socket.on("dispatch:setUnitStatus", payload => {
+    const u = requireSocketAuth(socket);
+    if (!u || u.role !== "dispatch") return;
+    const unitId = String(payload?.unit_id || "");
+    const status = String(payload?.status || "").toUpperCase();
+    const VALID_STATUSES = ["AVAIL","UNAVAIL","RESPOND","ONSCENE","MOBILE","EMR"];
+    if (!unitId || !VALID_STATUSES.includes(status)) return;
+    db.setUnitStatus(unitId, status);
     broadcastState();
   });
 
