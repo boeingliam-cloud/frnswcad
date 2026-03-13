@@ -20,18 +20,15 @@
       display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
       padding: 8px 12px; background: var(--mdt-header);
       flex-shrink: 0; min-height: 46px;
-      transition: background 0.4s ease, border-color 0.4s ease;
     }
     .mdt-appliance { font-weight: 700; font-size: 15px; letter-spacing: .5px; }
     .mdt-status-badge { padding: 4px 10px; border-radius: 4px; font-weight: 700; font-size: 12px; }
-    .mdt-status-badge.ALT { background: var(--mdt-status-alt);  color:#fff; }
-    .mdt-status-badge.MOB { background: var(--mdt-status-mob);  color:#fff; }
-    .mdt-status-badge.PRO { background: var(--mdt-status-pro);  color:#1a1a1a; }
-    .mdt-status-badge.INS { background: var(--mdt-status-ins);  color:#fff; }
-    .mdt-status-badge.EMR { background: var(--mdt-status-emr);  color:#fff; }
-    .mdt-status-badge.NAV { background: var(--mdt-status-nav);  color:#fff; }
-    .mdt-status-badge.STN { background: var(--mdt-status-stn);  color:#1a1a1a; }
-    .mdt-status-badge.AVL { background: var(--mdt-status-avl);  color:#fff; }
+    .mdt-status-badge.AVAIL   { background: #388E3C; color:#fff; }
+    .mdt-status-badge.UNAVAIL { background: #424242; color:#fff; }
+    .mdt-status-badge.RESPOND { background: #F9A825; color:#1a1a1a; }
+    .mdt-status-badge.ONSCENE { background: #2E7D32; color:#fff; }
+    .mdt-status-badge.MOBILE  { background: #E65100; color:#fff; }
+    .mdt-status-badge.EMR     { background: #C62828; color:#fff; }
     .mdt-elapsed  { font-weight: 700; font-family: monospace; font-size: 14px; letter-spacing: 1px; }
     .mdt-datetime { color: var(--mdt-text-secondary); font-size: 12px; }
     .mdt-conn { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--mdt-text-secondary); }
@@ -49,9 +46,9 @@
 
     /* LEFT STATUS PANEL */
     .mdt-left-panel {
-      width: 90px; flex-shrink: 0; display: flex; flex-direction: column;
-      gap: 4px; padding: 8px 6px;
-      background: var(--mdt-panel); border-right: 2px solid var(--mdt-border);
+      width: 88px; flex-shrink: 0; display: flex; flex-direction: column;
+      gap: 2px; padding: 4px;
+      background: #1a1a1a; border-right: 3px solid #000;
     }
     .mdt-status-btn {
       border: none; color: #fff; font-family: inherit; font-size: 11px;
@@ -61,17 +58,20 @@
       justify-content: center; gap: 1px; transition: filter .15s, transform .1s;
     }
     .mdt-status-btn:active { transform: scale(.97); }
-    .mdt-status-btn .code { font-size: 13px; font-weight: 800; }
-    .mdt-status-btn .lbl  { font-size: 9px; opacity: .85; }
-    .mdt-status-btn.ALT { background: var(--mdt-status-alt); }
-    .mdt-status-btn.MOB { background: var(--mdt-status-mob); }
-    .mdt-status-btn.PRO { background: var(--mdt-status-pro); color:#1a1a1a; }
-    .mdt-status-btn.INS { background: var(--mdt-status-ins); }
-    .mdt-status-btn.EMR { background: var(--mdt-status-emr); }
-    .mdt-status-btn.NAV { background: var(--mdt-status-nav); }
-    .mdt-status-btn.STN { background: var(--mdt-status-stn); color:#1a1a1a; }
-    .mdt-status-btn.AVL { background: var(--mdt-status-avl); }
-    .mdt-status-btn.active { box-shadow: inset 0 0 0 3px #fff; filter: brightness(1.1); }
+    .mdt-status-btn .code { font-size: 11px; font-weight: 900; line-height: 1; letter-spacing: 1px; }
+    .mdt-status-btn .lbl  { font-size: 7px; font-weight: 700; letter-spacing: 0.3px; opacity: 0.9; margin-top: 2px; text-transform: uppercase; }
+    .mdt-status-btn.AVAIL   { background: #388E3C; border-color: #1B5E20; }
+    .mdt-status-btn.UNAVAIL { background: #424242; border-color: #212121; }
+    .mdt-status-btn.RESPOND { background: #F9A825; border-color: #F57F17; color: #1a1a1a; text-shadow: none; }
+    .mdt-status-btn.ONSCENE { background: #2E7D32; border-color: #1B5E20; }
+    .mdt-status-btn.MOBILE  { background: #E65100; border-color: #BF360C; }
+    .mdt-status-btn.EMR     { background: #C62828; border-color: #7F0000; }
+    .mdt-status-btn.active { border: 3px solid #fff; filter: brightness(1.15); box-shadow: 0 0 8px rgba(255,255,255,0.5), inset 0 0 6px rgba(255,255,255,0.15); }
+    .mdt-status-btn.EMR.active { animation: duressBtnPulse 0.8s infinite; }
+    @keyframes duressBtnPulse {
+      0%,100% { filter: brightness(1.15); box-shadow: 0 0 8px rgba(255,255,255,0.5); }
+      50%      { filter: brightness(1.5);  box-shadow: 0 0 18px rgba(255,80,80,0.9); }
+    }
 
     /* CONTENT */
     .mdt-content { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow: hidden; }
@@ -192,29 +192,23 @@
 
     <!-- LEFT: FRNSW STATUS BUTTONS -->
     <div class="mdt-left-panel">
-      <button class="mdt-status-btn ALT" data-frnsw="ALT">
-        <span class="code">ALT</span><span class="lbl">Alerted</span>
+      <button class="mdt-status-btn AVAIL active" data-frnsw="AVAIL">
+        <span class="code">AVAIL</span><span class="lbl">Available</span>
       </button>
-      <button class="mdt-status-btn MOB" data-frnsw="MOB">
-        <span class="code">MOB</span><span class="lbl">Mobile</span>
+      <button class="mdt-status-btn UNAVAIL" data-frnsw="UNAVAIL">
+        <span class="code">UNAVAIL</span><span class="lbl">Unavailable</span>
       </button>
-      <button class="mdt-status-btn PRO" data-frnsw="PRO">
-        <span class="code">PRO</span><span class="lbl">Responding</span>
+      <button class="mdt-status-btn MOBILE" data-frnsw="MOBILE">
+        <span class="code">MOBILE</span><span class="lbl">Moving</span>
       </button>
-      <button class="mdt-status-btn INS" data-frnsw="INS">
-        <span class="code">INS</span><span class="lbl">Inspecting</span>
+      <button class="mdt-status-btn RESPOND" data-frnsw="RESPOND">
+        <span class="code">RESPOND</span><span class="lbl">Responding</span>
+      </button>
+      <button class="mdt-status-btn ONSCENE" data-frnsw="ONSCENE">
+        <span class="code">ONSCENE</span><span class="lbl">On Scene</span>
       </button>
       <button class="mdt-status-btn EMR" data-frnsw="EMR">
         <span class="code">EMR</span><span class="lbl">Duress</span>
-      </button>
-      <button class="mdt-status-btn NAV" data-frnsw="NAV">
-        <span class="code">NAV</span><span class="lbl">Unavailable</span>
-      </button>
-      <button class="mdt-status-btn STN" data-frnsw="STN">
-        <span class="code">STN</span><span class="lbl">At Station</span>
-      </button>
-      <button class="mdt-status-btn AVL active" data-frnsw="AVL">
-        <span class="code">AVL</span><span class="lbl">Available</span>
       </button>
     </div>
 
@@ -343,29 +337,32 @@
   let myCallsign = '—';
   let myPerms = 'truck';
   let prevIncidentId = null; // track to detect when a call closes
-  let currentFrnsw = 'AVL';
+  let currentFrnsw = 'AVAIL';
   let unread = 0;
   let mapLoaded = false;
 
   // ── STATUS COLOURS ───────────────────────────────────────────────────────────
   const STATUS_COLORS = {
-    ALT:'#1e90ff', MOB:'#f26522', PRO:'#ffc107',
-    INS:'#28a745', EMR:'#dc3545', NAV:'#6c757d',
-    STN:'#adb5bd', AVL:'#5cb85c',
-    // legacy backend names → colour
-    AVAILABLE:'#5cb85c', ENROUTE:'#f26522', ONSCENE:'#28a745',
-    CLEAR:'#adb5bd', OFFLINE:'#6c757d'
+    AVAIL:   '#388E3C',
+    UNAVAIL: '#424242',
+    RESPOND: '#F9A825',
+    ONSCENE: '#2E7D32',
+    MOBILE:  '#E65100',
+    EMR:     '#C62828',
   };
 
-  // Map FRNSW display code ↔ stored status (we now store the FRNSW code directly)
-  // The server accepts ALT/MOB/PRO/INS/EMR/NAV/STN/AVL directly
   function resolveDisplayCode(status) {
-    // If it's already a FRNSW code, return as-is
-    const FRNSW = ['ALT','MOB','PRO','INS','EMR','NAV','STN','AVL'];
-    if (FRNSW.includes(status)) return status;
-    // Legacy backend → display
-    const map = { AVAILABLE:'AVL', ENROUTE:'MOB', ONSCENE:'INS', CLEAR:'STN', OFFLINE:'NAV' };
-    return map[status] || 'AVL';
+    if (STATUS_COLORS[status]) return status;
+    // Legacy map for any old data in DB
+    const map = {
+      AVL:'AVAIL', AVAILABLE:'AVAIL',
+      NAV:'UNAVAIL', OFFLINE:'UNAVAIL',
+      PRO:'RESPOND', ENROUTE:'RESPOND',
+      INS:'ONSCENE',
+      MOB:'MOBILE', ALT:'MOBILE',
+      STN:'AVAIL', CLEAR:'AVAIL'
+    };
+    return map[status] || 'AVAIL';
   }
 
   // ── MAP ──────────────────────────────────────────────────────────────────────
@@ -391,7 +388,7 @@
   }
 
   function mkTruckIcon(unit, isMe) {
-    const code  = resolveDisplayCode(unit.status || 'AVL');
+    const code  = resolveDisplayCode(unit.status || 'AVAIL');
     const color = isMe ? '#00e676' : (STATUS_COLORS[code] || '#5cc8ff');
     const label = (unit.callsign || unit.id).slice(0, 6);
     const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 5px rgba(0,0,0,.8));">
@@ -495,14 +492,12 @@
 
   // ── SET STATUS ───────────────────────────────────────────────────────────────
   const STATUS_BAR_COLORS = {
-    ALT: { bg: '#1565C0', text: '#fff' },
-    MOB: { bg: '#E65100', text: '#fff' },
-    PRO: { bg: '#F9A825', text: '#1a1a1a' },
-    INS: { bg: '#2E7D32', text: '#fff' },
-    EMR: { bg: '#C62828', text: '#fff' },
-    NAV: { bg: '#424242', text: '#fff' },
-    STN: { bg: '#757575', text: '#f0f0f0' },
-    AVL: { bg: '#388E3C', text: '#fff' },
+    AVAIL:   { bg: '#388E3C', text: '#fff' },
+    UNAVAIL: { bg: '#424242', text: '#fff' },
+    RESPOND: { bg: '#F9A825', text: '#1a1a1a' },
+    ONSCENE: { bg: '#2E7D32', text: '#fff' },
+    MOBILE:  { bg: '#E65100', text: '#fff' },
+    EMR:     { bg: '#C62828', text: '#fff' },
   };
 
   function setStatus(frnsw) {
@@ -518,13 +513,13 @@
     const topBar = document.querySelector('.mdt-top-bar');
     const col = STATUS_BAR_COLORS[frnsw] || { bg: 'var(--mdt-header)', text: '#fff' };
     topBar.style.background = col.bg;
-    const isDark = col.text === '#fff';
+    const isDark = col.text !== '#fff';
     topBar.querySelectorAll('span, button, div').forEach(el => {
-      el.style.color = isDark ? '' : 'rgba(0,0,0,0.8)';
+      el.style.color = isDark ? 'rgba(0,0,0,0.8)' : '';
     });
     badge.style.background = 'rgba(0,0,0,0.25)';
     badge.style.color = col.text;
-    badge.style.border = `1px solid ${isDark ? 'rgba(255,255,255,0.4)' : 'rgba(0,0,0,0.3)'}`;
+    badge.style.border = `1px solid ${isDark ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.4)'}`;
   }
 
   // ── INCIDENT SCREEN ──────────────────────────────────────────────────────────
@@ -541,9 +536,9 @@
     if (closedInc) {
       // Show closed banner and auto-set AVL if not already
       document.getElementById('incId').textContent = closedInc.id + ' — CLOSED';
-      if (currentFrnsw !== 'AVL' && currentFrnsw !== 'STN') {
-        setStatus('AVL');
-        socket.emit('unit:setStatus', { status: 'AVL' });
+      if (currentFrnsw !== 'AVAIL' && currentFrnsw !== 'STN') {
+        setStatus('AVAIL');
+        socket.emit('unit:setStatus', { status: 'AVAIL' });
       }
       el.innerHTML = `
         <div style="background:rgba(220,53,69,.12);border:2px solid #dc3545;border-radius:10px;padding:18px;text-align:center;margin-bottom:14px">
@@ -666,7 +661,7 @@
       return;
     }
     for (const u of units) {
-      const code  = resolveDisplayCode(u.status || 'AVL');
+      const code  = resolveDisplayCode(u.status || 'AVAIL');
       const color = STATUS_COLORS[code] || '#6c757d';
       const tr = document.createElement('tr');
       tr.innerHTML = `
@@ -938,7 +933,7 @@
       state = data;
       const me2 = myUnit();
       if (me2) {
-        setStatus(resolveDisplayCode(me2.status || 'AVL'));
+        setStatus(resolveDisplayCode(me2.status || 'AVAIL'));
         if (me2.erlc_player_name) document.getElementById('erlcNameInput').value = me2.erlc_player_name;
       }
       renderIncident();
@@ -953,3 +948,4 @@
 </script>
 </body>
 </html>
+
