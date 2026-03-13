@@ -65,9 +65,9 @@ const AUTH_USERS = [
   { username: "cmd2",       password: "password",     role: "unit", truck: "CMD2",    perms: "command" },
 
   // Senior officers
-  { username: "CMD1",        password: "password",     role: "unit", truck: "CMD1",     perms: "senior"  },
-  { username: "CMD2",        password: "password",     role: "unit", truck: "CMD2",     perms: "senior"  },
-  { username: "CMD3",         password: "password",     role: "unit", truck: "CMD3",    perms: "senior"  },
+  { username: "com1",        password: "password",     role: "unit", truck: "COM1",     perms: "senior"  },
+  { username: "com2",        password: "password",     role: "unit", truck: "COM2",     perms: "senior"  },
+  { username: "com3",         password: "password",     role: "unit", truck: "COM3",    perms: "senior"  },
   // ── Add more accounts below ─────────────────────────────────────────────────
   // { username: "boeinrblx", password: "yourpassword", role: "unit", truck: "PUMPA2",  perms: "truck"   },
   // { username: "rescue1",   password: "yourpassword", role: "unit", truck: "RESCUE1", perms: "truck"   },
