@@ -23,6 +23,7 @@ const AUTH_USERS = [
   { username: "boeingliam",  password: "boe", role: "dispatch" },
   { username: "CSUPT2323",  password: "Thekiller67", role: "dispatch" },
   { username: "dispatch",  password: "dispatch", role: "dispatch" },
+  { username: "Addiz",  password: "Lead Dispatcher01", role: "dispatch" },
   
 
   // Pump crews
