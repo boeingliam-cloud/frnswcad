@@ -55,7 +55,7 @@ const AUTH_USERS = [
   // Command vehicles
   { username: "cmd1",       password: "password",     role: "unit", truck: "CMD1",    perms: "command" },
   { username: "cmd2",       password: "password",     role: "unit", truck: "CMD2",    perms: "command" },
-  { username: "CSUPT2323",       password: "Thekiller67",     role: "unit", truck: "CMD3",    perms: "command" },
+  { username: "CSUPT2323",       password: "Thekiller67",     role: "unit", truck: "RNZNECOM",    perms: "command" },
   { username: "Addiz-Inspector1",       password: "BoeingLiamisDCOM",     role: "unit", truck: "DC1",    perms: "command" },
 
   // Senior officers
