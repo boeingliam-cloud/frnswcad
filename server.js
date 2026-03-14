@@ -23,7 +23,8 @@ const AUTH_USERS = [
   { username: "boeingliam",  password: "boe", role: "dispatch" },
   { username: "CSUPT2323",  password: "Thekiller67", role: "dispatch" },
   { username: "dispatch",  password: "dispatch", role: "dispatch" },
-  { username: "Addiz",  password: "Lead Dispatcher01", role: "dispatch" },
+  { username: "Addiz2",  password: "Lead Dispatcher01", role: "dispatch" },
+  { username: "Alwayswishing77",  password: "lovesboeingsdad", role: "dispatch" },
   
 
   // Pump crews
@@ -59,8 +60,9 @@ const AUTH_USERS = [
   { username: "Addiz-Inspector1",       password: "BoeingLiamisDCOM",     role: "unit", truck: "DC1",    perms: "command" },
 
   // Senior officers
-  { username: "com1",        password: "password",     role: "unit", truck: "COM1",     perms: "senior"  },
-  { username: "com2",        password: "password",     role: "unit", truck: "COM2",     perms: "senior"  },
+  { username: "vtremam",        password: "password",     role: "unit", truck: "COM1",     perms: "senior"  },
+  { username: "boeingliam",        password: "boe",     role: "unit", truck: "COM2",     perms: "senior"  },
+  { username: "teentyson5001",         password: "Teenyissosigma",     role: "unit", truck: "COM3",    perms: "senior"  },
   { username: "teentyson5001",         password: "Teenyissosigma",     role: "unit", truck: "COM3",    perms: "senior"  },
 ];
 
