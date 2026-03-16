@@ -59,6 +59,98 @@ function buildTone() {
   let ctx = null;
 
   function getCtx() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    return ctx;
+  }
+
+  function beep(ac, freq, startTime, duration, volume = 0.4) {
+    const osc  = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.type = "sine";
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, startTime);
+    gain.gain.linearRampToValueAtTime(volume, startTime + 0.01);
+    gain.gain.setValueAtTime(volume, startTime + duration - 0.01);
+    gain.gain.linearRampToValueAtTime(0, startTime + duration);
+    osc.connect(gain);
+    gain.connect(ac.destination);
+    osc.start(startTime);
+    osc.stop(startTime + duration + 0.02);
+  }
+
+  async function play(tone) {
+    const ac  = getCtx();
+    if (ac.state === "suspended") await ac.resume();
+    const now = ac.currentTime;
+
+    if (tone === "hiLo") {
+      // Hi-lo fire tone: two alternating pitches, 3 cycles
+      const pairs = [
+        [1200, 0.22], [800, 0.22],
+        [1200, 0.22], [800, 0.22],
+        [1200, 0.22], [800, 0.22],
+      ];
+      let t = now;
+      for (const [freq, dur] of pairs) {
+        beep(ac, freq, t, dur, 0.5);
+        t += dur + 0.03;
+      }
+
+    } else if (tone === "duress") {
+      // Duress / EMR alarm: rapid warbling between 1500 Hz and 500 Hz,
+      // 6 fast cycles, full volume — deliberately harsh and unmistakable.
+      // Sounds clearly different from both "default" and "hiLo".
+      const pairs = [
+        [1500, 0.15], [500, 0.15],
+        [1500, 0.15], [500, 0.15],
+        [1500, 0.15], [500, 0.15],
+        [1500, 0.15], [500, 0.15],
+        [1500, 0.15], [500, 0.15],
+        [1500, 0.15], [500, 0.15],
+      ];
+      let t = now;
+      for (const [freq, dur] of pairs) {
+        beep(ac, freq, t, dur, 0.75);
+        t += dur + 0.01;   // very tight gap for urgency
+      }
+
+    } else {
+      // Default: 3 short beeps
+      beep(ac, 960, now,        0.18, 0.45);
+      beep(ac, 960, now + 0.24, 0.18, 0.45);
+      beep(ac, 960, now + 0.48, 0.18, 0.45);
+    }
+  }
+
+  return { play };
+}
+
+window.CAD_SHARED = { qs, el, fmtTime, toast, statusPill, logout, whoami, buildTone };
+  const cls = s === "AVAILABLE" || s === "CLEAR" ? "ok"
+    : s === "ENROUTE" || s === "ONSCENE" ? "warn"
+    : s === "EMR" ? "danger"
+    : s === "CLOSED" ? "muted" : "muted";
+  return el("span", { class: `pill ${cls}`, text: s });
+}
+
+async function logout() {
+  await fetch("/api/logout", { method: "POST" });
+  window.location.href = "/index.html";
+}
+
+async function whoami() {
+  try {
+    const res = await fetch("/whoami");
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.user;
+  } catch { return null; }
+}
+
+function buildTone() {
+  let ctx = null;
+
+  function getCtx() {
     if (!ctx) {
       ctx = new (window.AudioContext || window.webkitAudioContext)();
     }
