@@ -102,32 +102,21 @@
     /* ROUTE PANEL */
     #routePanel {
       display:none; flex-shrink:0;
-      background: #0e1a0e;
-      border: 1px solid #2a4a2a;
-      border-radius:6px;
-      padding:8px 12px;
-      font-size:12px;
-      font-family: ui-monospace, monospace;
+      background: #0e1a0e; border: 1px solid #2a4a2a;
+      border-radius:6px; padding:8px 12px;
+      font-size:12px; font-family: ui-monospace, monospace;
     }
     #routePanel.active { display:block; }
-    #routePanel .rp-header {
-      display:flex; align-items:center; justify-content:space-between;
-      margin-bottom:6px;
-    }
-    #routePanel .rp-title {
-      color:#4caf50; font-weight:700; font-size:13px; letter-spacing:.5px;
-    }
-    #routePanel .rp-clear {
-      background:transparent; border:1px solid #555; color:#aaa;
-      padding:2px 8px; border-radius:4px; cursor:pointer; font-size:11px;
-    }
-    #routePanel .rp-rows { display:flex; gap:16px; flex-wrap:wrap; }
-    #routePanel .rp-item { display:flex; flex-direction:column; gap:1px; }
-    #routePanel .rp-label { color:#666; font-size:10px; text-transform:uppercase; letter-spacing:.5px; }
-    #routePanel .rp-value { color:#e0ffe0; font-size:14px; font-weight:700; }
-    #routePanel .rp-value.warn { color:#ffd166; }
+    #routePanel .rp-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+    #routePanel .rp-title  { color:#4caf50; font-weight:700; font-size:13px; letter-spacing:.5px; }
+    #routePanel .rp-clear  { background:transparent; border:1px solid #555; color:#aaa; padding:2px 8px; border-radius:4px; cursor:pointer; font-size:11px; }
+    #routePanel .rp-rows   { display:flex; gap:16px; flex-wrap:wrap; }
+    #routePanel .rp-item   { display:flex; flex-direction:column; gap:1px; }
+    #routePanel .rp-label  { color:#666; font-size:10px; text-transform:uppercase; letter-spacing:.5px; }
+    #routePanel .rp-value  { color:#e0ffe0; font-size:14px; font-weight:700; }
+    #routePanel .rp-value.warn   { color:#ffd166; }
     #routePanel .rp-value.danger { color:#ff6b6b; }
-    #routePanel .rp-inc { color:#ffd166; font-size:11px; margin-bottom:4px; }
+    #routePanel .rp-inc    { color:#ffd166; font-size:11px; margin-bottom:4px; }
 
     /* RESOURCES SCREEN */
     .res-table { width:100%; border-collapse:collapse; font-size:13px; }
@@ -137,34 +126,25 @@
 
     /* MESSAGES SCREEN */
     .msg-empty { color:var(--mdt-text-secondary); text-align:center; padding:30px; font-size:13px; }
-    .msg-item { padding:10px 12px; border-bottom:1px solid var(--mdt-border); }
-    .msg-meta { font-size:11px; color:var(--mdt-text-secondary); margin-bottom:4px; }
-    .msg-body { font-size:14px; color:var(--mdt-accent); font-weight:600; }
+    .msg-item  { padding:10px 12px; border-bottom:1px solid var(--mdt-border); }
+    .msg-meta  { font-size:11px; color:var(--mdt-text-secondary); margin-bottom:4px; }
+    .msg-body  { font-size:14px; color:var(--mdt-accent); font-weight:600; }
 
     /* SITREP SCREEN */
     .sitrep-compose { background:var(--mdt-panel); border:1px solid var(--mdt-border); border-radius:6px; padding:12px; margin-bottom:14px; flex-shrink:0; }
     .sitrep-compose label { display:block; font-size:11px; color:var(--mdt-text-secondary); margin-bottom:6px; letter-spacing:1px; }
-    .sitrep-compose textarea {
-      width:100%; min-height:80px; background:var(--mdt-bg);
-      border:1px solid var(--mdt-border); color:var(--mdt-text);
-      font-family:inherit; font-size:13px; padding:8px 10px;
-      border-radius:4px; resize:vertical; box-sizing:border-box;
-    }
+    .sitrep-compose textarea { width:100%; min-height:80px; background:var(--mdt-bg); border:1px solid var(--mdt-border); color:var(--mdt-text); font-family:inherit; font-size:13px; padding:8px 10px; border-radius:4px; resize:vertical; box-sizing:border-box; }
     .sitrep-compose textarea:focus { border-color:var(--mdt-accent); outline:none; }
-    .sitrep-btn-row { display:flex; gap:8px; margin-top:8px; align-items:center; }
-    .sitrep-submit {
-      padding:8px 18px; background:var(--mdt-accent); border:none;
-      color:#fff; font-family:inherit; font-size:13px; font-weight:700;
-      border-radius:4px; cursor:pointer;
-    }
+    .sitrep-btn-row  { display:flex; gap:8px; margin-top:8px; align-items:center; }
+    .sitrep-submit   { padding:8px 18px; background:var(--mdt-accent); border:none; color:#fff; font-family:inherit; font-size:13px; font-weight:700; border-radius:4px; cursor:pointer; }
     .sitrep-submit:hover { filter:brightness(1.1); }
-    .sitrep-no-inc { color:var(--mdt-text-secondary); font-size:12px; }
-    .sitrep-msg { font-size:12px; color:#28a745; }
-    .sitrep-log { flex:1; overflow-y:auto; }
-    .sitrep-entry { padding:10px 12px; border-bottom:1px solid var(--mdt-border); }
+    .sitrep-no-inc   { color:var(--mdt-text-secondary); font-size:12px; }
+    .sitrep-msg      { font-size:12px; color:#28a745; }
+    .sitrep-log      { flex:1; overflow-y:auto; }
+    .sitrep-entry    { padding:10px 12px; border-bottom:1px solid var(--mdt-border); }
     .sitrep-entry-meta { font-size:11px; color:var(--mdt-text-secondary); margin-bottom:4px; }
     .sitrep-entry-text { font-size:13px; line-height:1.5; white-space:pre-wrap; }
-    .sitrep-empty { color:var(--mdt-text-secondary); text-align:center; padding:24px; font-size:13px; }
+    .sitrep-empty    { color:var(--mdt-text-secondary); text-align:center; padding:24px; font-size:13px; }
 
     /* BOTTOM MENU BAR */
     .mdt-bottom-bar { background:var(--mdt-panel); border-top:2px solid var(--mdt-border); flex-shrink:0; }
@@ -197,7 +177,7 @@
     .overlay-panel input { width:100%; padding:7px 10px; background:var(--mdt-bg); border:1px solid var(--mdt-border); color:var(--mdt-text); font-size:12px; border-radius:4px; box-sizing:border-box; }
     .overlay-panel input:focus { border-color:var(--mdt-accent); outline:none; }
     .ov-btns { display:flex; gap:8px; margin-top:14px; }
-    .ov-btn { flex:1; padding:8px; background:var(--mdt-card); border:1px solid var(--mdt-border); color:var(--mdt-text); font-family:inherit; font-size:12px; cursor:pointer; border-radius:4px; }
+    .ov-btn  { flex:1; padding:8px; background:var(--mdt-card); border:1px solid var(--mdt-border); color:var(--mdt-text); font-family:inherit; font-size:12px; cursor:pointer; border-radius:4px; }
     .ov-btn.primary { background:var(--mdt-accent); border-color:var(--mdt-accent); color:#fff; }
     .ov-msg { color:var(--mdt-text-secondary); font-size:11px; margin-top:8px; min-height:16px; }
   </style>
@@ -265,7 +245,6 @@
             </select>
             <button id="btnMdtRecenter">⊕ Recenter</button>
           </div>
-          <!-- Route info panel — shown when assigned to a call -->
           <div id="routePanel">
             <div class="rp-header">
               <span class="rp-title">🧭 ROUTE TO CALL</span>
@@ -327,7 +306,7 @@
     </div>
   </div>
 
-  <!-- BOTTOM MENU BAR — Row 1 -->
+  <!-- BOTTOM MENU BAR -->
   <div class="mdt-bottom-bar">
     <div class="menu-row">
       <button class="mdt-menu-btn active" data-screen="Incident">INCIDENT</button>
@@ -337,7 +316,6 @@
         MESSAGES <span class="badge" id="msgBadge" style="display:none">0</span>
       </button>
     </div>
-    <!-- Row 2 -->
     <div class="menu-row">
       <button class="mdt-menu-btn" data-screen="Sitrep" id="btnSitrep">
         SIT REP <span class="badge" id="sitrepBadge" style="display:none">!</span>
@@ -375,763 +353,657 @@
 <script>
 (function() {
   const { toast, logout, whoami, buildTone } = window.CAD_SHARED;
-  const tone = buildTone();
+  const tone   = buildTone();
   const socket = io();
 
-  let state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [] };
-  let myUnitId  = null;
+  let state      = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [] };
+  let myUnitId   = null;
   let myCallsign = '—';
-  let myPerms = 'truck';
-  let prevIncidentId = null; // track to detect when a call closes
-  let currentFrnsw = 'AVAIL';
-  let unread = 0;
-  let mapLoaded = false;
+  let myPerms    = 'truck';
+  let prevIncidentId = null;
+  let currentFrnsw   = 'AVAIL';
+  let unread         = 0;
+  let mapLoaded      = false;
+  let knownSitrepCount  = 0;
+  let newBulletins      = 0;
+  let knownBulletinIds  = new Set();
 
-  // ── STATUS COLOURS ───────────────────────────────────────────────────────────
+  // ── Turnout alarm ─────────────────────────────────────────────────────────────
+  // Preload the mp3 so it fires instantly when dispatch assigns us.
+  const turnoutAlarm    = new Audio('/frnsw_turnout_alarm.mp3');
+  turnoutAlarm.preload  = 'auto';
+
+  // Track which incident IDs this unit was assigned to on the PREVIOUS state
+  // update so we can detect a newly added assignment and play the alarm exactly
+  // once per dispatch — not on every periodic state refresh.
+  let prevAssignedIds = new Set();
+
+  // ── STATUS COLOURS ────────────────────────────────────────────────────────────
   const STATUS_COLORS = {
-    AVAIL:   '#388E3C',
-    UNAVAIL: '#424242',
-    RESPOND: '#F9A825',
-    ONSCENE: '#2E7D32',
-    MOBILE:  '#E65100',
-    EMR:     '#C62828',
+    AVAIL:'#388E3C', UNAVAIL:'#424242', RESPOND:'#F9A825',
+    ONSCENE:'#2E7D32', MOBILE:'#E65100', EMR:'#C62828',
   };
 
   function resolveDisplayCode(status) {
     if (STATUS_COLORS[status]) return status;
-    // Legacy map for any old data in DB
     const map = {
-      AVL:'AVAIL', AVAILABLE:'AVAIL',
-      NAV:'UNAVAIL', OFFLINE:'UNAVAIL',
-      PRO:'RESPOND', ENROUTE:'RESPOND',
-      INS:'ONSCENE',
-      MOB:'MOBILE', ALT:'MOBILE',
-      STN:'AVAIL', CLEAR:'AVAIL'
+      AVL:'AVAIL', AVAILABLE:'AVAIL', NAV:'UNAVAIL', OFFLINE:'UNAVAIL',
+      PRO:'RESPOND', ENROUTE:'RESPOND', INS:'ONSCENE',
+      MOB:'MOBILE', ALT:'MOBILE', STN:'AVAIL', CLEAR:'AVAIL'
     };
     return map[status] || 'AVAIL';
   }
 
-  // ── MAP ──────────────────────────────────────────────────────────────────────
+  // ── MAP ───────────────────────────────────────────────────────────────────────
   const lmap = L.map('mdtMap', { crs: L.CRS.Simple, minZoom: -3, maxZoom: 3, zoomSnap: 0.25 });
   let overlay = null, W = 4096, H = 4096;
   let myMarker = null;
   const uMarkers = new Map();
 
   function loadMap(variant) {
-    const url = '/api/map-proxy?variant=' + encodeURIComponent(variant || 'fall_postals');
     if (overlay) { overlay.remove(); overlay = null; }
-    overlay = L.imageOverlay(url, [[0, 0], [H, W]]).addTo(lmap);
-    lmap.setMaxBounds([[-500, -500], [H + 500, W + 500]]);
-    lmap.fitBounds([[0, 0], [H, W]]);
+    overlay = L.imageOverlay('/api/map-proxy?variant=' + encodeURIComponent(variant || 'fall_postals'), [[0,0],[H,W]]).addTo(lmap);
+    lmap.setMaxBounds([[-500,-500],[H+500,W+500]]);
+    lmap.fitBounds([[0,0],[H,W]]);
     mapLoaded = true;
     redrawMapMarkers();
   }
 
-  function ll(x, z) {
-    const nx = +x, nz = +z;
-    if (!isFinite(nx) || !isFinite(nz)) return null;
-    return [H - nz, nx];
-  }
+  function ll(x, z) { const nx=+x,nz=+z; return (isFinite(nx)&&isFinite(nz))?[H-nz,nx]:null; }
 
   // ── ROUTING ───────────────────────────────────────────────────────────────────
-  let routeLines = [];       // active polylines on map
-  let routeDismissed = false; // user manually dismissed route panel
-
+  let routeLines    = [];
+  let routeDismissed = false;
   const COMPASS = ['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+
   function bearing(x1,z1,x2,z2) {
-    // In ER:LC: x = east/west, z = north/south (higher z = north)
-    // Bearing from (x1,z1) to (x2,z2): 0° = North (+z), 90° = East (+x)
-    const dx = x2 - x1, dz = z2 - z1;
-    const deg = (Math.atan2(dx, dz) * 180 / Math.PI + 360) % 360;
-    return deg;
+    const dx=x2-x1, dz=z2-z1;
+    return (Math.atan2(dx,dz)*180/Math.PI+360)%360;
   }
-  function compassDir(deg) {
-    return COMPASS[Math.round(deg / 22.5) % 16];
-  }
-  // ER:LC map: roughly 1 unit ≈ 1 metre. Speed ~60 km/h ≈ 1000 units/min
+  function compassDir(deg) { return COMPASS[Math.round(deg/22.5)%16]; }
   function calcETA(dist) {
-    const mins = dist / 1000; // approx
-    if (mins < 0.5) return '< 30s';
-    if (mins < 1)   return '~1 min';
+    const mins=dist/1000;
+    if(mins<0.5) return '< 30s';
+    if(mins<1)   return '~1 min';
     return `~${Math.ceil(mins)} min`;
   }
 
-  function clearRouteLines() {
-    routeLines.forEach(l => l.remove());
-    routeLines = [];
-  }
+  function clearRouteLines() { routeLines.forEach(l=>l.remove()); routeLines=[]; }
 
   function drawRoutes() {
     clearRouteLines();
     if (routeDismissed) { document.getElementById('routePanel').classList.remove('active'); return; }
-
-    const me = state.units.find(u => u.id === myUnitId);
-    if (!me || me.location_x == null) {
-      document.getElementById('routePanel').classList.remove('active');
-      return;
-    }
-
+    const me = state.units.find(u=>u.id===myUnitId);
+    if (!me||me.location_x==null) { document.getElementById('routePanel').classList.remove('active'); return; }
     const myAssigned = state.assignments
-      .filter(a => a.unit_id === myUnitId)
-      .map(a => state.incidents.find(i => i.id === a.incident_id && i.status !== 'CLOSED'))
-      .filter(Boolean)
-      .filter(i => i.location_x != null);
+      .filter(a=>a.unit_id===myUnitId)
+      .map(a=>state.incidents.find(i=>i.id===a.incident_id&&i.status!=='CLOSED'))
+      .filter(i=>i&&i.location_x!=null);
+    if (!myAssigned.length) { document.getElementById('routePanel').classList.remove('active'); return; }
 
-    if (!myAssigned.length) {
-      document.getElementById('routePanel').classList.remove('active');
-      return;
-    }
-
-    // Use first assigned open incident for the route panel
     const primary = myAssigned[0];
-    const dx = primary.location_x - me.location_x;
-    const dz = primary.location_z - me.location_z;
-    const dist = Math.sqrt(dx*dx + dz*dz);
-    const deg  = bearing(me.location_x, me.location_z, primary.location_x, primary.location_z);
-    const dir  = compassDir(deg);
-    const eta  = calcETA(dist);
-    const incLoc = primary.location_label
-                || [primary.postal_code, primary.street_name].filter(Boolean).join(' ')
-                || `${Number(primary.location_x).toFixed(0)}, ${Number(primary.location_z).toFixed(0)}`;
+    const dx=primary.location_x-me.location_x, dz=primary.location_z-me.location_z;
+    const dist=Math.sqrt(dx*dx+dz*dz);
+    const deg=bearing(me.location_x,me.location_z,primary.location_x,primary.location_z);
+    const dir=compassDir(deg);
+    const eta=calcETA(dist);
+    const incLoc=primary.location_label||[primary.postal_code,primary.street_name].filter(Boolean).join(' ')||`${Number(primary.location_x).toFixed(0)}, ${Number(primary.location_z).toFixed(0)}`;
 
-    // Update panel
-    const panel = document.getElementById('routePanel');
+    const panel=document.getElementById('routePanel');
     panel.classList.add('active');
-    document.getElementById('rpIncLabel').textContent = `${primary.id} — ${primary.nature}`;
-    const distVal = dist < 100 ? `${dist.toFixed(0)}m` : dist < 2000 ? `${dist.toFixed(0)}m` : `${(dist/1000).toFixed(2)}km`;
-    const rpDist = document.getElementById('rpDist');
-    rpDist.textContent = distVal;
-    rpDist.className = 'rp-value' + (dist < 200 ? ' warn' : '');
-    document.getElementById('rpBearing').textContent = `${deg.toFixed(0)}°`;
-    document.getElementById('rpDir').textContent = dir;
-    document.getElementById('rpETA').textContent = eta;
-    document.getElementById('rpLoc').textContent = incLoc;
+    document.getElementById('rpIncLabel').textContent=`${primary.id} — ${primary.nature}`;
+    const distVal=dist<2000?`${dist.toFixed(0)}m`:`${(dist/1000).toFixed(2)}km`;
+    const rpDist=document.getElementById('rpDist');
+    rpDist.textContent=distVal; rpDist.className='rp-value'+(dist<200?' warn':'');
+    document.getElementById('rpBearing').textContent=`${deg.toFixed(0)}°`;
+    document.getElementById('rpDir').textContent=dir;
+    document.getElementById('rpETA').textContent=eta;
+    document.getElementById('rpLoc').textContent=incLoc;
 
-    // Draw a line for each assigned incident
     for (const inc of myAssigned) {
-      if (inc.location_x == null) continue;
-      const from = ll(me.location_x, me.location_z);
-      const to   = ll(inc.location_x, inc.location_z);
-      if (!from || !to) continue;
-
-      const isPrimary = (inc.id === primary.id);
-      const color = isPrimary ? '#00e676' : '#ffd166';
-
-      // Dashed animated line from truck to call
-      const line = L.polyline([from, to], {
-        color,
-        weight: isPrimary ? 3 : 2,
-        opacity: 0.85,
-        dashArray: '10, 8',
-        lineCap: 'round'
-      }).addTo(lmap);
-
-      // Arrow head at destination
-      const arrowHtml = `<div style="font-size:16px;line-height:1;filter:drop-shadow(0 1px 3px rgba(0,0,0,.8))">🎯</div>`;
-      const arrowIcon = L.divIcon({ html: arrowHtml, iconSize:[20,20], iconAnchor:[10,10], className:'' });
-      const arrow = L.marker(to, { icon: arrowIcon, zIndexOffset: 900, interactive: false }).addTo(lmap);
-
-      // Midpoint distance label
-      const mid = [(from[0]+to[0])/2, (from[1]+to[1])/2];
-      const dx2 = inc.location_x - me.location_x, dz2 = inc.location_z - me.location_z;
-      const d2 = Math.sqrt(dx2*dx2+dz2*dz2);
-      const dLabel = d2 < 2000 ? `${d2.toFixed(0)}m` : `${(d2/1000).toFixed(1)}km`;
-      const midLabel = L.marker(mid, {
-        icon: L.divIcon({
-          html: `<div style="background:rgba(0,0,0,.75);color:${color};font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;border:1px solid ${color};white-space:nowrap;font-family:monospace">${dLabel}</div>`,
-          iconSize:[60,18], iconAnchor:[30,9], className:''
-        }),
-        zIndexOffset: 800,
-        interactive: false
-      }).addTo(lmap);
-
-      routeLines.push(line, arrow, midLabel);
+      if (inc.location_x==null) continue;
+      const from=ll(me.location_x,me.location_z), to=ll(inc.location_x,inc.location_z);
+      if (!from||!to) continue;
+      const isPrimary=(inc.id===primary.id);
+      const color=isPrimary?'#00e676':'#ffd166';
+      const line=L.polyline([from,to],{color,weight:isPrimary?3:2,opacity:.85,dashArray:'10, 8',lineCap:'round'}).addTo(lmap);
+      const arrow=L.marker(to,{icon:L.divIcon({html:`<div style="font-size:16px;line-height:1;filter:drop-shadow(0 1px 3px rgba(0,0,0,.8))">🎯</div>`,iconSize:[20,20],iconAnchor:[10,10],className:''}),zIndexOffset:900,interactive:false}).addTo(lmap);
+      const mid=[(from[0]+to[0])/2,(from[1]+to[1])/2];
+      const d2=Math.sqrt((inc.location_x-me.location_x)**2+(inc.location_z-me.location_z)**2);
+      const dLabel=d2<2000?`${d2.toFixed(0)}m`:`${(d2/1000).toFixed(1)}km`;
+      const midLabel=L.marker(mid,{icon:L.divIcon({html:`<div style="background:rgba(0,0,0,.75);color:${color};font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;border:1px solid ${color};white-space:nowrap;font-family:monospace">${dLabel}</div>`,iconSize:[60,18],iconAnchor:[30,9],className:''}),zIndexOffset:800,interactive:false}).addTo(lmap);
+      routeLines.push(line,arrow,midLabel);
     }
   }
 
-  document.getElementById('btnClearRoute').addEventListener('click', () => {
-    routeDismissed = true;
-    clearRouteLines();
-    document.getElementById('routePanel').classList.remove('active');
-  });
+  document.getElementById('btnClearRoute').addEventListener('click',()=>{ routeDismissed=true; clearRouteLines(); document.getElementById('routePanel').classList.remove('active'); });
 
-  // Re-show route when new assignment comes in
   function checkRouteReset() {
-    const myAssigned = state.assignments
-      .filter(a => a.unit_id === myUnitId)
-      .map(a => state.incidents.find(i => i.id === a.incident_id && i.status !== 'CLOSED'))
-      .filter(Boolean);
-    if (myAssigned.length > 0) routeDismissed = false;
+    const myAssigned=state.assignments.filter(a=>a.unit_id===myUnitId).map(a=>state.incidents.find(i=>i.id===a.incident_id&&i.status!=='CLOSED')).filter(Boolean);
+    if (myAssigned.length>0) routeDismissed=false;
   }
 
-  function mkTruckIcon(unit, isMe) {
-    const code  = resolveDisplayCode(unit.status || 'AVAIL');
-    const color = isMe ? '#00e676' : (STATUS_COLORS[code] || '#5cc8ff');
-    const label = (unit.callsign || unit.id).slice(0, 6);
-    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 5px rgba(0,0,0,.8));">
-      <div style="background:${color};color:#111;font-size:9px;font-weight:800;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-bottom:2px;${isMe?'outline:2px solid #fff;':''}">${label}${isMe?' ◀':''}</div>
-      <div style="font-size:${isMe?'26':'20'}px;line-height:1">🚒</div>
-    </div>`;
-    return L.divIcon({ html, iconSize:[52, isMe?44:38], iconAnchor:[26, isMe?42:36], className:'' });
+  // ── MAP ICONS ─────────────────────────────────────────────────────────────────
+  function mkTruckIcon(unit,isMe) {
+    const code=resolveDisplayCode(unit.status||'AVAIL');
+    const color=isMe?'#00e676':(STATUS_COLORS[code]||'#5cc8ff');
+    const label=(unit.callsign||unit.id).slice(0,6);
+    return L.divIcon({className:'',iconSize:[52,isMe?44:38],iconAnchor:[26,isMe?42:36],
+      html:`<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 5px rgba(0,0,0,.8))">
+        <div style="background:${color};color:#111;font-size:9px;font-weight:800;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-bottom:2px;${isMe?'outline:2px solid #fff;':''}">${label}${isMe?' ◀':''}</div>
+        <div style="font-size:${isMe?'26':'20'}px;line-height:1">🚒</div></div>`});
   }
 
   function mkFireIcon(inc) {
-    const pri   = inc.priority || 'P2';
-    const color = pri==='P1'?'#ff4d6d': pri==='P2'?'#ffd166':'#9bb0d1';
-    const nature = (inc.nature || 'INCIDENT').slice(0, 12);
-    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 5px rgba(0,0,0,.8));">
-      <div style="font-size:22px;line-height:1">🔥</div>
-      <div style="background:${color};color:#111;font-size:9px;font-weight:800;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:2px;">[${pri}] ${nature}</div>
-    </div>`;
-    return L.divIcon({ html, iconSize:[80,40], iconAnchor:[40,6], className:'' });
+    const pri=inc.priority||'P2';
+    const color=pri==='P1'?'#ff4d6d':pri==='P2'?'#ffd166':'#9bb0d1';
+    return L.divIcon({className:'',iconSize:[80,40],iconAnchor:[40,6],
+      html:`<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 5px rgba(0,0,0,.8))">
+        <div style="font-size:22px;line-height:1">🔥</div>
+        <div style="background:${color};color:#111;font-size:9px;font-weight:800;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:2px">[${pri}] ${(inc.nature||'INCIDENT').slice(0,12)}</div></div>`});
   }
 
   function mkPinIcon(pin) {
-    const ico = pin.icon || '📍';
-    const extra = ico !== '📍' ? `<div style="font-size:16px;line-height:1;margin-bottom:-4px">${ico}</div>` : '';
-    const lbl = pin.label
-      ? `<div style="background:rgba(11,18,32,.92);color:#e8eaf6;font-size:9px;font-weight:700;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:2px;border:1px solid rgba(255,255,255,.2)">${pin.label}</div>`
-      : '';
-    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.9))">${extra}<div style="font-size:26px;line-height:1">📍</div>${lbl}</div>`;
-    return L.divIcon({ html, iconSize:[50, lbl?48:34], iconAnchor:[25, lbl?48:34], className:'' });
+    const ico=pin.icon||'📍';
+    const extra=ico!=='📍'?`<div style="font-size:16px;line-height:1;margin-bottom:-4px">${ico}</div>`:'';
+    const lbl=pin.label?`<div style="background:rgba(11,18,32,.92);color:#e8eaf6;font-size:9px;font-weight:700;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:2px;border:1px solid rgba(255,255,255,.2)">${pin.label}</div>`:'';
+    return L.divIcon({className:'',iconSize:[50,lbl?48:34],iconAnchor:[25,lbl?48:34],
+      html:`<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.9))">${extra}<div style="font-size:26px;line-height:1">📍</div>${lbl}</div>`});
   }
 
   function mkPinTooltip(pin) {
-    const inc = state.incidents.find(i => i.id === pin.incident_id);
-    const assignedUnits = inc
-      ? state.assignments.filter(a => a.incident_id === inc.id)
-          .map(a => { const u = state.units.find(x => x.id === a.unit_id); return u ? (u.callsign || u.id) : null; })
-          .filter(Boolean).join(', ')
-      : null;
-    const loc = inc ? (inc.location_label || [inc.postal_code, inc.street_name].filter(Boolean).join(' ') || '—') : '—';
+    const inc=state.incidents.find(i=>i.id===pin.incident_id);
+    const units=inc?state.assignments.filter(a=>a.incident_id===inc.id).map(a=>{const u=state.units.find(x=>x.id===a.unit_id);return u?(u.callsign||u.id):null;}).filter(Boolean).join(', '):null;
+    const loc=inc?(inc.location_label||[inc.postal_code,inc.street_name].filter(Boolean).join(' ')||'—'):'—';
     return inc
-      ? `<b>${pin.label || pin.icon || 'Pin'}</b><br><span style="color:#ffd166">${inc.id} — ${inc.nature}</span><br><span style="opacity:.7;font-size:11px">📍 ${loc}</span><br><span style="opacity:.7;font-size:11px">🚒 ${assignedUnits || 'No units'}</span>`
-      : `<b>${pin.label || pin.icon || 'Pin'}</b><br><span style="opacity:.6">No linked call</span>`;
+      ?`<b>${pin.label||pin.icon||'Pin'}</b><br><span style="color:#ffd166">${inc.id} — ${inc.nature}</span><br><span style="opacity:.7;font-size:11px">📍 ${loc}</span><br><span style="opacity:.7;font-size:11px">🚒 ${units||'No units'}</span>`
+      :`<b>${pin.label||pin.icon||'Pin'}</b><br><span style="opacity:.6">No linked call</span>`;
   }
 
   function redrawMapMarkers() {
-    uMarkers.forEach(m => m.remove()); uMarkers.clear();
+    uMarkers.forEach(m=>m.remove()); uMarkers.clear();
     for (const u of state.units) {
-      if (u.location_x == null) continue;
-      const p = ll(u.location_x, u.location_z);
-      if (!p) continue;
-      const isMe = u.id === myUnitId;
-      const m = L.marker(p, { icon: mkTruckIcon(u, isMe), zIndexOffset: isMe ? 1000 : 100 }).addTo(lmap);
-      const assignedCalls = state.assignments.filter(a => a.unit_id === u.id).map(a => {
-        const inc = state.incidents.find(i => i.id === a.incident_id && i.status !== 'CLOSED');
-        return inc ? `${inc.id} – ${inc.nature}` : null;
-      }).filter(Boolean);
-      const callLine = assignedCalls.length ? `📋 ${assignedCalls.join(', ')}` : 'No active call';
-      const locStr = [u.postal_code, u.street_name].filter(Boolean).join(' ')
-                   || (u.location_x != null ? `${Number(u.location_x).toFixed(0)}, ${Number(u.location_z).toFixed(0)}` : '');
+      if (u.location_x==null) continue;
+      const p=ll(u.location_x,u.location_z); if(!p) continue;
+      const isMe=u.id===myUnitId;
+      const m=L.marker(p,{icon:mkTruckIcon(u,isMe),zIndexOffset:isMe?1000:100}).addTo(lmap);
+      const assignedCalls=state.assignments.filter(a=>a.unit_id===u.id).map(a=>{const inc=state.incidents.find(i=>i.id===a.incident_id&&i.status!=='CLOSED');return inc?`${inc.id} – ${inc.nature}`:null;}).filter(Boolean);
+      const callLine=assignedCalls.length?`📋 ${assignedCalls.join(', ')}`:'No active call';
+      const locStr=[u.postal_code,u.street_name].filter(Boolean).join(' ')||(u.location_x!=null?`${Number(u.location_x).toFixed(0)}, ${Number(u.location_z).toFixed(0)}`:'');
       m.bindTooltip(
-        `<b>${u.callsign || u.id}</b>${isMe ? ' <span style="color:#00e676">(YOU)</span>' : ''}<br>` +
-        `<span style="opacity:.8">${u.status || '—'}</span>` +
-        (locStr ? `<br><span style="opacity:.6;font-size:11px">📍 ${locStr}</span>` : '') +
-        `<br><span style="opacity:.8">${callLine}</span>`,
-        { direction: 'top', permanent: false }
-      );
-      uMarkers.set(u.id, m);
-      if (isMe) myMarker = m;
+        `<b>${u.callsign||u.id}</b>${isMe?' <span style="color:#00e676">(YOU)</span>':''}<br>`+
+        `<span style="opacity:.8">${u.status||'—'}</span>`+
+        (locStr?`<br><span style="opacity:.6;font-size:11px">📍 ${locStr}</span>`:'')+'<br>'+
+        `<span style="opacity:.8">${callLine}</span>`,
+        {direction:'top',permanent:false});
+      uMarkers.set(u.id,m);
+      if (isMe) myMarker=m;
     }
     for (const inc of state.incidents) {
-      if (inc.status === 'CLOSED' || inc.location_x == null) continue;
-      const p = ll(inc.location_x, inc.location_z);
-      if (!p) continue;
-      const loc = inc.location_label || [inc.postal_code, inc.street_name].filter(Boolean).join(' ') || '—';
-      const m = L.marker(p, { icon: mkFireIcon(inc), zIndexOffset: 50 }).addTo(lmap);
+      if (inc.status==='CLOSED'||inc.location_x==null) continue;
+      const p=ll(inc.location_x,inc.location_z); if(!p) continue;
+      const loc=inc.location_label||[inc.postal_code,inc.street_name].filter(Boolean).join(' ')||'—';
+      const m=L.marker(p,{icon:mkFireIcon(inc),zIndexOffset:50}).addTo(lmap);
       m.bindPopup(`<b>${inc.nature}</b> [${inc.priority}]<br>${loc}`);
-      uMarkers.set('inc-' + inc.id, m);
+      uMarkers.set('inc-'+inc.id,m);
     }
-
-    // Dispatch map pins — only show pins linked to MY assigned calls
-    const myAssignedIncidentIds = new Set(
-      state.assignments.filter(a => a.unit_id === myUnitId).map(a => a.incident_id)
-    );
-    for (const pin of (state.mapPins || [])) {
-      if (pin.incident_id && !myAssignedIncidentIds.has(pin.incident_id)) continue;
-      const p = ll(pin.location_x, pin.location_z);
-      if (!p) continue;
-      const m = L.marker(p, { icon: mkPinIcon(pin), zIndexOffset: 400 }).addTo(lmap);
-      m.bindTooltip(mkPinTooltip(pin), { direction: 'top' });
-      uMarkers.set('pin-' + pin.id, m);
+    // Pins — only show pins linked to MY assigned calls
+    const myIncIds=new Set(state.assignments.filter(a=>a.unit_id===myUnitId).map(a=>a.incident_id));
+    for (const pin of (state.mapPins||[])) {
+      if (pin.incident_id&&!myIncIds.has(pin.incident_id)) continue;
+      const p=ll(pin.location_x,pin.location_z); if(!p) continue;
+      const m=L.marker(p,{icon:mkPinIcon(pin),zIndexOffset:400}).addTo(lmap);
+      m.bindTooltip(mkPinTooltip(pin),{direction:'top'});
+      uMarkers.set('pin-'+pin.id,m);
     }
-
-    // Draw route lines from this truck to its assigned calls
     drawRoutes();
   }
 
-  // ── HELPERS ──────────────────────────────────────────────────────────────────
-  function esc(s) {
-    const d = document.createElement('div'); d.textContent = String(s||''); return d.innerHTML;
-  }
-  function fmt(ts) {
-    return new Date(ts).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' });
-  }
-  function myUnit() { return state.units.find(u => u.id === myUnitId); }
+  // ── HELPERS ───────────────────────────────────────────────────────────────────
+  function esc(s)   { const d=document.createElement('div'); d.textContent=String(s||''); return d.innerHTML; }
+  function fmt(ts)  { return new Date(ts).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
+  function myUnit() { return state.units.find(u=>u.id===myUnitId); }
   function myIncident() {
-    const ids = new Set(state.assignments.filter(a => a.unit_id === myUnitId).map(a => a.incident_id));
-    return state.incidents.find(i => ids.has(i.id) && i.status !== 'CLOSED') || null;
+    const ids=new Set(state.assignments.filter(a=>a.unit_id===myUnitId).map(a=>a.incident_id));
+    return state.incidents.find(i=>ids.has(i.id)&&i.status!=='CLOSED')||null;
   }
 
-  // ── SET STATUS ───────────────────────────────────────────────────────────────
+  // ── SET STATUS ────────────────────────────────────────────────────────────────
   const STATUS_BAR_COLORS = {
-    AVAIL:   { bg: '#388E3C', text: '#fff' },
-    UNAVAIL: { bg: '#424242', text: '#fff' },
-    RESPOND: { bg: '#F9A825', text: '#1a1a1a' },
-    ONSCENE: { bg: '#2E7D32', text: '#fff' },
-    MOBILE:  { bg: '#E65100', text: '#fff' },
-    EMR:     { bg: '#C62828', text: '#fff' },
+    AVAIL:{bg:'#388E3C',text:'#fff'}, UNAVAIL:{bg:'#424242',text:'#fff'},
+    RESPOND:{bg:'#F9A825',text:'#1a1a1a'}, ONSCENE:{bg:'#2E7D32',text:'#fff'},
+    MOBILE:{bg:'#E65100',text:'#fff'}, EMR:{bg:'#C62828',text:'#fff'},
   };
 
   function setStatus(frnsw) {
-    currentFrnsw = frnsw;
-    const badge = document.getElementById('topBadge');
-    badge.textContent = frnsw;
-    badge.className = 'mdt-status-badge ' + frnsw;
-    document.querySelectorAll('.mdt-status-btn').forEach(b => {
-      b.classList.toggle('active', b.dataset.frnsw === frnsw);
-    });
-    document.getElementById('mdtShell').classList.toggle('duress', frnsw === 'EMR');
-    // Change top bar colour to match status
-    const topBar = document.querySelector('.mdt-top-bar');
-    const col = STATUS_BAR_COLORS[frnsw] || { bg: 'var(--mdt-header)', text: '#fff' };
-    topBar.style.background = col.bg;
-    const isDark = col.text !== '#fff';
-    topBar.querySelectorAll('span, button, div').forEach(el => {
-      el.style.color = isDark ? 'rgba(0,0,0,0.8)' : '';
-    });
-    badge.style.background = 'rgba(0,0,0,0.25)';
-    badge.style.color = col.text;
-    badge.style.border = `1px solid ${isDark ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.4)'}`;
+    currentFrnsw=frnsw;
+    const badge=document.getElementById('topBadge');
+    badge.textContent=frnsw; badge.className='mdt-status-badge '+frnsw;
+    document.querySelectorAll('.mdt-status-btn').forEach(b=>b.classList.toggle('active',b.dataset.frnsw===frnsw));
+    document.getElementById('mdtShell').classList.toggle('duress',frnsw==='EMR');
+    const topBar=document.querySelector('.mdt-top-bar');
+    const col=STATUS_BAR_COLORS[frnsw]||{bg:'var(--mdt-header)',text:'#fff'};
+    topBar.style.background=col.bg;
+    const isDark=col.text!=='#fff';
+    topBar.querySelectorAll('span,button,div').forEach(el=>{ el.style.color=isDark?'rgba(0,0,0,0.8)':''; });
+    badge.style.background='rgba(0,0,0,0.25)';
+    badge.style.color=col.text;
+    badge.style.border=`1px solid ${isDark?'rgba(0,0,0,0.3)':'rgba(255,255,255,0.4)'}`;
   }
 
-  // ── INCIDENT SCREEN ──────────────────────────────────────────────────────────
+  // ── INCIDENT SCREEN ───────────────────────────────────────────────────────────
   function renderIncident() {
-    const inc = myIncident();
-    const el  = document.getElementById('incContent');
-
-    // Detect call just closed — find my most recent assignment's incident even if CLOSED
-    const myIncidentIds = new Set(state.assignments.filter(a => a.unit_id === myUnitId).map(a => a.incident_id));
-    const closedInc = !inc && prevIncidentId
-      ? state.incidents.find(i => i.id === prevIncidentId && i.status === 'CLOSED')
-      : null;
+    const inc=myIncident();
+    const el=document.getElementById('incContent');
+    const myIncidentIds=new Set(state.assignments.filter(a=>a.unit_id===myUnitId).map(a=>a.incident_id));
+    const closedInc=!inc&&prevIncidentId?state.incidents.find(i=>i.id===prevIncidentId&&i.status==='CLOSED'):null;
 
     if (closedInc) {
-      // Show closed banner and auto-set AVL if not already
-      document.getElementById('incId').textContent = closedInc.id + ' — CLOSED';
-      if (currentFrnsw !== 'AVAIL' && currentFrnsw !== 'STN') {
-        setStatus('AVAIL');
-        socket.emit('unit:setStatus', { status: 'AVAIL' });
-      }
-      el.innerHTML = `
-        <div style="background:rgba(220,53,69,.12);border:2px solid #dc3545;border-radius:10px;padding:18px;text-align:center;margin-bottom:14px">
-          <div style="font-size:28px;margin-bottom:6px">🔴</div>
-          <div style="font-size:16px;font-weight:800;color:#dc3545;letter-spacing:1px">CALL CLOSED</div>
-          <div style="font-size:12px;color:var(--mdt-text-secondary);margin-top:6px">${closedInc.id} — ${closedInc.nature}</div>
-          <div style="font-size:11px;color:var(--mdt-text-secondary);margin-top:2px">Closed by ${closedInc.closed_by || 'Dispatch'} · ${fmt(closedInc.closed_at)}</div>
-          <div style="font-size:11px;color:#5cb85c;margin-top:8px;font-weight:700">✓ Status set to AVAILABLE</div>
-        </div>
+      document.getElementById('incId').textContent=closedInc.id+' — CLOSED';
+      if (currentFrnsw!=='AVAIL'&&currentFrnsw!=='STN') { setStatus('AVAIL'); socket.emit('unit:setStatus',{status:'AVAIL'}); }
+      el.innerHTML=`<div style="background:rgba(220,53,69,.12);border:2px solid #dc3545;border-radius:10px;padding:18px;text-align:center;margin-bottom:14px">
+        <div style="font-size:28px;margin-bottom:6px">🔴</div>
+        <div style="font-size:16px;font-weight:800;color:#dc3545;letter-spacing:1px">CALL CLOSED</div>
+        <div style="font-size:12px;color:var(--mdt-text-secondary);margin-top:6px">${closedInc.id} — ${closedInc.nature}</div>
+        <div style="font-size:11px;color:var(--mdt-text-secondary);margin-top:2px">Closed by ${closedInc.closed_by||'Dispatch'} · ${fmt(closedInc.closed_at)}</div>
+        <div style="font-size:11px;color:#5cb85c;margin-top:8px;font-weight:700">✓ Status set to AVAILABLE</div></div>
         <div style="color:var(--mdt-text-secondary);font-size:13px;text-align:center;opacity:.7">Waiting for next dispatch…</div>`;
       return;
     }
 
     if (!inc) {
-      prevIncidentId = null;
-      el.innerHTML = '<div class="no-incident">No incident assigned.<br><span style="font-size:12px;opacity:.6">Waiting for dispatch…</span></div>';
-      document.getElementById('incId').textContent = 'NO INCIDENT';
+      prevIncidentId=null;
+      el.innerHTML='<div class="no-incident">No incident assigned.<br><span style="font-size:12px;opacity:.6">Waiting for dispatch…</span></div>';
+      document.getElementById('incId').textContent='NO INCIDENT';
       return;
     }
 
-    prevIncidentId = inc.id;
-    const loc = inc.location_label || [inc.postal_code, inc.street_name, inc.building_number].filter(Boolean).join(' ') || '—';
-    document.getElementById('incId').textContent = inc.id;
-    const priColor = inc.priority==='P1'?'#dc3545': inc.priority==='P2'?'#ffc107':'#adb5bd';
-
-    // Command/Senior: show edit form
-    const canEdit  = myPerms === 'command' || myPerms === 'senior';
-    const canClose = myPerms === 'senior';
-    const editBlock = canEdit ? `
+    prevIncidentId=inc.id;
+    const loc=inc.location_label||[inc.postal_code,inc.street_name,inc.building_number].filter(Boolean).join(' ')||'—';
+    document.getElementById('incId').textContent=inc.id;
+    const priColor=inc.priority==='P1'?'#dc3545':inc.priority==='P2'?'#ffc107':'#adb5bd';
+    const canEdit=myPerms==='command'||myPerms==='senior';
+    const canClose=myPerms==='senior';
+    const editBlock=canEdit?`
       <div style="margin-top:14px;border-top:1px solid var(--mdt-border);padding-top:12px">
         <div style="font-size:10px;font-weight:700;letter-spacing:1px;color:var(--mdt-accent);margin-bottom:8px">⚙ COMMAND — EDIT INCIDENT</div>
         <div style="display:grid;grid-template-columns:1fr 80px;gap:6px;margin-bottom:6px">
-          <input id="cmdNature" value="${inc.nature}" style="padding:5px 8px;border-radius:6px;border:1px solid var(--mdt-border);background:rgba(0,0,0,.4);color:var(--mdt-text);font-size:12px;outline:none"/>
+          <input id="cmdNature" value="${esc(inc.nature)}" style="padding:5px 8px;border-radius:6px;border:1px solid var(--mdt-border);background:rgba(0,0,0,.4);color:var(--mdt-text);font-size:12px;outline:none"/>
           <select id="cmdPriority" style="padding:5px 4px;border-radius:6px;border:1px solid var(--mdt-border);background:rgba(0,0,0,.4);color:var(--mdt-text);font-size:12px;outline:none">
             <option ${inc.priority==='P1'?'selected':''}>P1</option>
             <option ${inc.priority==='P2'?'selected':''}>P2</option>
             <option ${inc.priority==='P3'?'selected':''}>P3</option>
           </select>
         </div>
-        <input id="cmdLocation" value="${inc.location_label||''}" placeholder="Location label" style="width:100%;padding:5px 8px;border-radius:6px;border:1px solid var(--mdt-border);background:rgba(0,0,0,.4);color:var(--mdt-text);font-size:12px;outline:none;box-sizing:border-box;margin-bottom:6px"/>
-        <textarea id="cmdNotes" placeholder="Call comments…" style="width:100%;padding:5px 8px;border-radius:6px;border:1px solid var(--mdt-border);background:rgba(0,0,0,.4);color:var(--mdt-text);font-size:12px;outline:none;box-sizing:border-box;min-height:50px;resize:vertical">${inc.notes||''}</textarea>
+        <input id="cmdLocation" value="${esc(inc.location_label||'')}" placeholder="Location label" style="width:100%;padding:5px 8px;border-radius:6px;border:1px solid var(--mdt-border);background:rgba(0,0,0,.4);color:var(--mdt-text);font-size:12px;outline:none;box-sizing:border-box;margin-bottom:6px"/>
+        <textarea id="cmdNotes" placeholder="Call comments…" style="width:100%;padding:5px 8px;border-radius:6px;border:1px solid var(--mdt-border);background:rgba(0,0,0,.4);color:var(--mdt-text);font-size:12px;outline:none;box-sizing:border-box;min-height:50px;resize:vertical">${esc(inc.notes||'')}</textarea>
         <div style="display:flex;gap:8px;margin-top:6px;align-items:center">
           <button id="cmdSaveBtn" style="padding:5px 14px;border-radius:6px;border:none;background:var(--mdt-accent);color:#fff;font-size:12px;font-weight:700;cursor:pointer">Save Changes</button>
-          ${canClose ? `<button id="cmdCloseBtn" style="padding:5px 14px;border-radius:6px;border:1px solid #dc3545;background:transparent;color:#dc3545;font-size:12px;font-weight:700;cursor:pointer">Close Call</button>` : ''}
+          ${canClose?`<button id="cmdCloseBtn" style="padding:5px 14px;border-radius:6px;border:1px solid #dc3545;background:transparent;color:#dc3545;font-size:12px;font-weight:700;cursor:pointer">Close Call</button>`:''}
           <span id="cmdMsg" style="font-size:11px;color:#5cb85c"></span>
         </div>
-      </div>` : '';
+      </div>`:'' ;
 
-    el.innerHTML = `
+    el.innerHTML=`
       <div class="inc-grid">
-        <div class="inc-field">
-          <label>INCIDENT TYPE</label>
-          <div class="val big">${esc(inc.nature)}</div>
-        </div>
-        <div class="inc-field">
-          <label>PRIORITY</label>
-          <div class="val big" style="color:${priColor}">${esc(inc.priority)}</div>
-        </div>
-        <div class="inc-field" style="grid-column:1/-1">
-          <label>INCIDENT ADDRESS</label>
-          <div class="val">${esc(loc)}</div>
-        </div>
-        <div class="inc-field">
-          <label>INCIDENT NUMBER</label>
-          <div class="val" style="font-family:monospace">${esc(inc.id)}</div>
-        </div>
-        <div class="inc-field">
-          <label>TIME OF CALL</label>
-          <div class="val">${fmt(inc.created_at)}</div>
-        </div>
-        ${inc.updated_at ? `<div class="inc-field"><label>LAST UPDATED</label><div class="val" style="font-size:12px;color:var(--mdt-text-secondary)">${fmt(inc.updated_at)}${inc.updated_by ? ' by '+inc.updated_by : ''}</div></div>` : ''}
+        <div class="inc-field"><label>INCIDENT TYPE</label><div class="val big">${esc(inc.nature)}</div></div>
+        <div class="inc-field"><label>PRIORITY</label><div class="val big" style="color:${priColor}">${esc(inc.priority)}</div></div>
+        <div class="inc-field" style="grid-column:1/-1"><label>INCIDENT ADDRESS</label><div class="val">${esc(loc)}</div></div>
+        <div class="inc-field"><label>INCIDENT NUMBER</label><div class="val" style="font-family:monospace">${esc(inc.id)}</div></div>
+        <div class="inc-field"><label>TIME OF CALL</label><div class="val">${fmt(inc.created_at)}</div></div>
+        ${inc.updated_at?`<div class="inc-field"><label>LAST UPDATED</label><div class="val" style="font-size:12px;color:var(--mdt-text-secondary)">${fmt(inc.updated_at)}${inc.updated_by?' by '+inc.updated_by:''}</div></div>`:''}
       </div>
-      ${inc.notes ? `<div class="inc-field"><label>CALL COMMENTS</label><div class="inc-notes">${esc(inc.notes)}</div></div>` : ''}
-      ${editBlock}
-    `;
+      ${inc.notes?`<div class="inc-field"><label>CALL COMMENTS</label><div class="inc-notes">${esc(inc.notes)}</div></div>`:''}
+      ${editBlock}`;
 
     if (canEdit) {
-      document.getElementById('cmdSaveBtn').addEventListener('click', () => {
-        const nature = document.getElementById('cmdNature').value.trim();
-        if (!nature) return;
-        socket.emit('unit:updateIncident', {
-          incident_id:    inc.id,
-          nature,
-          priority:       document.getElementById('cmdPriority').value,
-          location_label: document.getElementById('cmdLocation').value.trim(),
-          notes:          document.getElementById('cmdNotes').value
-        });
-        const m = document.getElementById('cmdMsg');
-        m.textContent = '✓ Saved'; setTimeout(() => { m.textContent = ''; }, 2000);
+      document.getElementById('cmdSaveBtn').addEventListener('click',()=>{
+        const nature=document.getElementById('cmdNature').value.trim(); if(!nature) return;
+        socket.emit('unit:updateIncident',{incident_id:inc.id,nature,priority:document.getElementById('cmdPriority').value,location_label:document.getElementById('cmdLocation').value.trim(),notes:document.getElementById('cmdNotes').value});
+        const m=document.getElementById('cmdMsg'); m.textContent='✓ Saved'; setTimeout(()=>{m.textContent='';},2000);
       });
     }
     if (canClose) {
-      document.getElementById('cmdCloseBtn').addEventListener('click', () => {
-        if (confirm(`Close call ${inc.id}?`)) socket.emit('unit:closeIncident', { incident_id: inc.id });
+      document.getElementById('cmdCloseBtn').addEventListener('click',()=>{
+        if(confirm(`Close call ${inc.id}?`)) socket.emit('unit:closeIncident',{incident_id:inc.id});
       });
     }
   }
 
-  // ── ELAPSED TIMER ────────────────────────────────────────────────────────────
+  // ── ELAPSED TIMER ─────────────────────────────────────────────────────────────
   function updateElapsed() {
-    const inc = myIncident();
-    const el  = document.getElementById('elapsed');
-    if (!inc) { el.textContent = '00:00:00'; return; }
-    const s = Math.max(0, Math.floor((Date.now() - inc.created_at) / 1000));
-    el.textContent = [Math.floor(s/3600), Math.floor((s%3600)/60), s%60]
-      .map(n => String(n).padStart(2,'0')).join(':');
+    const inc=myIncident(), el=document.getElementById('elapsed');
+    if (!inc) { el.textContent='00:00:00'; return; }
+    const s=Math.max(0,Math.floor((Date.now()-inc.created_at)/1000));
+    el.textContent=[Math.floor(s/3600),Math.floor((s%3600)/60),s%60].map(n=>String(n).padStart(2,'0')).join(':');
   }
 
-  // ── RESOURCES ────────────────────────────────────────────────────────────────
+  // ── RESOURCES ─────────────────────────────────────────────────────────────────
   function renderResources() {
-    const tbody = document.getElementById('resTbody');
-    tbody.innerHTML = '';
-    const inc = myIncident();
-    const assignedIds = inc
-      ? new Set(state.assignments.filter(a => a.incident_id === inc.id).map(a => a.unit_id))
-      : new Set();
-    const units = inc ? state.units.filter(u => assignedIds.has(u.id)) : state.units;
-    if (!units.length) {
-      tbody.innerHTML = '<tr><td colspan="3" style="color:var(--mdt-text-secondary);text-align:center;padding:20px">No units assigned to this incident</td></tr>';
-      return;
-    }
+    const tbody=document.getElementById('resTbody'); tbody.innerHTML='';
+    const inc=myIncident();
+    const assignedIds=inc?new Set(state.assignments.filter(a=>a.incident_id===inc.id).map(a=>a.unit_id)):new Set();
+    const units=inc?state.units.filter(u=>assignedIds.has(u.id)):state.units;
+    if (!units.length) { tbody.innerHTML='<tr><td colspan="3" style="color:var(--mdt-text-secondary);text-align:center;padding:20px">No units assigned to this incident</td></tr>'; return; }
     for (const u of units) {
-      const code  = resolveDisplayCode(u.status || 'AVAIL');
-      const color = STATUS_COLORS[code] || '#6c757d';
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td style="font-weight:700;font-family:monospace">${esc(u.callsign||u.id)}</td>
-        <td style="color:var(--mdt-text-secondary)">${u.id === myUnitId ? '(YOU)' : '—'}</td>
-        <td><span class="res-status" style="background:${color}">${code}</span></td>
-      `;
+      const code=resolveDisplayCode(u.status||'AVAIL');
+      const color=STATUS_COLORS[code]||'#6c757d';
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td style="font-weight:700;font-family:monospace">${esc(u.callsign||u.id)}</td><td style="color:var(--mdt-text-secondary)">${u.id===myUnitId?'(YOU)':'—'}</td><td><span class="res-status" style="background:${color}">${code}</span></td>`;
       tbody.appendChild(tr);
     }
   }
 
-  // ── MESSAGES ─────────────────────────────────────────────────────────────────
-  const messages = [];
+  // ── MESSAGES ──────────────────────────────────────────────────────────────────
+  const messages=[];
   function addMessage(msg) {
     messages.unshift(msg);
-    const active = document.getElementById('screenMessages').classList.contains('active');
-    if (!active) {
-      unread++;
-      const b = document.getElementById('msgBadge');
-      b.textContent = unread; b.style.display = 'flex';
-    }
+    const active=document.getElementById('screenMessages').classList.contains('active');
+    if (!active) { unread++; const b=document.getElementById('msgBadge'); b.textContent=unread; b.style.display='flex'; }
     renderMessages();
   }
   function renderMessages() {
-    const list = document.getElementById('msgList');
-    if (!messages.length) { list.innerHTML = '<div class="msg-empty">No messages.</div>'; return; }
-    list.innerHTML = '';
+    const list=document.getElementById('msgList');
+    if (!messages.length) { list.innerHTML='<div class="msg-empty">No messages.</div>'; return; }
+    list.innerHTML='';
     for (const m of messages) {
-      const d = document.createElement('div'); d.className = 'msg-item';
-      d.innerHTML = `<div class="msg-meta">${m.at} — ${esc(m.from)}</div><div class="msg-body">${esc(m.text)}</div>`;
+      const d=document.createElement('div'); d.className='msg-item';
+      d.innerHTML=`<div class="msg-meta">${m.at} — ${esc(m.from)}</div><div class="msg-body">${esc(m.text)}</div>`;
       list.appendChild(d);
     }
   }
 
-  // ── SITREP ───────────────────────────────────────────────────────────────────
+  // ── SITREP ────────────────────────────────────────────────────────────────────
   function renderSitrep() {
-    const inc     = myIncident();
-    const noInc   = document.getElementById('sitrepNoInc');
-    const compose = document.getElementById('sitrepCompose');
-    const log     = document.getElementById('sitrepLog');
-
+    const inc=myIncident();
+    const noInc=document.getElementById('sitrepNoInc');
+    const log=document.getElementById('sitrepLog');
     if (!inc) {
-      noInc.style.display = 'inline';
-      document.getElementById('btnSubmitSitrep').disabled = true;
-      log.innerHTML = '<div class="sitrep-empty">No active incident.</div>';
+      noInc.style.display='inline';
+      document.getElementById('btnSubmitSitrep').disabled=true;
+      log.innerHTML='<div class="sitrep-empty">No active incident.</div>';
       return;
     }
-    noInc.style.display = 'none';
-    document.getElementById('btnSubmitSitrep').disabled = false;
-
-    const sitreps = inc.sitreps || [];
-    if (!sitreps.length) {
-      log.innerHTML = '<div class="sitrep-empty">No situation reports yet for this incident.</div>';
-      return;
-    }
-    log.innerHTML = '';
+    noInc.style.display='none';
+    document.getElementById('btnSubmitSitrep').disabled=false;
+    const sitreps=inc.sitreps||[];
+    if (!sitreps.length) { log.innerHTML='<div class="sitrep-empty">No situation reports yet for this incident.</div>'; return; }
+    log.innerHTML='';
     for (const s of [...sitreps].reverse()) {
-      const d = document.createElement('div'); d.className = 'sitrep-entry';
-      d.innerHTML = `<div class="sitrep-entry-meta">${fmt(s.at)} — <b>${esc(s.author)}</b></div><div class="sitrep-entry-text">${esc(s.text)}</div>`;
+      const d=document.createElement('div'); d.className='sitrep-entry';
+      d.innerHTML=`<div class="sitrep-entry-meta">${fmt(s.at)} — <b>${esc(s.author)}</b></div><div class="sitrep-entry-text">${esc(s.text)}</div>`;
       log.appendChild(d);
     }
   }
 
-  // ── SCREEN SWITCHING ─────────────────────────────────────────────────────────
+  // ── SCREEN SWITCHING ──────────────────────────────────────────────────────────
   function showScreen(name) {
-    document.querySelectorAll('.mdt-screen').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.mdt-menu-btn[data-screen]').forEach(b => b.classList.remove('active'));
-    const screen = document.getElementById('screen' + name);
+    document.querySelectorAll('.mdt-screen').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.mdt-menu-btn[data-screen]').forEach(b=>b.classList.remove('active'));
+    const screen=document.getElementById('screen'+name);
     if (screen) screen.classList.add('active');
-    const btn = document.querySelector(`.mdt-menu-btn[data-screen="${name}"]`);
+    const btn=document.querySelector(`.mdt-menu-btn[data-screen="${name}"]`);
     if (btn) btn.classList.add('active');
-
-    if (name === 'Map') { setTimeout(() => { if (mapLoaded) lmap.invalidateSize(); }, 60); }
-    if (name === 'Messages') {
-      unread = 0;
-      const b = document.getElementById('msgBadge'); b.style.display = 'none';
+    if (name==='Map')      { setTimeout(()=>{ if(mapLoaded) lmap.invalidateSize(); },60); }
+    if (name==='Messages') { unread=0; const b=document.getElementById('msgBadge'); b.style.display='none'; }
+    if (name==='Sitrep')   {
+      renderSitrep();
+      // Clear the sitrep badge and re-sync the count
+      document.getElementById('sitrepBadge').style.display='none';
+      knownSitrepCount = myIncident()?.sitreps?.length ?? 0;
     }
-    if (name === 'Sitrep') renderSitrep();
-    if (name === 'Resources') renderResources();
-    if (name === 'Bulletins') { renderBulletins(); document.getElementById('bulBadge').style.display = 'none'; newBulletins = 0; }
-    if (name === 'Preplan') renderPreplans();
+    if (name==='Resources') renderResources();
+    if (name==='Bulletins') { renderBulletins(); document.getElementById('bulBadge').style.display='none'; newBulletins=0; }
+    if (name==='Preplan')   renderPreplans();
   }
 
   // ── BULLETINS ─────────────────────────────────────────────────────────────────
-  let newBulletins = 0;
-  let knownBulletinIds = new Set();
-
   function renderBulletins() {
-    const list = document.getElementById('bulletinsList');
-    const bulls = state.bulletins || [];
-    if (!bulls.length) { list.innerHTML = '<div style="color:var(--mdt-text-secondary);font-size:13px;text-align:center;padding:20px 0">No bulletins</div>'; return; }
-    list.innerHTML = '';
+    const list=document.getElementById('bulletinsList'), bulls=state.bulletins||[];
+    if (!bulls.length) { list.innerHTML='<div style="color:var(--mdt-text-secondary);font-size:13px;text-align:center;padding:20px 0">No bulletins</div>'; return; }
+    list.innerHTML='';
     for (const b of bulls) {
-      const div = document.createElement('div');
-      div.style.cssText = 'background:rgba(255,209,102,.06);border:1px solid rgba(255,209,102,.25);border-radius:8px;padding:12px;';
-      div.innerHTML = `
-        <div style="font-size:13px;font-weight:700;color:#ffd166;margin-bottom:6px">📣 ${b.title || 'Bulletin'}</div>
-        <div style="font-size:13px;line-height:1.6;white-space:pre-wrap">${b.text}</div>
-        <div style="font-size:10px;color:var(--mdt-text-secondary);margin-top:8px">Posted by <b>${b.author}</b> · ${fmt(b.at)}</div>`;
+      const div=document.createElement('div'); div.style.cssText='background:rgba(255,209,102,.06);border:1px solid rgba(255,209,102,.25);border-radius:8px;padding:12px;';
+      div.innerHTML=`<div style="font-size:13px;font-weight:700;color:#ffd166;margin-bottom:6px">📣 ${b.title||'Bulletin'}</div><div style="font-size:13px;line-height:1.6;white-space:pre-wrap">${esc(b.text)}</div><div style="font-size:10px;color:var(--mdt-text-secondary);margin-top:8px">Posted by <b>${esc(b.author)}</b> · ${fmt(b.at)}</div>`;
       list.appendChild(div);
     }
   }
 
-  // ── PRE-PLANS ──────────────────────────────────────────────────────────────────
+  // ── PRE-PLANS ─────────────────────────────────────────────────────────────────
   function renderPreplans() {
-    const list = document.getElementById('preplanList');
-    const query = (document.getElementById('ppSearch').value || '').toLowerCase();
-    let plans = state.preplans || [];
-    if (query) plans = plans.filter(p => p.address.toLowerCase().includes(query));
-    if (!plans.length) { list.innerHTML = '<div style="color:var(--mdt-text-secondary);font-size:13px;text-align:center;padding:20px 0">No pre-plans' + (query ? ' matching search' : '') + '</div>'; return; }
-    list.innerHTML = '';
+    const list=document.getElementById('preplanList');
+    const query=(document.getElementById('ppSearch').value||'').toLowerCase();
+    let plans=state.preplans||[];
+    if (query) plans=plans.filter(p=>p.address.toLowerCase().includes(query));
+    if (!plans.length) { list.innerHTML=`<div style="color:var(--mdt-text-secondary);font-size:13px;text-align:center;padding:20px 0">No pre-plans${query?' matching search':''}</div>`; return; }
+    list.innerHTML='';
     for (const p of plans) {
-      const div = document.createElement('div');
-      div.style.cssText = 'background:rgba(92,200,255,.05);border:1px solid rgba(92,200,255,.2);border-radius:8px;padding:12px;';
-      const rows = [
-        p.hazards ? `<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:700;color:#ff4d6d;letter-spacing:1px;margin-bottom:2px">⚠ HAZARDS</div><div style="font-size:12px">${p.hazards}</div></div>` : '',
-        p.access  ? `<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:700;color:#ffd166;letter-spacing:1px;margin-bottom:2px">🚪 ACCESS</div><div style="font-size:12px">${p.access}</div></div>` : '',
-        p.water   ? `<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:700;color:#5cc8ff;letter-spacing:1px;margin-bottom:2px">💧 WATER SUPPLY</div><div style="font-size:12px">${p.water}</div></div>` : '',
-        p.notes   ? `<div><div style="font-size:10px;font-weight:700;color:var(--mdt-text-secondary);letter-spacing:1px;margin-bottom:2px">📋 NOTES</div><div style="font-size:12px">${p.notes}</div></div>` : ''
+      const div=document.createElement('div'); div.style.cssText='background:rgba(92,200,255,.05);border:1px solid rgba(92,200,255,.2);border-radius:8px;padding:12px;';
+      const rows=[
+        p.hazards?`<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:700;color:#ff4d6d;letter-spacing:1px;margin-bottom:2px">⚠ HAZARDS</div><div style="font-size:12px">${esc(p.hazards)}</div></div>`:'',
+        p.access ?`<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:700;color:#ffd166;letter-spacing:1px;margin-bottom:2px">🚪 ACCESS</div><div style="font-size:12px">${esc(p.access)}</div></div>`:'',
+        p.water  ?`<div style="margin-bottom:8px"><div style="font-size:10px;font-weight:700;color:#5cc8ff;letter-spacing:1px;margin-bottom:2px">💧 WATER SUPPLY</div><div style="font-size:12px">${esc(p.water)}</div></div>`:'',
+        p.notes  ?`<div><div style="font-size:10px;font-weight:700;color:var(--mdt-text-secondary);letter-spacing:1px;margin-bottom:2px">📋 NOTES</div><div style="font-size:12px">${esc(p.notes)}</div></div>`:'',
       ].filter(Boolean).join('');
-      div.innerHTML = `<div style="font-size:14px;font-weight:700;color:var(--mdt-accent);margin-bottom:10px">🏠 ${p.address}</div>${rows}<div style="font-size:10px;color:var(--mdt-text-secondary);margin-top:8px">Updated by <b>${p.author}</b></div>`;
+      div.innerHTML=`<div style="font-size:14px;font-weight:700;color:var(--mdt-accent);margin-bottom:10px">🏠 ${esc(p.address)}</div>${rows}<div style="font-size:10px;color:var(--mdt-text-secondary);margin-top:8px">Updated by <b>${esc(p.author)}</b></div>`;
       list.appendChild(div);
     }
   }
 
-  document.getElementById('ppSearch').addEventListener('input', renderPreplans);
+  document.getElementById('ppSearch').addEventListener('input',renderPreplans);
 
   function updateClock() {
-    document.getElementById('datetime').textContent = new Date().toLocaleString([], { dateStyle:'short', timeStyle:'medium' });
+    document.getElementById('datetime').textContent=new Date().toLocaleString([],{dateStyle:'short',timeStyle:'medium'});
   }
 
-  // ── SOCKET ───────────────────────────────────────────────────────────────────
-  socket.on('connect', () => {
+  // ── SOCKET ────────────────────────────────────────────────────────────────────
+  socket.on('connect',()=>{
     document.getElementById('mdtShell').classList.remove('offline');
     document.getElementById('connIndicator').classList.remove('offline');
-    document.getElementById('offlineLabel').style.display = 'none';
+    document.getElementById('offlineLabel').style.display='none';
   });
-  socket.on('kicked', () => {
-    window.location.href = '/index.html';
-  });
-  socket.on('disconnect', () => {
+  socket.on('kicked',()=>{ window.location.href='/index.html'; });
+  socket.on('disconnect',()=>{
     document.getElementById('mdtShell').classList.add('offline');
     document.getElementById('connIndicator').classList.add('offline');
-    document.getElementById('offlineLabel').style.display = 'inline';
+    document.getElementById('offlineLabel').style.display='inline';
   });
+
   socket.on('state', s => {
-    // Track previous active incident before state updates
+    // ── Snapshot assigned IDs BEFORE updating state ───────────────────────────
+    // We compare against these after the update to detect a newly dispatched call.
+    const prevAssigned = new Set(
+      (state.assignments || [])
+        .filter(a => a.unit_id === myUnitId)
+        .map(a => a.incident_id)
+    );
+
+    // Track the previous active incident for the closed-call banner
     const prevInc = myIncident();
     if (prevInc) prevIncidentId = prevInc.id;
 
-    state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...s };
+    state = { units:[], incidents:[], assignments:[], mapPins:[], bulletins:[], preplans:[], ...s };
     checkRouteReset();
+
     const me = myUnit();
     if (me && me.status) setStatus(resolveDisplayCode(me.status));
+
     renderIncident();
     renderResources();
     redrawMapMarkers();
     updateElapsed();
-    if (document.getElementById('screenSitrep').classList.contains('active')) renderSitrep();
-    if (document.getElementById('screenBulletins').classList.contains('active')) renderBulletins();
-    if (document.getElementById('screenPreplan').classList.contains('active')) renderPreplans();
 
-    // Badge for new bulletins
+    if (document.getElementById('screenSitrep').classList.contains('active'))   renderSitrep();
+    if (document.getElementById('screenBulletins').classList.contains('active')) renderBulletins();
+    if (document.getElementById('screenPreplan').classList.contains('active'))   renderPreplans();
+
+    // ── Bulletin badge ────────────────────────────────────────────────────────
     const bulls = state.bulletins || [];
     let hasNew = false;
     for (const b of bulls) {
-      if (!knownBulletinIds.has(b.id)) { hasNew = true; knownBulletinIds.add(b.id); }
+      if (!knownBulletinIds.has(b.id)) { hasNew=true; knownBulletinIds.add(b.id); }
     }
     if (hasNew && !document.getElementById('screenBulletins').classList.contains('active')) {
       newBulletins++;
-      const badge = document.getElementById('bulBadge');
-      badge.style.display = 'inline';
-      badge.textContent = '!';
+      const badge=document.getElementById('bulBadge');
+      badge.style.display='inline'; badge.textContent='!';
     }
 
-    // Auto-centre map on my truck if on map screen and I have location
-    const myU = myUnit();
-    if (myU && myU.location_x != null && document.getElementById('screenMap').classList.contains('active')) {
-      const p = ll(myU.location_x, myU.location_z);
-      if (p && myMarker) {
-        // Smoothly pan to keep me in view without forcing full recenter
-        const bounds = lmap.getBounds();
-        const pt = L.latLng(p);
-        if (!bounds.contains(pt)) lmap.panTo(pt, { animate: true, duration: 0.5 });
+    // ── Sitrep badge ──────────────────────────────────────────────────────────
+    const activeInc = myIncident();
+    if (activeInc && Array.isArray(activeInc.sitreps)) {
+      const total = activeInc.sitreps.length;
+      if (total > knownSitrepCount &&
+          !document.getElementById('screenSitrep').classList.contains('active')) {
+        const sb=document.getElementById('sitrepBadge');
+        sb.style.display='inline'; sb.textContent='!';
       }
+      knownSitrepCount = total;
+    } else {
+      knownSitrepCount = 0;
+    }
+
+    // ── Turnout alarm ─────────────────────────────────────────────────────────
+    // Play the FRNSW turnout alarm when THIS unit is newly assigned to a call.
+    // Fires exactly once per dispatch — not on every periodic state refresh.
+    if (myUnitId) {
+      const nowAssigned = new Set(
+        state.assignments
+          .filter(a => a.unit_id === myUnitId)
+          .map(a => a.incident_id)
+      );
+
+      for (const incId of nowAssigned) {
+        if (!prevAssigned.has(incId)) {
+          // This is a brand-new assignment — check the call is actually open
+          const inc = state.incidents.find(i => i.id === incId && i.status !== 'CLOSED');
+          if (inc) {
+            // Play the mp3. If autoplay is blocked (first visit before any user
+            // interaction), fall back to the WebAudio hi-lo tone which is already
+            // unlocked because status button presses unlock the AudioContext.
+            try {
+              turnoutAlarm.currentTime = 0;
+              const playPromise = turnoutAlarm.play();
+              if (playPromise !== undefined) {
+                playPromise.catch(() => tone.play('hiLo'));
+              }
+            } catch (_) {
+              tone.play('hiLo');
+            }
+
+            // Switch to the Incident screen so the crew see the details immediately
+            showScreen('Incident');
+
+            toast('🚒 DISPATCHED', `${inc.priority} — ${inc.nature}`);
+            break; // one alarm even if multiple calls arrive simultaneously
+          }
+        }
+      }
+
+      prevAssignedIds = nowAssigned;
+    }
+
+    // Auto-pan map to my truck if on the map screen
+    const myU=myUnit();
+    if (myU&&myU.location_x!=null&&document.getElementById('screenMap').classList.contains('active')) {
+      const p=ll(myU.location_x,myU.location_z);
+      if (p&&myMarker) { const bounds=lmap.getBounds(); if(!bounds.contains(L.latLng(p))) lmap.panTo(p,{animate:true,duration:0.5}); }
     }
   });
+
   socket.on('page', async p => {
-    await tone.play(p.tone || 'default');
-    addMessage({ from: p.from || 'Dispatch', text: p.message || 'Station call', at: new Date().toLocaleTimeString() });
-    toast('📢 Page', p.message || 'Station call');
+    await tone.play(p.tone||'default');
+    addMessage({from:p.from||'Dispatch',text:p.message||'Station call',at:new Date().toLocaleTimeString()});
+    toast('📢 Page',p.message||'Station call');
   });
 
-  // ── STATUS BUTTONS ───────────────────────────────────────────────────────────
-  document.querySelectorAll('.mdt-status-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const frnsw = btn.dataset.frnsw;
-      if (!frnsw) return;
-      if (frnsw === 'EMR' && !confirm('⚠ ACTIVATE DURESS / EMERGENCY?\nThis will alert dispatch immediately.')) return;
-      // Send the FRNSW code directly — server now accepts it
-      socket.emit('unit:setStatus', { status: frnsw });
+  // ── STATUS BUTTONS ────────────────────────────────────────────────────────────
+  document.querySelectorAll('.mdt-status-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const frnsw=btn.dataset.frnsw; if(!frnsw) return;
+      if (frnsw==='EMR'&&!confirm('⚠ ACTIVATE DURESS / EMERGENCY?\nThis will alert dispatch immediately.')) return;
+      socket.emit('unit:setStatus',{status:frnsw});
       setStatus(frnsw);
     });
   });
 
-  // ── SCREEN BUTTONS ───────────────────────────────────────────────────────────
-  document.querySelectorAll('.mdt-menu-btn[data-screen]').forEach(btn => {
-    btn.addEventListener('click', () => showScreen(btn.dataset.screen));
+  // ── SCREEN BUTTONS ────────────────────────────────────────────────────────────
+  document.querySelectorAll('.mdt-menu-btn[data-screen]').forEach(btn=>{
+    btn.addEventListener('click',()=>showScreen(btn.dataset.screen));
   });
 
-  // ── ER:LC NAME OVERLAY ───────────────────────────────────────────────────────
-  document.getElementById('btnErlcName').addEventListener('click', () => {
-    document.getElementById('overlayErlc').classList.add('open');
-  });
-  document.getElementById('btnCloseErlc').addEventListener('click', () => {
-    document.getElementById('overlayErlc').classList.remove('open');
-  });
-  document.getElementById('btnSaveErlc').addEventListener('click', () => {
-    const name = document.getElementById('erlcNameInput').value.trim();
-    socket.emit('unit:setErlcPlayer', { erlc_player_name: name || null });
-    document.getElementById('ovMsg').textContent = name ? `✓ Saved: ${name}` : '✓ Cleared';
-    setTimeout(() => {
-      document.getElementById('ovMsg').textContent = '';
-      document.getElementById('overlayErlc').classList.remove('open');
-    }, 1500);
+  // ── ER:LC NAME OVERLAY ────────────────────────────────────────────────────────
+  document.getElementById('btnErlcName').addEventListener('click',()=>{ document.getElementById('overlayErlc').classList.add('open'); });
+  document.getElementById('btnCloseErlc').addEventListener('click',()=>{ document.getElementById('overlayErlc').classList.remove('open'); });
+  document.getElementById('btnSaveErlc').addEventListener('click',()=>{
+    const name=document.getElementById('erlcNameInput').value.trim();
+    socket.emit('unit:setErlcPlayer',{erlc_player_name:name||null});
+    document.getElementById('ovMsg').textContent=name?`✓ Saved: ${name}`:'✓ Cleared';
+    setTimeout(()=>{ document.getElementById('ovMsg').textContent=''; document.getElementById('overlayErlc').classList.remove('open'); },1500);
   });
 
-  // ── SITREP SUBMIT ────────────────────────────────────────────────────────────
-  document.getElementById('btnSubmitSitrep').addEventListener('click', () => {
-    const inc  = myIncident();
-    const text = document.getElementById('sitrepText').value.trim();
-    const msg  = document.getElementById('sitrepMsg');
-    if (!inc) { msg.style.color='#dc3545'; msg.textContent = '⚠ No active incident'; return; }
-    if (!text) { msg.style.color='#dc3545'; msg.textContent = '⚠ Enter a situation report first'; return; }
-    socket.emit('incident:addSitrep', { incident_id: inc.id, text });
-    document.getElementById('sitrepText').value = '';
-    msg.style.color = '#28a745';
-    msg.textContent = '✓ Submitted';
-    setTimeout(() => { msg.textContent = ''; }, 2500);
+  // ── SITREP SUBMIT ─────────────────────────────────────────────────────────────
+  document.getElementById('btnSubmitSitrep').addEventListener('click',()=>{
+    const inc=myIncident(), text=document.getElementById('sitrepText').value.trim();
+    const msg=document.getElementById('sitrepMsg');
+    if (!inc)  { msg.style.color='#dc3545'; msg.textContent='⚠ No active incident'; return; }
+    if (!text) { msg.style.color='#dc3545'; msg.textContent='⚠ Enter a situation report first'; return; }
+    socket.emit('incident:addSitrep',{incident_id:inc.id,text});
+    document.getElementById('sitrepText').value='';
+    msg.style.color='#28a745'; msg.textContent='✓ Submitted';
+    setTimeout(()=>{ msg.textContent=''; },2500);
   });
 
-  // ── MAP CONTROLS ─────────────────────────────────────────────────────────────
-  document.getElementById('mdtMapVariant').addEventListener('change', e => loadMap(e.target.value));
-  document.getElementById('btnMdtRecenter').addEventListener('click', () => lmap.fitBounds([[0,0],[H,W]]));
+  // ── MAP CONTROLS ──────────────────────────────────────────────────────────────
+  document.getElementById('mdtMapVariant').addEventListener('change',e=>loadMap(e.target.value));
+  document.getElementById('btnMdtRecenter').addEventListener('click',()=>lmap.fitBounds([[0,0],[H,W]]));
 
-  // ── LOGOUT ───────────────────────────────────────────────────────────────────
-  document.getElementById('btnLogout').addEventListener('click', logout);
+  // ── LOGOUT ────────────────────────────────────────────────────────────────────
+  document.getElementById('btnLogout').addEventListener('click',logout);
 
-  // ── INIT ─────────────────────────────────────────────────────────────────────
+  // ── INIT ──────────────────────────────────────────────────────────────────────
   renderMessages();
 
-  (async () => {
-    const me = await whoami();
-    if (!me) { window.location.href = '/index.html'; return; }
-    myUnitId   = `unit-${me.username}`;
-    myCallsign = me.callsign || me.username.toUpperCase();
-    myPerms    = me.perms || 'truck';
-    document.getElementById('applianceId').textContent = myCallsign;
-    const pb = document.getElementById('permsBadge');
-    if (myPerms !== 'truck') {
-      pb.style.display = 'inline';
-      pb.textContent = myPerms.toUpperCase();
-      pb.style.background = myPerms === 'senior' ? 'rgba(220,53,69,.25)' : 'rgba(255,193,7,.2)';
-      pb.style.color = myPerms === 'senior' ? '#ff4d6d' : '#ffc107';
+  (async()=>{
+    const me=await whoami();
+    if (!me) { window.location.href='/index.html'; return; }
+    myUnitId   =`unit-${me.username}`;
+    myCallsign = me.callsign||me.username.toUpperCase();
+    myPerms    = me.perms||'truck';
+    document.getElementById('applianceId').textContent=myCallsign;
+    const pb=document.getElementById('permsBadge');
+    if (myPerms!=='truck') {
+      pb.style.display='inline'; pb.textContent=myPerms.toUpperCase();
+      pb.style.background=myPerms==='senior'?'rgba(220,53,69,.25)':'rgba(255,193,7,.2)';
+      pb.style.color=myPerms==='senior'?'#ff4d6d':'#ffc107';
     }
 
-    const res  = await fetch('/api/state');
-    const data = await res.json().catch(() => ({}));
+    const res=await fetch('/api/state');
+    const data=await res.json().catch(()=>({}));
     if (data.ok) {
-      state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...data };
+      state={units:[],incidents:[],assignments:[],mapPins:[],bulletins:[],preplans:[],...data};
       checkRouteReset();
-      const me2 = myUnit();
+      const me2=myUnit();
       if (me2) {
-        setStatus(resolveDisplayCode(me2.status || 'AVAIL'));
-        if (me2.erlc_player_name) document.getElementById('erlcNameInput').value = me2.erlc_player_name;
+        setStatus(resolveDisplayCode(me2.status||'AVAIL'));
+        if (me2.erlc_player_name) document.getElementById('erlcNameInput').value=me2.erlc_player_name;
       }
+      // Seed prevAssignedIds from the initial state so the first page load
+      // doesn't trigger the alarm for calls already assigned before login.
+      prevAssignedIds = new Set(
+        (state.assignments||[])
+          .filter(a=>a.unit_id===myUnitId)
+          .map(a=>a.incident_id)
+      );
       renderIncident();
       renderResources();
     }
 
-    updateClock(); setInterval(updateClock, 1000);
-    updateElapsed(); setInterval(updateElapsed, 1000);
+    updateClock(); setInterval(updateClock,1000);
+    updateElapsed(); setInterval(updateElapsed,1000);
     loadMap('fall_postals');
   })();
 })();
 </script>
 </body>
 </html>
-
