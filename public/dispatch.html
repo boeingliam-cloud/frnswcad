@@ -18,21 +18,15 @@
     .topbar2 h1 { margin: 0; font-size: 17px; }
     .topbar2 .who { color: var(--muted); font-size: 12px; font-family: var(--mono); }
     .spacer { flex: 1; }
-
     .body { display: flex; flex: 1; min-height: 0; }
 
-    /* SIDEBAR */
+    /* ── SIDEBAR ── */
     .sidebar {
       width: 390px; flex-shrink: 0;
       display: flex; flex-direction: column;
-      border-right: 1px solid var(--border);
-      overflow: hidden;
+      border-right: 1px solid var(--border); overflow: hidden;
     }
-    /* Tabs */
-    .tab-bar {
-      display: flex; flex-shrink: 0;
-      border-bottom: 1px solid var(--border);
-    }
+    .tab-bar { display: flex; flex-shrink: 0; border-bottom: 1px solid var(--border); }
     .tab-bar button {
       flex: 1; padding: 9px 6px; font-size: 11px; font-weight: 700;
       letter-spacing: .8px; text-transform: uppercase;
@@ -42,32 +36,27 @@
     }
     .tab-bar button.active { color: var(--accent); border-bottom-color: var(--accent); }
     .tab-bar button:hover:not(.active) { color: var(--text); }
-
     .tab-panel { display: none; flex-direction: column; flex: 1; overflow-y: auto; }
     .tab-panel.active { display: flex; }
-
     .section { border-bottom: 1px solid var(--border); padding: 12px 14px; }
     .section-title {
       font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
       text-transform: uppercase; color: var(--accent); margin: 0 0 10px;
     }
 
-    /* MAP */
+    /* ── MAP ── */
     .map-wrap { flex: 1; position: relative; background: #050c15; }
     #map { width: 100%; height: 100%; }
     .leaflet-tooltip.truck-tip {
       background: rgba(8,14,30,0.97) !important;
       border: 1px solid rgba(255,255,255,0.15) !important;
-      border-radius: 8px !important;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.7) !important;
-      color: #e6eefc !important;
-      padding: 8px 10px !important;
-      pointer-events: none;
+      border-radius: 8px !important; box-shadow: 0 8px 24px rgba(0,0,0,0.7) !important;
+      color: #e6eefc !important; padding: 8px 10px !important; pointer-events: none;
     }
     .leaflet-tooltip.truck-tip::before { display: none !important; }
     .map-btns {
       position: absolute; top: 10px; right: 10px; z-index: 1000;
-      display: flex; gap: 6px; flex-wrap: wrap; max-width: 340px; justify-content: flex-end;
+      display: flex; gap: 6px; flex-wrap: wrap; max-width: 420px; justify-content: flex-end;
     }
     .map-btns select, .map-btns button {
       background: rgba(11,18,32,0.92); border: 1px solid var(--border);
@@ -77,7 +66,7 @@
     .map-btns button:hover { border-color: var(--accent); }
     .map-btns button.active-pin { border-color: #f26522; color: #f26522; background: rgba(242,101,34,.15); }
 
-    /* FORMS */
+    /* ── FORMS ── */
     .f { margin-bottom: 8px; }
     .f label { display: block; font-size: 11px; color: var(--muted); margin-bottom: 3px; }
     .f input, .f select, .f textarea {
@@ -91,7 +80,32 @@
     .frow { display: flex; gap: 8px; }
     .frow .f { flex: 1; }
 
-    /* TABLES */
+    /* Location pick bar */
+    .loc-pick-row {
+      display: flex; align-items: center; gap: 6px;
+      margin-top: 4px; margin-bottom: 2px;
+    }
+    .loc-pick-row .bx { white-space: nowrap; font-size: 11px; }
+    .loc-picked-label {
+      font-size: 11px; color: var(--ok); flex: 1;
+      font-family: var(--mono);
+    }
+    .loc-pick-hint {
+      display: none; align-items: center; gap: 8px; margin-top: 4px;
+      padding: 6px 10px; border-radius: 8px;
+      background: rgba(255,77,109,.10); border: 1px solid rgba(255,77,109,.35);
+      font-size: 11px; color: var(--danger);
+    }
+    .loc-pick-hint.active { display: flex; }
+    .loc-pick-hint span { flex: 1; }
+    .loc-pick-hint button {
+      padding: 2px 8px; font-size: 10px; border-radius: 5px;
+      border: 1px solid rgba(255,77,109,.5); background: transparent;
+      color: var(--danger); cursor: pointer;
+    }
+    .loc-pick-hint button:hover { background: rgba(255,77,109,.15); }
+
+    /* ── TABLES ── */
     .t { width: 100%; border-collapse: collapse; font-size: 12px; }
     .t th { text-align: left; color: var(--muted); font-size: 10px; padding: 3px 5px; border-bottom: 1px solid var(--border); letter-spacing: .5px; }
     .t td { padding: 6px 5px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
@@ -101,20 +115,19 @@
       color: var(--text); padding: 3px 6px; border-radius: 5px; font-size: 11px;
     }
 
-    /* PILLS / BADGES */
+    /* ── PILLS ── */
     .pill2 { display: inline-block; padding: 2px 6px; border-radius: 999px; font-size: 10px; font-family: var(--mono); font-weight: 700; }
-    .pill-ok   { background: rgba(61,220,151,.15); color: var(--ok);   border: 1px solid rgba(61,220,151,.35); }
-    .pill-warn { background: rgba(255,209,102,.15); color: var(--warn); border: 1px solid rgba(255,209,102,.35); }
-    .pill-emr  { background: rgba(255,77,109,.15);  color: var(--danger); border: 1px solid rgba(255,77,109,.35); }
-    .pill-mut  { background: rgba(155,176,209,.08); color: var(--muted); border: 1px solid var(--border); }
-    .p1 { background: rgba(255,77,109,.2); color: var(--danger); border: 1px solid rgba(255,77,109,.4); padding: 1px 5px; border-radius: 4px; font-size: 10px; font-weight: 700; }
-    .p2 { background: rgba(255,209,102,.2); color: var(--warn); border: 1px solid rgba(255,209,102,.4); padding: 1px 5px; border-radius: 4px; font-size: 10px; font-weight: 700; }
-    .p3 { background: rgba(255,255,255,.06); color: var(--muted); border: 1px solid var(--border); padding: 1px 5px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+    .pill-ok  { background: rgba(61,220,151,.15); color: var(--ok);   border: 1px solid rgba(61,220,151,.35); }
+    .pill-warn{ background: rgba(255,209,102,.15); color: var(--warn); border: 1px solid rgba(255,209,102,.35); }
+    .pill-emr { background: rgba(255,77,109,.15);  color: var(--danger); border: 1px solid rgba(255,77,109,.35); }
+    .pill-mut { background: rgba(155,176,209,.08); color: var(--muted); border: 1px solid var(--border); }
+    .p1 { background: rgba(255,77,109,.2);  color: var(--danger); border: 1px solid rgba(255,77,109,.4);  padding: 1px 5px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+    .p2 { background: rgba(255,209,102,.2); color: var(--warn);   border: 1px solid rgba(255,209,102,.4); padding: 1px 5px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+    .p3 { background: rgba(255,255,255,.06);color: var(--muted);  border: 1px solid var(--border);        padding: 1px 5px; border-radius: 4px; font-size: 10px; font-weight: 700; }
 
     .chip { display: inline-flex; align-items: center; gap: 3px; background: rgba(92,200,255,.1); border: 1px solid rgba(92,200,255,.3); color: var(--accent); font-size: 10px; padding: 1px 5px; border-radius: 4px; font-family: var(--mono); margin: 1px; }
     .chip .x { cursor: pointer; color: var(--danger); padding: 0 1px; font-weight: 700; }
     .chip .x:hover { color: #fff; }
-
     .arow { display: flex; gap: 4px; margin-top: 4px; }
     .arow select { flex: 1; padding: 3px 6px; background: rgba(0,0,0,.3); border: 1px solid var(--border); color: var(--text); border-radius: 6px; font-size: 11px; }
 
@@ -131,26 +144,45 @@
     .msg-err { color: var(--danger); font-size: 12px; }
     .empty   { color: var(--muted);  font-size: 11px; text-align: center; padding: 12px 0; }
 
-    /* SITREP PANEL */
-    .sitrep-filter { padding: 10px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
-    .sitrep-filter select { width: 100%; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border); background: rgba(0,0,0,.35); color: var(--text); font-size: 13px; outline: none; font-family: var(--sans); }
-    .sitrep-filter select:focus { border-color: var(--accent); }
-
-    .sitrep-feed { flex: 1; overflow-y: auto; padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
-    .sitrep-entry {
-      background: rgba(255,255,255,.03); border: 1px solid var(--border);
-      border-radius: 8px; padding: 8px 10px;
+    /* ── DURESS ALERT BANNER ── */
+    #duressBar {
+      display: none; align-items: center; gap: 10px;
+      padding: 10px 16px; background: #7f0000;
+      border-bottom: 2px solid #ff4d6d; flex-shrink: 0;
+      animation: duressBlink 0.9s infinite;
     }
+    #duressBar.active { display: flex; }
+    @keyframes duressBlink {
+      0%, 100% { background: #7f0000; }
+      50%       { background: #c62828; }
+    }
+    #duressBar .db-icon { font-size: 22px; flex-shrink: 0; }
+    #duressBar .db-text { flex: 1; font-weight: 800; font-size: 14px; letter-spacing: 0.5px; color: #fff; }
+    #duressBar .db-sub  { font-size: 11px; font-weight: 400; color: rgba(255,255,255,0.75); margin-top: 1px; font-family: var(--mono); }
+    #duressBar .db-close {
+      padding: 5px 14px; border-radius: 6px; font-size: 12px; font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.45); background: rgba(0,0,0,0.3);
+      color: #fff; cursor: pointer; white-space: nowrap; flex-shrink: 0;
+    }
+    #duressBar .db-close:hover { background: rgba(0,0,0,0.5); }
+
+    /* ── SITREP ── */
+    .sitrep-filter { padding: 10px 14px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+    .sitrep-filter select, .sitrep-compose select, .sitrep-compose textarea {
+      width: 100%; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border);
+      background: rgba(0,0,0,.35); color: var(--text); font-size: 12px; outline: none;
+      font-family: var(--sans);
+    }
+    .sitrep-compose textarea { resize: none; min-height: 56px; }
+    .sitrep-filter select:focus, .sitrep-compose select:focus, .sitrep-compose textarea:focus { border-color: var(--accent); }
+    .sitrep-feed { flex: 1; overflow-y: auto; padding: 10px 14px; display: flex; flex-direction: column; gap: 8px; }
+    .sitrep-entry { background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; }
     .sitrep-entry .sr-meta { font-size: 10px; color: var(--muted); margin-bottom: 4px; font-family: var(--mono); }
     .sitrep-entry .sr-call { color: var(--accent); font-weight: 700; }
     .sitrep-entry .sr-text { font-size: 12px; line-height: 1.5; }
-
     .sitrep-compose { padding: 10px 14px; border-top: 1px solid var(--border); flex-shrink: 0; display: flex; flex-direction: column; gap: 6px; }
-    .sitrep-compose select { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); background: rgba(0,0,0,.35); color: var(--text); font-size: 12px; outline: none; font-family: var(--sans); }
-    .sitrep-compose textarea { padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border); background: rgba(0,0,0,.35); color: var(--text); font-size: 12px; outline: none; resize: none; font-family: var(--sans); min-height: 56px; }
-    .sitrep-compose textarea:focus, .sitrep-compose select:focus { border-color: var(--accent); }
 
-    /* MAP PIN PANEL */
+    /* ── PIN PANEL ── */
     .pin-panel {
       position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
       background: rgba(11,18,32,.95); border: 1px solid var(--border);
@@ -165,7 +197,7 @@
     }
     .pin-panel .hint { font-size: 11px; color: var(--muted); text-align: center; width: 100%; }
 
-    /* MODAL */
+    /* ── MODAL ── */
     .modal-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,.78); z-index:3000; align-items:center; justify-content:center; padding:20px; box-sizing:border-box; }
     .modal-backdrop.open { display:flex; }
     .modal-box { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:22px; width:100%; max-width:440px; max-height:90vh; overflow-y:auto; }
@@ -189,8 +221,17 @@
     <button class="btn danger small" id="btnLogout">Logout</button>
   </div>
 
-  <div class="body">
+  <!-- DURESS ALERT BANNER — hidden until a unit activates EMR -->
+  <div id="duressBar">
+    <span class="db-icon">🚨</span>
+    <div>
+      <div class="db-text" id="duressText">DURESS / EMR ACTIVATED</div>
+      <div class="db-sub"  id="duressSub"></div>
+    </div>
+    <button class="db-close" id="btnDuressAck">✓ Acknowledge</button>
+  </div>
 
+  <div class="body">
     <!-- SIDEBAR -->
     <div class="sidebar">
       <div class="tab-bar">
@@ -227,7 +268,18 @@
             <div class="f"><label>Postal</label><input id="postal_code" placeholder="218"/></div>
             <div class="f"><label>Street</label><input id="street_name" placeholder="Park Street"/></div>
           </div>
-          <div class="f" style="margin-top:4px">
+
+          <!-- Map location picker -->
+          <div class="loc-pick-row">
+            <button class="bx" id="btnPickIncLoc">🗺 Pin on Map</button>
+            <span class="loc-picked-label" id="incLocLabel"></span>
+          </div>
+          <div class="loc-pick-hint" id="locPickHint">
+            <span>🎯 Click the map to set the incident location</span>
+            <button id="btnCancelLocPick">Cancel</button>
+          </div>
+
+          <div class="f" style="margin-top:6px">
             <label>Notes / Call Comments</label>
             <textarea id="notes" placeholder="Hazards, access, caller info…"></textarea>
           </div>
@@ -268,17 +320,11 @@
       <!-- TAB: SITREPS -->
       <div class="tab-panel" id="tab-sitreps">
         <div class="sitrep-filter">
-          <select id="sitrepFilter">
-            <option value="">— All active incidents —</option>
-          </select>
+          <select id="sitrepFilter"><option value="">— All active incidents —</option></select>
         </div>
-        <div class="sitrep-feed" id="sitrepFeed">
-          <div class="empty">No sitreps yet</div>
-        </div>
+        <div class="sitrep-feed" id="sitrepFeed"><div class="empty">No sitreps yet</div></div>
         <div class="sitrep-compose">
-          <select id="sitrepCallSel">
-            <option value="">Select incident…</option>
-          </select>
+          <select id="sitrepCallSel"><option value="">Select incident…</option></select>
           <textarea id="sitrepText" placeholder="Enter sitrep / situation report…" rows="3"></textarea>
           <button class="btn primary" id="btnSitrep">Submit Sitrep</button>
         </div>
@@ -322,7 +368,6 @@
           <div id="ppFeed" style="overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:6px;padding-top:4px"></div>
         </div>
       </div>
-
     </div>
 
     <!-- MAP -->
@@ -338,14 +383,11 @@
         <button id="btnRecenter">⊕ Recenter</button>
         <button id="btnPinMode" title="Drop a map marker linked to an incident">📍 Add Pin</button>
       </div>
-      <!-- Pin placement panel -->
       <div class="pin-panel" id="pinPanel">
         <div style="width:100%">
           <div class="hint" id="pinHint">Click anywhere on the map to place the pin</div>
           <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
-            <select id="pinIncSel" style="flex:2;min-width:120px">
-              <option value="">Link to incident…</option>
-            </select>
+            <select id="pinIncSel" style="flex:2;min-width:120px"><option value="">Link to incident…</option></select>
             <select id="pinIconSel">
               <option value="📍">📍 Marker</option>
               <option value="🚧">🚧 Hazard</option>
@@ -362,7 +404,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -372,33 +413,21 @@
     <h3>✏ Edit Incident</h3>
     <input type="hidden" id="editIncId"/>
     <div class="frow">
-      <div class="f">
-        <label>Nature / Type</label>
-        <input id="editNature" placeholder="Structure Fire, MVA…"/>
-      </div>
+      <div class="f"><label>Nature / Type</label><input id="editNature" placeholder="Structure Fire, MVA…"/></div>
       <div class="f" style="max-width:72px">
         <label>Priority</label>
         <select id="editPriority">
-          <option value="P1">P1</option>
-          <option value="P2">P2</option>
-          <option value="P3">P3</option>
+          <option value="P1">P1</option><option value="P2">P2</option><option value="P3">P3</option>
         </select>
       </div>
     </div>
-    <div class="frow">
-      <div class="f">
-        <label>Address / Location Label</label>
-        <input id="editLocationLabel" placeholder="e.g. 42 King St, Darlinghurst"/>
-      </div>
-    </div>
+    <div class="f"><label>Address / Location Label</label><input id="editLocationLabel" placeholder="e.g. 42 King St"/></div>
     <div class="frow">
       <div class="f"><label>Postal Code</label><input id="editPostal" placeholder="218"/></div>
       <div class="f"><label>Street Name</label><input id="editStreet" placeholder="Park St"/></div>
     </div>
-    <div class="f">
-      <label>Call Comments / Notes</label>
-      <textarea id="editNotes" style="min-height:72px" placeholder="Caller info, hazards, additional details…"></textarea>
-    </div>
+    <div class="f"><label>Call Comments / Notes</label><textarea id="editNotes" style="min-height:72px" placeholder="Caller info, hazards…"></textarea></div>
+    <div id="editLocInfo" style="font-size:11px;color:var(--muted);margin:4px 0;min-height:16px"></div>
     <div class="modal-btns">
       <button class="primary" id="btnSaveEdit">Save Changes</button>
       <button id="btnCancelEdit">Cancel</button>
@@ -411,772 +440,602 @@
 <script src="/shared.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
-(function() {
+(function () {
   const { qs, fmtTime, toast, logout, whoami, buildTone } = window.CAD_SHARED;
-  const tone = buildTone();
+  const tone   = buildTone();
   const socket = io();
-  let state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [] };
-  let incFilterStatus = 'open';
+
+  let state           = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [] };
+  let incFilterStatus = "open";
+
+  // ── Map interaction mode ─────────────────────────────────────────────────────
+  // Exactly one mode is active at a time: "none" | "newIncLoc" | "editIncLoc" | "pin"
+  let mapMode        = "none";
+  let editLocIncId   = null;   // incident being re-pinned (editIncLoc mode)
+  let pendingLocX    = null;   // coordinates chosen for new incident
+  let pendingLocZ    = null;
+
+  function setMapMode(mode, incId) {
+    mapMode      = mode;
+    editLocIncId = incId ?? null;
+    const crosshair = mode !== "none";
+    lmap.getContainer().style.cursor = crosshair ? "crosshair" : "";
+
+    // Pin panel visibility
+    if (mode === "pin") {
+      refreshPinIncSel();
+      qs("#pinPanel").classList.add("open");
+      qs("#btnPinMode").classList.add("active-pin");
+      qs("#pinHint").textContent = "Click anywhere on the map to place the pin";
+    } else {
+      qs("#pinPanel").classList.remove("open");
+      qs("#btnPinMode").classList.remove("active-pin");
+    }
+
+    // New-incident pick-hint
+    qs("#locPickHint").classList.toggle("active", mode === "newIncLoc");
+    qs("#btnPickIncLoc").textContent = mode === "newIncLoc" ? "🎯 Picking…" : "🗺 Pin on Map";
+  }
+
+  function clearNewLocPick() {
+    pendingLocX = null;
+    pendingLocZ = null;
+    qs("#incLocLabel").textContent = "";
+    setMapMode("none");
+  }
 
   // ── TABS ─────────────────────────────────────────────────────────────────────
-  document.querySelectorAll('.tab-bar button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      qs('#tab-' + btn.dataset.tab).classList.add('active');
-      if (btn.dataset.tab === 'sitreps') renderSitreps();
-      if (btn.dataset.tab === 'bulletins') renderBulletins();
-      if (btn.dataset.tab === 'preplans') renderPreplans();
+  document.querySelectorAll(".tab-bar button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-bar button").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      qs("#tab-" + btn.dataset.tab).classList.add("active");
+      if (btn.dataset.tab === "sitreps")  renderSitreps();
+      if (btn.dataset.tab === "bulletins") renderBulletins();
+      if (btn.dataset.tab === "preplans") renderPreplans();
     });
   });
 
-  qs('#incFilterStatus').addEventListener('change', e => {
+  qs("#incFilterStatus").addEventListener("change", e => {
     incFilterStatus = e.target.value;
     renderIncidents();
   });
 
-  // ── MAP ──────────────────────────────────────────────────────────────────────
-  const lmap = L.map('map', { crs: L.CRS.Simple, minZoom: -3, maxZoom: 3, zoomSnap: 0.25 });
+  // ── MAP INIT ─────────────────────────────────────────────────────────────────
+  const lmap = L.map("map", { crs: L.CRS.Simple, minZoom: -3, maxZoom: 3, zoomSnap: 0.25 });
   let overlay = null;
-  let W = 4096, H = 4096;
+  const W = 4096, H = 4096;
   const uMarkers = new Map(), iMarkers = new Map(), pinMarkers = new Map();
 
   function loadMap(variant) {
-    const url = '/api/map-proxy?variant=' + encodeURIComponent(variant || 'fall_postals');
     if (overlay) { overlay.remove(); overlay = null; }
-    overlay = L.imageOverlay(url, [[0, 0], [H, W]]).addTo(lmap);
-    lmap.setMaxBounds([[-500, -500], [H + 500, W + 500]]);
-    lmap.fitBounds([[0, 0], [H, W]]);
+    overlay = L.imageOverlay("/api/map-proxy?variant=" + encodeURIComponent(variant || "fall_postals"), [[0,0],[H,W]]).addTo(lmap);
+    lmap.setMaxBounds([[-500,-500],[H+500,W+500]]);
+    lmap.fitBounds([[0,0],[H,W]]);
     redrawMarkers();
   }
 
-  // ER:LC coords → Leaflet
-  function ll(x, z) {
-    const nx = +x, nz = +z;
-    if (!isFinite(nx) || !isFinite(nz)) return null;
-    return [H - nz, nx];
-  }
-  // Leaflet latlng → ER:LC coords
+  function ll(x, z)        { const nx=+x, nz=+z; return (isFinite(nx)&&isFinite(nz)) ? [H-nz,nx] : null; }
   function fromLL(lat, lng) { return { x: lng, z: H - lat }; }
 
   // ── ICON BUILDERS ─────────────────────────────────────────────────────────────
-  const STATUS_COLORS_MAP = {
-    AVAIL:   '#388E3C', UNAVAIL: '#424242',
-    MOBILE:  '#E65100', RESPOND: '#F9A825',
-    ONSCENE: '#2E7D32', EMR:     '#C62828',
-    // legacy fallbacks
-    AVAILABLE:'#388E3C', CLEAR:'#388E3C',
-    ENROUTE:'#F9A825',   OFFLINE:'#424242'
+  const STATUS_COLOR = {
+    AVAIL:'#388E3C', UNAVAIL:'#424242', MOBILE:'#E65100',
+    RESPOND:'#F9A825', ONSCENE:'#2E7D32', EMR:'#C62828',
+    AVAILABLE:'#388E3C', CLEAR:'#388E3C', ENROUTE:'#F9A825', OFFLINE:'#424242'
   };
 
   function truckIcon(unit) {
-    const status = (unit.status || 'AVAIL').toUpperCase();
-    const color = STATUS_COLORS_MAP[status] || '#5cc8ff';
-    const textColor = (status === 'RESPOND') ? '#1a1a1a' : '#fff';
-    const label = (unit.callsign || unit.id).slice(0, 8);
-    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 5px rgba(0,0,0,.85));">
-      <div style="background:${color};color:${textColor};font-size:10px;font-weight:800;font-family:monospace;padding:2px 6px;border-radius:3px;white-space:nowrap;margin-bottom:1px;border:1px solid rgba(255,255,255,.3)">${label}</div>
-      <div style="font-size:26px;line-height:1">🚒</div>
-    </div>`;
-    return L.divIcon({ html, iconSize:[60,46], iconAnchor:[30,44], className:'' });
+    const s = (unit.status||"AVAIL").toUpperCase();
+    const c = STATUS_COLOR[s]||"#5cc8ff";
+    const tc = s==="RESPOND"?"#1a1a1a":"#fff";
+    const lbl = (unit.callsign||unit.id).slice(0,8);
+    return L.divIcon({ className:"", iconSize:[60,46], iconAnchor:[30,44],
+      html:`<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 5px rgba(0,0,0,.85))">
+        <div style="background:${c};color:${tc};font-size:10px;font-weight:800;font-family:monospace;padding:2px 6px;border-radius:3px;white-space:nowrap;margin-bottom:1px;border:1px solid rgba(255,255,255,.3)">${lbl}</div>
+        <div style="font-size:26px;line-height:1">🚒</div></div>` });
   }
 
   function truckTooltip(unit) {
-    const status = (unit.status || 'AVAIL').toUpperCase();
-    const color = STATUS_COLORS_MAP[status] || '#5cc8ff';
-    const textColor = (status === 'RESPOND') ? '#1a1a1a' : '#fff';
-    const loc = [unit.postal_code, unit.street_name].filter(Boolean).join(' ')
-              || (unit.location_x != null ? `${Number(unit.location_x).toFixed(0)}, ${Number(unit.location_z).toFixed(0)}` : 'Location unknown');
-    const assignedCalls = state.assignments.filter(a => a.unit_id === unit.id).map(a => {
-      const inc = state.incidents.find(i => i.id === a.incident_id && i.status !== 'CLOSED');
-      return inc ? inc : null;
-    }).filter(Boolean);
-
-    const callsHtml = assignedCalls.length
-      ? assignedCalls.map(inc => {
-          const incLoc = inc.location_label || [inc.postal_code, inc.street_name].filter(Boolean).join(' ') || '—';
-          // Calculate straight-line distance if both have location
-          let distHtml = '';
-          if (unit.location_x != null && inc.location_x != null) {
-            const dx = inc.location_x - unit.location_x;
-            const dz = inc.location_z - unit.location_z;
-            const dist = Math.sqrt(dx*dx + dz*dz);
-            // ER:LC map units ≈ 1 unit per metre roughly — show as approx distance
-            distHtml = `<span style="color:#aaa;font-size:10px"> · ~${dist < 1000 ? dist.toFixed(0)+'u' : (dist/1000).toFixed(1)+'ku'}</span>`;
+    const s   = (unit.status||"AVAIL").toUpperCase();
+    const c   = STATUS_COLOR[s]||"#5cc8ff";
+    const tc  = s==="RESPOND"?"#1a1a1a":"#fff";
+    const loc = [unit.postal_code,unit.street_name].filter(Boolean).join(" ")
+             || (unit.location_x!=null?`${Number(unit.location_x).toFixed(0)}, ${Number(unit.location_z).toFixed(0)}`:"Location unknown");
+    const calls = state.assignments.filter(a=>a.unit_id===unit.id)
+      .map(a=>state.incidents.find(i=>i.id===a.incident_id&&i.status!=="CLOSED")).filter(Boolean);
+    const callsHtml = calls.length
+      ? calls.map(inc=>{
+          const iLoc=inc.location_label||[inc.postal_code,inc.street_name].filter(Boolean).join(" ")||"—";
+          let dist="";
+          if(unit.location_x!=null&&inc.location_x!=null){
+            const d=Math.sqrt((inc.location_x-unit.location_x)**2+(inc.location_z-unit.location_z)**2);
+            dist=`<span style="color:#aaa;font-size:10px"> · ~${d<1000?d.toFixed(0)+"m":(d/1000).toFixed(1)+"km"}</span>`;
           }
-          return `<div style="margin-top:5px;padding:5px 7px;background:rgba(255,255,255,.07);border-radius:4px;border-left:3px solid #ffd166">
+          return`<div style="margin-top:5px;padding:5px 7px;background:rgba(255,255,255,.07);border-radius:4px;border-left:3px solid #ffd166">
             <span style="color:#ffd166;font-weight:700;font-size:12px">${inc.id}</span>
-            <span style="font-size:11px;margin-left:4px">${inc.nature}</span>${distHtml}<br>
-            <span style="color:#aaa;font-size:10px">📍 ${incLoc}</span>
-          </div>`;
-        }).join('')
+            <span style="font-size:11px;margin-left:4px">${inc.nature}</span>${dist}<br>
+            <span style="color:#aaa;font-size:10px">📍 ${iLoc}</span></div>`;}).join("")
       : `<div style="margin-top:5px;color:#666;font-size:11px;font-style:italic">No active call assigned</div>`;
-
-    return `<div style="min-width:200px;max-width:280px;font-family:monospace">
+    return`<div style="min-width:200px;max-width:280px;font-family:monospace">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
         <span style="font-size:20px">🚒</span>
-        <span style="font-size:15px;font-weight:800">${unit.callsign || unit.id}</span>
-        <span style="background:${color};color:${textColor};font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px">${status}</span>
+        <span style="font-size:15px;font-weight:800">${unit.callsign||unit.id}</span>
+        <span style="background:${c};color:${tc};font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px">${s}</span>
       </div>
-      <div style="color:#aaa;font-size:11px">📍 ${loc}</div>
-      ${callsHtml}
-    </div>`;
+      <div style="color:#aaa;font-size:11px">📍 ${loc}</div>${callsHtml}</div>`;
   }
 
   function fireIcon(inc) {
-    const pri = inc.priority || 'P2';
-    const color = pri==='P1'?'#ff4d6d': pri==='P2'?'#ffd166':'#9bb0d1';
-    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 4px rgba(0,0,0,.7))">
-      <div style="font-size:22px;line-height:1">🔥</div>
-      <div style="background:${color};color:#111;font-size:9px;font-weight:800;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:2px">${pri}</div></div>`;
-    return L.divIcon({ html, iconSize:[50,40], iconAnchor:[25,6], className:'' });
+    const p=inc.priority||"P2";
+    const c=p==="P1"?"#ff4d6d":p==="P2"?"#ffd166":"#9bb0d1";
+    return L.divIcon({ className:"", iconSize:[50,40], iconAnchor:[25,6],
+      html:`<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 4px rgba(0,0,0,.7))">
+        <div style="font-size:22px;line-height:1">🔥</div>
+        <div style="background:${c};color:#111;font-size:9px;font-weight:800;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:2px">${p}</div></div>` });
   }
 
   function customPinIcon(pin) {
-    const ico = pin.icon || '📍';
-    // Always anchor with a 📍 drop-pin visual; chosen icon sits above it
-    const extra = ico !== '📍' ? `<div style="font-size:16px;line-height:1;margin-bottom:-4px">${ico}</div>` : '';
-    const lbl = pin.label
-      ? `<div style="background:rgba(11,18,32,.92);color:#e8eaf6;font-size:9px;font-weight:700;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:2px;border:1px solid rgba(255,255,255,.2)">${pin.label}</div>`
-      : '';
-    const html = `<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.9))">
-      ${extra}
-      <div style="font-size:26px;line-height:1">📍</div>
-      ${lbl}
-    </div>`;
-    return L.divIcon({ html, iconSize:[50, lbl?48:34], iconAnchor:[25, lbl?48:34], className:'' });
+    const ico=pin.icon||"📍";
+    const extra=ico!=="📍"?`<div style="font-size:16px;line-height:1;margin-bottom:-4px">${ico}</div>`:"";
+    const lbl=pin.label?`<div style="background:rgba(11,18,32,.92);color:#e8eaf6;font-size:9px;font-weight:700;font-family:monospace;padding:1px 5px;border-radius:3px;white-space:nowrap;margin-top:2px;border:1px solid rgba(255,255,255,.2)">${pin.label}</div>`:"";
+    return L.divIcon({ className:"", iconSize:[50,lbl?48:34], iconAnchor:[25,lbl?48:34],
+      html:`<div style="display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 2px 6px rgba(0,0,0,.9))">${extra}<div style="font-size:26px;line-height:1">📍</div>${lbl}</div>` });
   }
 
-  function pinTooltip(pin) {
-    const inc = state.incidents.find(i => i.id === pin.incident_id);
-    const assignedUnits = inc
-      ? state.assignments.filter(a => a.incident_id === inc.id)
-          .map(a => { const u = state.units.find(x => x.id === a.unit_id); return u ? (u.callsign || u.id) : null; })
-          .filter(Boolean).join(', ')
-      : null;
-    const loc = inc ? (inc.location_label || [inc.postal_code, inc.street_name].filter(Boolean).join(' ') || '—') : '—';
-    return `
-      <div style="min-width:160px">
-        <b style="font-size:13px">${pin.icon || '📍'} ${pin.label || 'Pin'}</b><br>
-        ${inc
-          ? `<span style="color:#ffd166;font-weight:700">${inc.id} — ${inc.nature}</span><br>
-             <span style="color:#8899aa;font-size:11px">📍 ${loc}</span><br>
-             <span style="color:#8899aa;font-size:11px">🚒 ${assignedUnits || 'No units'}</span><br>`
-          : `<span style="color:#8899aa;font-size:11px">No linked call</span><br>`}
-        <span style="color:#8899aa;font-size:10px">By ${pin.added_by} · ${fmtTime(pin.added_at)}</span><br>
-        <button onclick="window._removePin('${pin.id}')" style="margin-top:6px;padding:2px 8px;font-size:11px;border-radius:5px;border:1px solid #ff4d6d;background:transparent;color:#ff4d6d;cursor:pointer">✕ Remove</button>
-      </div>`;
+  function pinPopup(pin) {
+    const inc=state.incidents.find(i=>i.id===pin.incident_id);
+    const units=inc?state.assignments.filter(a=>a.incident_id===inc.id)
+      .map(a=>{const u=state.units.find(x=>x.id===a.unit_id);return u?(u.callsign||u.id):null;}).filter(Boolean).join(", "):null;
+    const loc=inc?(inc.location_label||[inc.postal_code,inc.street_name].filter(Boolean).join(" ")||"—"):"—";
+    return`<div style="min-width:160px">
+      <b style="font-size:13px">${pin.icon||"📍"} ${pin.label||"Pin"}</b><br>
+      ${inc?`<span style="color:#ffd166;font-weight:700">${inc.id} — ${inc.nature}</span><br>
+        <span style="color:#8899aa;font-size:11px">📍 ${loc}</span><br>
+        <span style="color:#8899aa;font-size:11px">🚒 ${units||"No units"}</span><br>`
+        :`<span style="color:#8899aa;font-size:11px">No linked call</span><br>`}
+      <span style="color:#8899aa;font-size:10px">By ${pin.added_by} · ${fmtTime(pin.added_at)}</span><br>
+      <button onclick="window._removePin('${pin.id}')" style="margin-top:6px;padding:2px 8px;font-size:11px;border-radius:5px;border:1px solid #ff4d6d;background:transparent;color:#ff4d6d;cursor:pointer">✕ Remove</button>
+    </div>`;
   }
+
+  window._removePin = id => { socket.emit("dispatch:removeMapPin",{pin_id:id}); lmap.closePopup(); };
+
+  // Allow moving an incident's map pin from the fire-icon popup
+  window._moveIncLoc = incId => { lmap.closePopup(); setMapMode("editIncLoc", incId); toast("📍 Move location","Click the map to place the incident"); };
 
   function redrawMarkers() {
-    uMarkers.forEach(m => m.remove()); uMarkers.clear();
-    iMarkers.forEach(m => m.remove()); iMarkers.clear();
-    pinMarkers.forEach(m => m.remove()); pinMarkers.clear();
+    uMarkers.forEach(m=>m.remove()); uMarkers.clear();
+    iMarkers.forEach(m=>m.remove()); iMarkers.clear();
+    pinMarkers.forEach(m=>m.remove()); pinMarkers.clear();
 
-    // Trucks
     for (const u of state.units) {
-      if (u.location_x == null || u.location_z == null) continue;
-      const p = ll(u.location_x, u.location_z);
-      if (!p) continue;
-      const m = L.marker(p, { icon: truckIcon(u), zIndexOffset: 200 }).addTo(lmap);
-      m.bindTooltip(truckTooltip(u), {
-        direction: 'top',
-        permanent: false,
-        opacity: 0.97,
-        className: 'truck-tip'
-      });
-      uMarkers.set(u.id, m);
+      if (u.location_x==null||u.location_z==null) continue;
+      const p=ll(u.location_x,u.location_z); if(!p) continue;
+      const m=L.marker(p,{icon:truckIcon(u),zIndexOffset:200}).addTo(lmap);
+      m.bindTooltip(truckTooltip(u),{direction:"top",permanent:false,opacity:.97,className:"truck-tip"});
+      uMarkers.set(u.id,m);
     }
 
-    // Fire icons
     for (const inc of state.incidents) {
-      if (inc.status === 'CLOSED' || inc.location_x == null || inc.location_z == null) continue;
-      const p = ll(inc.location_x, inc.location_z);
-      if (!p) continue;
-      const m = L.marker(p, { icon: fireIcon(inc), zIndexOffset: 100 }).addTo(lmap);
-      const loc = inc.location_label || [inc.postal_code, inc.street_name].filter(Boolean).join(' ') || '—';
-      m.bindPopup(`<b>${inc.nature}</b> [${inc.priority}]<br>${loc}<br><small>${fmtTime(inc.created_at)}</small>`);
-      iMarkers.set(inc.id, m);
+      if (inc.status==="CLOSED"||inc.location_x==null||inc.location_z==null) continue;
+      const p=ll(inc.location_x,inc.location_z); if(!p) continue;
+      const m=L.marker(p,{icon:fireIcon(inc),zIndexOffset:100}).addTo(lmap);
+      const loc=inc.location_label||[inc.postal_code,inc.street_name].filter(Boolean).join(" ")||"—";
+      m.bindPopup(`<b>${inc.nature}</b> [${inc.priority}]<br>${loc}<br><small>${fmtTime(inc.created_at)}</small><br>
+        <button onclick="window._moveIncLoc('${inc.id}')" style="margin-top:6px;padding:2px 8px;font-size:11px;border-radius:5px;border:1px solid #5cc8ff;background:transparent;color:#5cc8ff;cursor:pointer">📍 Move location</button>`);
+      iMarkers.set(inc.id,m);
     }
 
-    // Custom map pins — dispatch sees ALL pins
-    for (const pin of (state.mapPins || [])) {
-      const p = ll(pin.location_x, pin.location_z);
-      if (!p) continue;
-      const m = L.marker(p, { icon: customPinIcon(pin), zIndexOffset: 300 }).addTo(lmap);
-      // Hover tooltip: quick summary
-      const inc = state.incidents.find(i => i.id === pin.incident_id);
-      const tipText = inc ? `${inc.id} — ${inc.nature}` : 'No linked call';
-      m.bindTooltip(`<b>${pin.label || pin.icon || 'Pin'}</b><br><span style="color:#ffd166">${tipText}</span>`, { direction: 'top' });
-      // Click popup: full details + remove
-      m.bindPopup(pinTooltip(pin), { maxWidth: 260 });
-      pinMarkers.set(pin.id, m);
+    for (const pin of state.mapPins) {
+      const p=ll(pin.location_x,pin.location_z); if(!p) continue;
+      const inc=state.incidents.find(i=>i.id===pin.incident_id);
+      const m=L.marker(p,{icon:customPinIcon(pin),zIndexOffset:300}).addTo(lmap);
+      m.bindTooltip(`<b>${pin.label||pin.icon||"Pin"}</b><br><span style="color:#ffd166">${inc?`${inc.id} — ${inc.nature}`:"No linked call"}</span>`,{direction:"top"});
+      m.bindPopup(pinPopup(pin),{maxWidth:260});
+      pinMarkers.set(pin.id,m);
     }
   }
 
-  window._removePin = id => {
-    socket.emit('dispatch:removeMapPin', { pin_id: id });
-    lmap.closePopup();
-  };
-
-  // ── MAP PIN MODE ──────────────────────────────────────────────────────────────
-  let pinMode = false;
-
-  function openPinPanel() {
-    refreshPinIncSel();
-    qs('#pinPanel').classList.add('open');
-    qs('#btnPinMode').classList.add('active-pin');
-    qs('#pinHint').textContent = 'Click anywhere on the map to place the pin';
-    pinMode = true;
-    lmap.getContainer().style.cursor = 'crosshair';
-  }
-
-  function closePinPanel() {
-    qs('#pinPanel').classList.remove('open');
-    qs('#btnPinMode').classList.remove('active-pin');
-    pinMode = false;
-    lmap.getContainer().style.cursor = '';
-  }
-
-  qs('#btnPinMode').addEventListener('click', () => {
-    if (pinMode) closePinPanel(); else openPinPanel();
-  });
-  qs('#btnCancelPin').addEventListener('click', closePinPanel);
-
-  lmap.on('click', e => {
-    if (!pinMode) return;
+  // ── UNIFIED MAP CLICK ──────────────────────────────────────────────────────────
+  lmap.on("click", e => {
     const { x, z } = fromLL(e.latlng.lat, e.latlng.lng);
-    const incident_id = qs('#pinIncSel').value || null;
-    const icon  = qs('#pinIconSel').value;
-    const label = qs('#pinLabel').value.trim();
-    socket.emit('dispatch:addMapPin', { incident_id, location_x: x, location_z: z, icon, label });
-    qs('#pinHint').textContent = '✓ Pin placed!';
-    qs('#pinLabel').value = '';
-    // Close panel after short delay so user sees confirmation
-    setTimeout(closePinPanel, 1200);
-  });
 
-  // ── AUTO POLL every 5 seconds ─────────────────────────────────────────────────
-  async function pollState() {
-    try {
-      const res = await fetch('/api/state');
-      const data = await res.json();
-      if (data.ok) { state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...data }; renderAll(); }
-    } catch (_) {}
-  }
-  setInterval(pollState, 5000);
-
-  // ── STATUS PILL ───────────────────────────────────────────────────────────────
-  function pill(status) {
-    const s = String(status || '').toUpperCase();
-    const cls = s === 'AVAIL' || s === 'AVAILABLE' || s === 'CLEAR' ? 'pill-ok'
-              : s === 'RESPOND' || s === 'MOBILE' || s === 'ENROUTE' ? 'pill-warn'
-              : s === 'ONSCENE' ? 'pill-warn'
-              : s === 'EMR' ? 'pill-emr' : 'pill-mut';
-    const el = document.createElement('span');
-    el.className = 'pill2 ' + cls;
-    el.textContent = s;
-    return el;
-  }
-
-  // ── UNITS ────────────────────────────────────────────────────────────────────
-  function renderUnits() {
-    const tbody = qs('#unitsTbody');
-    tbody.innerHTML = '';
-    if (!state.units.length) {
-      tbody.innerHTML = '<tr><td colspan="5" class="empty">No units online</td></tr>';
+    if (mapMode === "newIncLoc") {
+      pendingLocX = x; pendingLocZ = z;
+      qs("#incLocLabel").textContent = `📍 X:${x.toFixed(0)}, Z:${z.toFixed(0)}`;
+      setMapMode("none");
       return;
     }
-    const STATUSES = ['AVAIL','UNAVAIL','MOBILE','RESPOND','ONSCENE','EMR'];
-    const STATUS_COLORS_DISP = {
-      AVAIL:'#388E3C', UNAVAIL:'#555', MOBILE:'#E65100',
-      RESPOND:'#F9A825', ONSCENE:'#2E7D32', EMR:'#C62828'
-    };
+
+    if (mapMode === "editIncLoc" && editLocIncId) {
+      socket.emit("dispatch:setIncidentLocation", { incident_id: editLocIncId, location_x: x, location_z: z });
+      toast("📍 Location updated", `X:${x.toFixed(0)}, Z:${z.toFixed(0)}`);
+      setMapMode("none");
+      return;
+    }
+
+    if (mapMode === "pin") {
+      socket.emit("dispatch:addMapPin", {
+        incident_id: qs("#pinIncSel").value || null,
+        location_x:  x, location_z: z,
+        icon:        qs("#pinIconSel").value,
+        label:       qs("#pinLabel").value.trim(),
+      });
+      qs("#pinHint").textContent = "✓ Pin placed!";
+      qs("#pinLabel").value = "";
+      setTimeout(() => setMapMode("none"), 1200);
+    }
+  });
+
+  // Escape key cancels any active map mode
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && mapMode !== "none") {
+      if (mapMode === "newIncLoc") clearNewLocPick();
+      else setMapMode("none");
+    }
+  });
+
+  // ── NEW INCIDENT LOCATION PICK BUTTONS ────────────────────────────────────────
+  qs("#btnPickIncLoc").addEventListener("click", () => {
+    if (mapMode === "newIncLoc") { clearNewLocPick(); return; }
+    setMapMode("newIncLoc");
+  });
+  qs("#btnCancelLocPick").addEventListener("click", clearNewLocPick);
+
+  // ── PIN MODE BUTTON ───────────────────────────────────────────────────────────
+  qs("#btnPinMode").addEventListener("click", () => {
+    if (mapMode === "pin") setMapMode("none"); else setMapMode("pin");
+  });
+  qs("#btnCancelPin").addEventListener("click", () => setMapMode("none"));
+
+  // ── AUTO POLL ─────────────────────────────────────────────────────────────────
+  setInterval(async () => {
+    try {
+      const r = await fetch("/api/state");
+      const d = await r.json();
+      if (d.ok) { state = { units:[], incidents:[], assignments:[], mapPins:[], bulletins:[], preplans:[], ...d }; renderAll(); }
+    } catch (_) {}
+  }, 5000);
+
+  // ── UNITS ─────────────────────────────────────────────────────────────────────
+  function renderUnits() {
+    const tbody = qs("#unitsTbody");
+    tbody.innerHTML = "";
+    if (!state.units.length) { tbody.innerHTML = '<tr><td colspan="5" class="empty">No units online</td></tr>'; return; }
+    const STATUSES    = ["AVAIL","UNAVAIL","MOBILE","RESPOND","ONSCENE","EMR"];
+    const STATUS_BG   = { AVAIL:"#388E3C", UNAVAIL:"#555", MOBILE:"#E65100", RESPOND:"#F9A825", ONSCENE:"#2E7D32", EMR:"#C62828" };
     for (const u of state.units) {
-      const tr = document.createElement('tr');
-
-      const c1 = document.createElement('td');
-      c1.style.fontFamily = 'var(--mono)'; c1.style.fontWeight = '700';
-      c1.textContent = u.callsign || u.id;
-      tr.appendChild(c1);
-
-      // Status dropdown — dispatch can override
-      const c2 = document.createElement('td');
-      const sel = document.createElement('select');
-      const currentStatus = (u.status || 'AVAIL').toUpperCase();
-      const bg = STATUS_COLORS_DISP[currentStatus] || '#555';
-      sel.style.cssText = `background:${bg};color:${currentStatus==='RESPOND'?'#1a1a1a':'#fff'};border:none;border-radius:5px;padding:3px 6px;font-size:11px;font-weight:700;font-family:var(--mono);cursor:pointer;outline:none;width:100%`;
-      for (const s of STATUSES) {
-        const opt = document.createElement('option');
-        opt.value = s; opt.textContent = s;
-        if (s === currentStatus) opt.selected = true;
-        sel.appendChild(opt);
-      }
-      sel.addEventListener('change', () => {
-        const newStatus = sel.value;
-        const newBg = STATUS_COLORS_DISP[newStatus] || '#555';
-        sel.style.background = newBg;
-        sel.style.color = newStatus === 'RESPOND' ? '#1a1a1a' : '#fff';
-        socket.emit('dispatch:setUnitStatus', { unit_id: u.id, status: newStatus });
-      });
-      c2.appendChild(sel);
-      tr.appendChild(c2);
-
-      const c3 = document.createElement('td');
-      c3.style.fontSize = '10px'; c3.style.color = 'var(--muted)';
-      c3.textContent = [u.postal_code, u.street_name].filter(Boolean).join(' ') || '—';
-      tr.appendChild(c3);
-
-      const c4 = document.createElement('td');
-      const inp = document.createElement('input');
-      inp.type = 'text'; inp.placeholder = 'Roblox username';
-      inp.value = u.erlc_player_name || '';
-      inp.addEventListener('change', () => {
-        socket.emit('dispatch:setUnitErlcPlayer', { unit_id: u.id, erlc_player_name: inp.value.trim() || null });
-      });
+      const tr = document.createElement("tr");
+      const c1 = document.createElement("td"); c1.style.cssText="font-family:var(--mono);font-weight:700"; c1.textContent=u.callsign||u.id; tr.appendChild(c1);
+      const c2 = document.createElement("td");
+      const sel = document.createElement("select");
+      const cur = (u.status||"AVAIL").toUpperCase();
+      sel.style.cssText=`background:${STATUS_BG[cur]||"#555"};color:${cur==="RESPOND"?"#1a1a1a":"#fff"};border:none;border-radius:5px;padding:3px 6px;font-size:11px;font-weight:700;font-family:var(--mono);cursor:pointer;outline:none;width:100%`;
+      STATUSES.forEach(s=>{ const o=document.createElement("option"); o.value=s; o.textContent=s; if(s===cur)o.selected=true; sel.appendChild(o); });
+      sel.addEventListener("change",()=>{ sel.style.background=STATUS_BG[sel.value]||"#555"; sel.style.color=sel.value==="RESPOND"?"#1a1a1a":"#fff"; socket.emit("dispatch:setUnitStatus",{unit_id:u.id,status:sel.value}); });
+      c2.appendChild(sel); tr.appendChild(c2);
+      const c3 = document.createElement("td"); c3.style.cssText="font-size:10px;color:var(--muted)"; c3.textContent=[u.postal_code,u.street_name].filter(Boolean).join(" ")||"—"; tr.appendChild(c3);
+      const c4 = document.createElement("td");
+      const inp = document.createElement("input"); inp.type="text"; inp.placeholder="Roblox username"; inp.value=u.erlc_player_name||"";
+      inp.addEventListener("change",()=>socket.emit("dispatch:setUnitErlcPlayer",{unit_id:u.id,erlc_player_name:inp.value.trim()||null}));
       c4.appendChild(inp); tr.appendChild(c4);
-
-      const c5 = document.createElement('td');
-      const pb = document.createElement('button');
-      pb.className = 'bx'; pb.textContent = '📢'; pb.title = 'Page unit';
-      pb.onclick = async () => {
-        await tone.play('default');
-        socket.emit('dispatch:page', { message: `Page: ${u.callsign || u.id}`, tone: 'default' });
-        toast('📢 Paged', u.callsign || u.id);
-      };
-      const kb = document.createElement('button');
-      kb.className = 'bx d'; kb.textContent = '⏏ Kick'; kb.title = 'Boot unit to login screen';
-      kb.onclick = () => {
-        if (confirm(`Kick ${u.callsign || u.id} off the MDT?`))
-          socket.emit('dispatch:kickUnit', { unit_id: u.id });
-      };
-      c5.appendChild(pb);
-      c5.appendChild(kb);
-      tr.appendChild(c5);
-
+      const c5 = document.createElement("td");
+      const pb = document.createElement("button"); pb.className="bx"; pb.textContent="📢"; pb.title="Page unit";
+      pb.onclick=async()=>{ await tone.play("default"); socket.emit("dispatch:page",{message:`Page: ${u.callsign||u.id}`,tone:"default"}); toast("📢 Paged",u.callsign||u.id); };
+      const kb = document.createElement("button"); kb.className="bx d"; kb.textContent="⏏ Kick";
+      kb.onclick=()=>{ if(confirm(`Kick ${u.callsign||u.id}?`)) socket.emit("dispatch:kickUnit",{unit_id:u.id}); };
+      c5.append(pb,kb); tr.appendChild(c5);
       tbody.appendChild(tr);
     }
   }
 
   // ── INCIDENTS ─────────────────────────────────────────────────────────────────
-  function assignedOf(id) {
-    return new Set(state.assignments.filter(a => a.incident_id === id).map(a => a.unit_id));
-  }
+  function assignedOf(id) { return new Set(state.assignments.filter(a=>a.incident_id===id).map(a=>a.unit_id)); }
 
   function renderIncidents() {
-    const tbody = qs('#incTbody');
-    tbody.innerHTML = '';
-    let sorted = [...state.incidents].sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
-    if (incFilterStatus === 'open') sorted = sorted.filter(i => i.status !== 'CLOSED');
-    if (!sorted.length) {
-      tbody.innerHTML = '<tr><td colspan="5" class="empty">No incidents</td></tr>';
-      return;
-    }
-    for (const inc of sorted) {
-      const tr = document.createElement('tr');
-      if (inc.status === 'CLOSED') tr.classList.add('closed');
+    const tbody = qs("#incTbody");
+    tbody.innerHTML = "";
+    let list = [...state.incidents].sort((a,b)=>(b.created_at||0)-(a.created_at||0));
+    if (incFilterStatus==="open") list=list.filter(i=>i.status!=="CLOSED");
+    if (!list.length) { tbody.innerHTML='<tr><td colspan="5" class="empty">No incidents</td></tr>'; return; }
 
-      const td0 = document.createElement('td');
-      const pb = document.createElement('span');
-      pb.className = inc.priority === 'P1' ? 'p1' : inc.priority === 'P2' ? 'p2' : 'p3';
-      pb.textContent = inc.priority || '—';
-      td0.appendChild(pb); tr.appendChild(td0);
+    for (const inc of list) {
+      const tr = document.createElement("tr");
+      if (inc.status==="CLOSED") tr.classList.add("closed");
 
-      const td1 = document.createElement('td');
-      td1.style.fontWeight = '600';
-      td1.innerHTML = inc.nature;
-      // Show dispatcher attribution underneath
-      const meta = [];
-      if (inc.created_by) meta.push(`<span style="color:var(--muted);font-size:10px;font-weight:400">by ${inc.created_by}</span>`);
-      if (inc.updated_by && inc.updated_at) meta.push(`<span style="color:var(--muted);font-size:10px;font-weight:400">upd ${inc.updated_by}</span>`);
-      if (inc.closed_by) meta.push(`<span style="color:var(--muted);font-size:10px;font-weight:400">closed ${inc.closed_by}</span>`);
-      if (meta.length) td1.innerHTML += '<br>' + meta.join(' · ');
-      tr.appendChild(td1);
+      // Priority
+      const td0=document.createElement("td");
+      const pb=document.createElement("span"); pb.className=inc.priority==="P1"?"p1":inc.priority==="P2"?"p2":"p3"; pb.textContent=inc.priority||"—"; td0.appendChild(pb); tr.appendChild(td0);
 
-      const loc = inc.location_label || [inc.postal_code, inc.street_name].filter(Boolean).join(' ') || '—';
-      const td2 = document.createElement('td');
-      td2.style.color = 'var(--muted)'; td2.style.fontSize = '11px';
-      td2.textContent = loc; tr.appendChild(td2);
+      // Nature + meta
+      const td1=document.createElement("td"); td1.style.fontWeight="600";
+      let html=inc.nature;
+      const meta=[];
+      if(inc.created_by) meta.push(`<span style="color:var(--muted);font-size:10px;font-weight:400">by ${inc.created_by}</span>`);
+      if(inc.updated_by&&inc.updated_at) meta.push(`<span style="color:var(--muted);font-size:10px;font-weight:400">upd ${inc.updated_by}</span>`);
+      if(inc.closed_by)  meta.push(`<span style="color:var(--muted);font-size:10px;font-weight:400">closed ${inc.closed_by}</span>`);
+      if(meta.length) html+="<br>"+meta.join(" · ");
+      // Map location indicator / set-location link
+      if(inc.location_x!=null){
+        html+=`<br><span style="color:var(--ok);font-size:10px">📍 on map</span>`;
+      } else if(inc.status!=="CLOSED"){
+        html+=`<br><span style="color:var(--muted);font-size:10px;cursor:pointer;text-decoration:underline" onclick="window._setIncLoc('${inc.id}')">🗺 Set map location</span>`;
+      }
+      td1.innerHTML=html; tr.appendChild(td1);
 
-      const td3 = document.createElement('td');
-      const assigned = assignedOf(inc.id);
-      const chipsWrap = document.createElement('div');
-      for (const uid of assigned) {
-        const u = state.units.find(x => x.id === uid);
-        const chip = document.createElement('span');
-        chip.className = 'chip';
-        const label = document.createTextNode((u?.callsign || uid) + ' ');
-        const xBtn = document.createElement('span');
-        xBtn.className = 'x'; xBtn.textContent = '×';
-        xBtn.onclick = () => socket.emit('dispatch:unassignUnit', { incident_id: inc.id, unit_id: uid });
-        chip.appendChild(label); chip.appendChild(xBtn);
-        chipsWrap.appendChild(chip);
+      // Location
+      const loc=inc.location_label||[inc.postal_code,inc.street_name].filter(Boolean).join(" ")||"—";
+      const td2=document.createElement("td"); td2.style.cssText="color:var(--muted);font-size:11px"; td2.textContent=loc; tr.appendChild(td2);
+
+      // Assigned units + assignment dropdown
+      const td3=document.createElement("td");
+      const assigned=assignedOf(inc.id);
+      const chipsWrap=document.createElement("div");
+      for(const uid of assigned){
+        const u=state.units.find(x=>x.id===uid);
+        const chip=document.createElement("span"); chip.className="chip";
+        chip.appendChild(document.createTextNode((u?.callsign||uid)+" "));
+        const x=document.createElement("span"); x.className="x"; x.textContent="×";
+        x.onclick=()=>socket.emit("dispatch:unassignUnit",{incident_id:inc.id,unit_id:uid});
+        chip.appendChild(x); chipsWrap.appendChild(chip);
       }
       td3.appendChild(chipsWrap);
-
-      if (inc.status !== 'CLOSED') {
-        const arow = document.createElement('div'); arow.className = 'arow';
-        const sel = document.createElement('select');
-        const def = document.createElement('option'); def.value = ''; def.textContent = 'Assign unit…';
-        sel.appendChild(def);
-        for (const u of state.units) {
-          if (assigned.has(u.id)) continue;
-          const opt = document.createElement('option');
-          opt.value = u.id;
-          opt.textContent = `${u.callsign || u.id} (${u.status || '?'})`;
-          sel.appendChild(opt);
-        }
-        sel.onchange = () => {
-          const chosen = sel.value;
-          if (!chosen) return;
-          sel.value = '';
-          socket.emit('dispatch:assignUnit', { incident_id: inc.id, unit_id: chosen });
-        };
-        arow.appendChild(sel);
-        td3.appendChild(arow);
+      if(inc.status!=="CLOSED"){
+        const arow=document.createElement("div"); arow.className="arow";
+        const sel=document.createElement("select"); sel.innerHTML='<option value="">Assign unit…</option>';
+        for(const u of state.units){ if(assigned.has(u.id)) continue; const o=document.createElement("option"); o.value=u.id; o.textContent=`${u.callsign||u.id} (${u.status||"?"})`;sel.appendChild(o); }
+        sel.onchange=()=>{ if(!sel.value) return; socket.emit("dispatch:assignUnit",{incident_id:inc.id,unit_id:sel.value}); sel.value=""; };
+        arow.appendChild(sel); td3.appendChild(arow);
       }
       tr.appendChild(td3);
 
-      const td4 = document.createElement('td');
-      td4.style.display = 'flex'; td4.style.flexDirection = 'column'; td4.style.gap = '3px';
-      if (inc.status !== 'CLOSED') {
-        const editBtn = document.createElement('button');
-        editBtn.className = 'bx e'; editBtn.textContent = '✏ Edit';
-        editBtn.onclick = () => openEditModal(inc);
-        td4.appendChild(editBtn);
-
-        const closeBtn = document.createElement('button');
-        closeBtn.className = 'bx d'; closeBtn.textContent = 'Close';
-        closeBtn.onclick = () => {
-          if (confirm('Close: ' + inc.nature + '?'))
-            socket.emit('dispatch:closeIncident', { incident_id: inc.id });
-        };
-        td4.appendChild(closeBtn);
-
-        const pageBtn = document.createElement('button');
-        pageBtn.className = 'bx'; pageBtn.textContent = '📢';
-        pageBtn.title = 'Page all units on this incident';
-        pageBtn.onclick = async () => {
-          await tone.play('hiLo');
-          socket.emit('dispatch:page', { incident_id: inc.id, message: `${inc.priority} – ${inc.nature} at ${loc}`, tone: 'hiLo' });
-          toast('📢 Incident Page', inc.nature);
-        };
-        td4.appendChild(pageBtn);
-
-        // Sitrep jump
-        const srBtn = document.createElement('button');
-        srBtn.className = 'bx o'; srBtn.textContent = '📝';
-        srBtn.title = 'View sitreps for this incident';
-        srBtn.onclick = () => {
-          // Switch to sitrep tab and filter to this call
-          document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
-          document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-          document.querySelector('[data-tab="sitreps"]').classList.add('active');
-          qs('#tab-sitreps').classList.add('active');
-          qs('#sitrepFilter').value = inc.id;
-          qs('#sitrepCallSel').value = inc.id;
-          renderSitreps();
-        };
-        td4.appendChild(srBtn);
+      // Actions
+      const td4=document.createElement("td"); td4.style.cssText="display:flex;flex-direction:column;gap:3px";
+      if(inc.status!=="CLOSED"){
+        const editBtn=document.createElement("button"); editBtn.className="bx e"; editBtn.textContent="✏ Edit"; editBtn.onclick=()=>openEditModal(inc); td4.appendChild(editBtn);
+        const closeBtn=document.createElement("button"); closeBtn.className="bx d"; closeBtn.textContent="Close";
+        closeBtn.onclick=()=>{ if(confirm("Close: "+inc.nature+"?")) socket.emit("dispatch:closeIncident",{incident_id:inc.id}); }; td4.appendChild(closeBtn);
+        const pageBtn=document.createElement("button"); pageBtn.className="bx"; pageBtn.textContent="📢"; pageBtn.title="Page all units";
+        pageBtn.onclick=async()=>{ await tone.play("hiLo"); socket.emit("dispatch:page",{incident_id:inc.id,message:`${inc.priority} – ${inc.nature} at ${loc}`,tone:"hiLo"}); toast("📢 Incident Page",inc.nature); }; td4.appendChild(pageBtn);
+        const srBtn=document.createElement("button"); srBtn.className="bx o"; srBtn.textContent="📝"; srBtn.title="View sitreps";
+        srBtn.onclick=()=>{ document.querySelectorAll(".tab-bar button").forEach(b=>b.classList.remove("active")); document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("active")); document.querySelector("[data-tab='sitreps']").classList.add("active"); qs("#tab-sitreps").classList.add("active"); qs("#sitrepFilter").value=inc.id; qs("#sitrepCallSel").value=inc.id; renderSitreps(); }; td4.appendChild(srBtn);
       }
       tr.appendChild(td4);
       tbody.appendChild(tr);
     }
   }
 
-  // ── SITREP PANEL ─────────────────────────────────────────────────────────────
-  function populateSitrepSelects() {
-    const open = state.incidents.filter(i => i.status !== 'CLOSED');
-    const filter = qs('#sitrepFilter');
-    const compose = qs('#sitrepCallSel');
-    const prev = filter.value;
-    const prev2 = compose.value;
+  // Global helper: start map-pick for existing incident (called from table link)
+  window._setIncLoc = incId => setMapMode("editIncLoc", incId);
 
-    filter.innerHTML = '<option value="">— All active incidents —</option>';
-    compose.innerHTML = '<option value="">Select incident…</option>';
-    for (const inc of open) {
-      const makeOpt = () => {
-        const o = document.createElement('option');
-        o.value = inc.id;
-        o.textContent = `[${inc.priority}] ${inc.nature}`;
-        return o;
-      };
-      filter.appendChild(makeOpt());
-      compose.appendChild(makeOpt());
-    }
-    if (prev) filter.value = prev;
-    if (prev2) compose.value = prev2;
+  // ── SITREPS ───────────────────────────────────────────────────────────────────
+  function populateSitrepSelects() {
+    const open=[qs("#sitrepFilter"),qs("#sitrepCallSel")];
+    open.forEach((sel,i)=>{
+      const prev=sel.value;
+      sel.innerHTML=i===0?'<option value="">— All active incidents —</option>':'<option value="">Select incident…</option>';
+      state.incidents.filter(i=>i.status!=="CLOSED").forEach(inc=>{ const o=document.createElement("option"); o.value=inc.id; o.textContent=`[${inc.priority}] ${inc.nature}`; sel.appendChild(o); });
+      if(prev) sel.value=prev;
+    });
   }
 
   function renderSitreps() {
     populateSitrepSelects();
-    const feed = qs('#sitrepFeed');
-    feed.innerHTML = '';
-    const filterId = qs('#sitrepFilter').value;
-
-    // Collect all sitreps from all incidents
-    let entries = [];
-    for (const inc of state.incidents) {
-      if (filterId && inc.id !== filterId) continue;
-      if (!Array.isArray(inc.sitreps)) continue;
-      for (const sr of inc.sitreps) {
-        entries.push({ ...sr, inc });
-      }
+    const feed=qs("#sitrepFeed"); feed.innerHTML="";
+    const filterId=qs("#sitrepFilter").value;
+    let entries=[];
+    for(const inc of state.incidents){
+      if(filterId&&inc.id!==filterId) continue;
+      if(!Array.isArray(inc.sitreps)) continue;
+      inc.sitreps.forEach(sr=>entries.push({...sr,inc}));
     }
-    entries.sort((a, b) => (b.at || 0) - (a.at || 0));
-
-    if (!entries.length) {
-      feed.innerHTML = '<div class="empty">No sitreps' + (filterId ? ' for this incident' : '') + '</div>';
-      return;
-    }
-
-    for (const e of entries) {
-      const div = document.createElement('div');
-      div.className = 'sitrep-entry';
-      div.innerHTML = `
-        <div class="sr-meta">
-          <span class="sr-call">[${e.inc.priority}] ${e.inc.nature}</span>
-          &nbsp;·&nbsp;<span style="color:var(--accent);font-weight:700">${e.author || 'Dispatch'}</span>
-          &nbsp;·&nbsp;${fmtTime(e.at)}
-        </div>
-        <div class="sr-text">${e.text.replace(/\n/g, '<br>')}</div>`;
+    entries.sort((a,b)=>(b.at||0)-(a.at||0));
+    if(!entries.length){ feed.innerHTML=`<div class="empty">No sitreps${filterId?" for this incident":""}</div>`; return; }
+    for(const e of entries){
+      const div=document.createElement("div"); div.className="sitrep-entry";
+      div.innerHTML=`<div class="sr-meta"><span class="sr-call">[${e.inc.priority}] ${e.inc.nature}</span> &nbsp;·&nbsp; <span style="color:var(--accent);font-weight:700">${e.author||"Dispatch"}</span> &nbsp;·&nbsp; ${fmtTime(e.at)}</div><div class="sr-text">${e.text.replace(/\n/g,"<br>")}</div>`;
       feed.appendChild(div);
     }
   }
-
-  qs('#sitrepFilter').addEventListener('change', renderSitreps);
-
-  qs('#btnSitrep').addEventListener('click', () => {
-    const inc_id = qs('#sitrepCallSel').value;
-    const text   = qs('#sitrepText').value.trim();
-    if (!inc_id) { toast('⚠ Error', 'Select an incident first'); return; }
-    if (!text)   { toast('⚠ Error', 'Enter sitrep text'); return; }
-    socket.emit('incident:addSitrep', { incident_id: inc_id, text });
-    qs('#sitrepText').value = '';
-    qs('#sitrepFilter').value = inc_id;
-    toast('📝 Sitrep', 'Submitted');
+  qs("#sitrepFilter").addEventListener("change",renderSitreps);
+  qs("#btnSitrep").addEventListener("click",()=>{
+    const id=qs("#sitrepCallSel").value, text=qs("#sitrepText").value.trim();
+    if(!id)  { toast("⚠ Error","Select an incident first"); return; }
+    if(!text){ toast("⚠ Error","Enter sitrep text"); return; }
+    socket.emit("incident:addSitrep",{incident_id:id,text});
+    qs("#sitrepText").value=""; qs("#sitrepFilter").value=id;
+    toast("📝 Sitrep","Submitted");
   });
 
   // ── BULLETINS ─────────────────────────────────────────────────────────────────
   function renderBulletins() {
-    const feed = qs('#bulFeed');
-    const bulls = state.bulletins || [];
-    if (!bulls.length) { feed.innerHTML = '<div class="empty">No bulletins posted</div>'; return; }
-    feed.innerHTML = '';
-    for (const b of bulls) {
-      const div = document.createElement('div');
-      div.style.cssText = 'background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:8px 10px;';
-      div.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px">
-          <span style="font-size:12px;font-weight:700;color:var(--warn)">${b.title ? '📣 ' + b.title : '📣 Bulletin'}</span>
-          <button class="bx d" style="padding:1px 6px;font-size:10px" onclick="window._delBulletin('${b.id}')">✕</button>
-        </div>
-        <div style="font-size:12px;line-height:1.5;white-space:pre-wrap">${b.text}</div>
-        <div style="font-size:10px;color:var(--muted);margin-top:4px">Posted by <b>${b.author}</b> · ${fmtTime(b.at)}</div>`;
+    const feed=qs("#bulFeed"), bulls=state.bulletins||[];
+    if(!bulls.length){ feed.innerHTML='<div class="empty">No bulletins posted</div>'; return; }
+    feed.innerHTML="";
+    for(const b of bulls){
+      const div=document.createElement("div"); div.style.cssText="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:8px 10px;";
+      div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px"><span style="font-size:12px;font-weight:700;color:var(--warn)">📣 ${b.title||"Bulletin"}</span><button class="bx d" style="padding:1px 6px;font-size:10px" onclick="window._delBulletin('${b.id}')">✕</button></div><div style="font-size:12px;line-height:1.5;white-space:pre-wrap">${b.text}</div><div style="font-size:10px;color:var(--muted);margin-top:4px">Posted by <b>${b.author}</b> · ${fmtTime(b.at)}</div>`;
       feed.appendChild(div);
     }
   }
-  window._delBulletin = id => { if (confirm('Delete this bulletin?')) socket.emit('dispatch:deleteBulletin', { id }); };
-
-  qs('#btnAddBulletin').addEventListener('click', () => {
-    const text = qs('#bulText').value.trim();
-    const msg  = qs('#bulMsg');
-    if (!text) { msg.className = 'msg-err'; msg.textContent = '⚠ Enter message'; return; }
-    socket.emit('dispatch:addBulletin', { title: qs('#bulTitle').value.trim(), text });
-    qs('#bulTitle').value = ''; qs('#bulText').value = '';
-    msg.className = 'msg-ok'; msg.textContent = '✓ Posted';
-    setTimeout(() => { msg.textContent = ''; }, 2000);
+  window._delBulletin=id=>{ if(confirm("Delete this bulletin?")) socket.emit("dispatch:deleteBulletin",{id}); };
+  qs("#btnAddBulletin").addEventListener("click",()=>{
+    const text=qs("#bulText").value.trim(), msg=qs("#bulMsg");
+    if(!text){ msg.className="msg-err"; msg.textContent="⚠ Enter message"; return; }
+    socket.emit("dispatch:addBulletin",{title:qs("#bulTitle").value.trim(),text});
+    qs("#bulTitle").value=""; qs("#bulText").value="";
+    msg.className="msg-ok"; msg.textContent="✓ Posted";
+    setTimeout(()=>{ msg.textContent=""; },2000);
   });
 
-  // ── PRE-PLANS ──────────────────────────────────────────────────────────────────
+  // ── PRE-PLANS ─────────────────────────────────────────────────────────────────
   function renderPreplans() {
-    const feed = qs('#ppFeed');
-    const plans = state.preplans || [];
-    if (!plans.length) { feed.innerHTML = '<div class="empty">No pre-plans saved</div>'; return; }
-    feed.innerHTML = '';
-    for (const p of plans) {
-      const div = document.createElement('div');
-      div.style.cssText = 'background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:8px 10px;';
-      const rows = [
-        p.hazards ? `<div><span style="color:var(--danger);font-weight:700;font-size:10px">⚠ HAZARDS</span><br><span style="font-size:12px">${p.hazards}</span></div>` : '',
-        p.access  ? `<div><span style="color:var(--warn);font-weight:700;font-size:10px">🚪 ACCESS</span><br><span style="font-size:12px">${p.access}</span></div>` : '',
-        p.water   ? `<div><span style="color:#5cc8ff;font-weight:700;font-size:10px">💧 WATER</span><br><span style="font-size:12px">${p.water}</span></div>` : '',
-        p.notes   ? `<div><span style="color:var(--muted);font-weight:700;font-size:10px">📋 NOTES</span><br><span style="font-size:12px">${p.notes}</span></div>` : ''
+    const feed=qs("#ppFeed"), plans=state.preplans||[];
+    if(!plans.length){ feed.innerHTML='<div class="empty">No pre-plans saved</div>'; return; }
+    feed.innerHTML="";
+    for(const p of plans){
+      const div=document.createElement("div"); div.style.cssText="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:8px;padding:8px 10px;";
+      const rows=[
+        p.hazards?`<div><span style="color:var(--danger);font-weight:700;font-size:10px">⚠ HAZARDS</span><br><span style="font-size:12px">${p.hazards}</span></div>`:"",
+        p.access ?`<div><span style="color:var(--warn);font-weight:700;font-size:10px">🚪 ACCESS</span><br><span style="font-size:12px">${p.access}</span></div>`:"",
+        p.water  ?`<div><span style="color:#5cc8ff;font-weight:700;font-size:10px">💧 WATER</span><br><span style="font-size:12px">${p.water}</span></div>`:"",
+        p.notes  ?`<div><span style="color:var(--muted);font-weight:700;font-size:10px">📋 NOTES</span><br><span style="font-size:12px">${p.notes}</span></div>`:"",
       ].filter(Boolean).join('<hr style="border:none;border-top:1px solid var(--border);margin:6px 0">');
-      div.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-          <span style="font-size:13px;font-weight:700;color:var(--accent)">🏠 ${p.address}</span>
-          <div style="display:flex;gap:4px">
-            <button class="bx e" style="padding:1px 6px;font-size:10px" onclick="window._editPreplan('${p.id}')">✏</button>
-            <button class="bx d" style="padding:1px 6px;font-size:10px" onclick="window._delPreplan('${p.id}')">✕</button>
-          </div>
-        </div>
-        ${rows}
-        <div style="font-size:10px;color:var(--muted);margin-top:6px">By <b>${p.author}</b></div>`;
+      div.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:13px;font-weight:700;color:var(--accent)">🏠 ${p.address}</span><div style="display:flex;gap:4px"><button class="bx e" style="padding:1px 6px;font-size:10px" onclick="window._editPreplan('${p.id}')">✏</button><button class="bx d" style="padding:1px 6px;font-size:10px" onclick="window._delPreplan('${p.id}')">✕</button></div></div>${rows}<div style="font-size:10px;color:var(--muted);margin-top:6px">By <b>${p.author}</b></div>`;
       feed.appendChild(div);
     }
   }
-
-  window._delPreplan = id => { if (confirm('Delete this pre-plan?')) socket.emit('dispatch:deletePreplan', { id }); };
-  window._editPreplan = id => {
-    const p = (state.preplans || []).find(x => x.id === id);
-    if (!p) return;
-    qs('#ppId').value      = p.id;
-    qs('#ppAddress').value = p.address;
-    qs('#ppHazards').value = p.hazards;
-    qs('#ppAccess').value  = p.access;
-    qs('#ppWater').value   = p.water;
-    qs('#ppNotes').value   = p.notes;
-    qs('#ppAddress').focus();
+  window._delPreplan=id=>{ if(confirm("Delete this pre-plan?")) socket.emit("dispatch:deletePreplan",{id}); };
+  window._editPreplan=id=>{
+    const p=(state.preplans||[]).find(x=>x.id===id); if(!p) return;
+    ["ppId","ppAddress","ppHazards","ppAccess","ppWater","ppNotes"].forEach(k=>{ qs("#"+k).value=p[k.slice(2).toLowerCase()]||p[k]||""; });
+    qs("#ppId").value=p.id; qs("#ppAddress").value=p.address; qs("#ppHazards").value=p.hazards; qs("#ppAccess").value=p.access; qs("#ppWater").value=p.water; qs("#ppNotes").value=p.notes;
+    qs("#ppAddress").focus();
   };
-
-  qs('#btnSavePreplan').addEventListener('click', () => {
-    const address = qs('#ppAddress').value.trim();
-    const msg     = qs('#ppMsg');
-    if (!address) { msg.className = 'msg-err'; msg.textContent = '⚠ Address required'; return; }
-    socket.emit('dispatch:upsertPreplan', {
-      id:      qs('#ppId').value || undefined,
-      address,
-      hazards: qs('#ppHazards').value.trim(),
-      access:  qs('#ppAccess').value.trim(),
-      water:   qs('#ppWater').value.trim(),
-      notes:   qs('#ppNotes').value.trim()
-    });
-    ['ppId','ppAddress','ppHazards','ppAccess','ppWater','ppNotes'].forEach(i => { qs('#'+i).value = ''; });
-    msg.className = 'msg-ok'; msg.textContent = '✓ Saved';
-    setTimeout(() => { msg.textContent = ''; }, 2000);
+  qs("#btnSavePreplan").addEventListener("click",()=>{
+    const address=qs("#ppAddress").value.trim(), msg=qs("#ppMsg");
+    if(!address){ msg.className="msg-err"; msg.textContent="⚠ Address required"; return; }
+    socket.emit("dispatch:upsertPreplan",{id:qs("#ppId").value||undefined,address,hazards:qs("#ppHazards").value.trim(),access:qs("#ppAccess").value.trim(),water:qs("#ppWater").value.trim(),notes:qs("#ppNotes").value.trim()});
+    ["ppId","ppAddress","ppHazards","ppAccess","ppWater","ppNotes"].forEach(i=>{ qs("#"+i).value=""; });
+    msg.className="msg-ok"; msg.textContent="✓ Saved"; setTimeout(()=>{ msg.textContent=""; },2000);
   });
-
-  qs('#btnClearPreplan').addEventListener('click', () => {
-    ['ppId','ppAddress','ppHazards','ppAccess','ppWater','ppNotes'].forEach(i => { qs('#'+i).value = ''; });
-  });
+  qs("#btnClearPreplan").addEventListener("click",()=>{ ["ppId","ppAddress","ppHazards","ppAccess","ppWater","ppNotes"].forEach(i=>{ qs("#"+i).value=""; }); });
 
   // ── RENDER ALL ────────────────────────────────────────────────────────────────
   function refreshPinIncSel() {
-    const sel = qs('#pinIncSel');
-    const prev = sel.value;
-    sel.innerHTML = '<option value="">Link to incident…</option>';
-    for (const inc of state.incidents.filter(i => i.status !== 'CLOSED')) {
-      const opt = document.createElement('option');
-      opt.value = inc.id;
-      opt.textContent = `[${inc.priority}] ${inc.nature}`;
-      sel.appendChild(opt);
-    }
-    if (prev) sel.value = prev;
+    const sel=qs("#pinIncSel"); const prev=sel.value;
+    sel.innerHTML='<option value="">Link to incident…</option>';
+    state.incidents.filter(i=>i.status!=="CLOSED").forEach(inc=>{ const o=document.createElement("option"); o.value=inc.id; o.textContent=`[${inc.priority}] ${inc.nature}`; sel.appendChild(o); });
+    if(prev) sel.value=prev;
   }
 
   function renderAll() {
-    renderUnits();
-    renderIncidents();
-    redrawMarkers();
-    if (pinMode) refreshPinIncSel();
-    if (qs('#tab-sitreps').classList.contains('active')) renderSitreps();
-    if (qs('#tab-bulletins').classList.contains('active')) renderBulletins();
-    if (qs('#tab-preplans').classList.contains('active')) renderPreplans();
+    renderUnits(); renderIncidents(); redrawMarkers();
+    if(mapMode==="pin") refreshPinIncSel();
+    if(qs("#tab-sitreps").classList.contains("active"))   renderSitreps();
+    if(qs("#tab-bulletins").classList.contains("active")) renderBulletins();
+    if(qs("#tab-preplans").classList.contains("active"))  renderPreplans();
   }
 
   // ── SOCKET ────────────────────────────────────────────────────────────────────
   let syncTimer = null;
   function flashSync() {
-    const el = qs('#syncIndicator');
-    el.style.display = 'inline';
-    el.style.color = 'var(--ok)';
-    el.style.borderColor = 'var(--ok)';
-    el.textContent = '● SYNCED';
+    const el=qs("#syncIndicator");
+    el.style.display="inline"; el.style.color="var(--ok)"; el.style.borderColor="var(--ok)"; el.textContent="● SYNCED";
     clearTimeout(syncTimer);
-    syncTimer = setTimeout(() => {
-      el.style.color = 'var(--muted)';
-      el.style.borderColor = 'var(--border)';
-    }, 1500);
+    syncTimer=setTimeout(()=>{ el.style.color="var(--muted)"; el.style.borderColor="var(--border)"; },1500);
   }
 
-  socket.on('state', s => { state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...s }; renderAll(); flashSync(); });
-  socket.on('page', async p => {
-    await tone.play(p.tone || 'default');
-    toast('📢 Page', p.message || 'Station call');
+  socket.on("state", s => {
+    state = { units:[], incidents:[], assignments:[], mapPins:[], bulletins:[], preplans:[], ...s };
+    renderAll(); flashSync();
   });
-  socket.on('disconnect', () => toast('⚠ Disconnected', 'Lost connection to server'));
+  socket.on("page", async p => { await tone.play(p.tone||"default"); toast("📢 Page", p.message||"Station call"); });
 
-  // ── BUTTONS ───────────────────────────────────────────────────────────────────
-  qs('#btnLogout').addEventListener('click', logout);
+  // ── Duress / EMR alert ───────────────────────────────────────────────────────
+  // Fires once on the exact moment a unit transitions to EMR status.
+  // Plays a distinct rapid-warble alarm tone, shows a persistent flashing
+  // banner, and logs the unit + time so dispatch can't miss it.
+  socket.on("unit:duress", async payload => {
+    const callsign = payload?.callsign || "Unknown unit";
+    const at       = payload?.at ? fmtTime(payload.at) : new Date().toLocaleTimeString();
 
-  qs('#btnPage').addEventListener('click', async () => {
-    await tone.play('default');
-    socket.emit('dispatch:page', { message: 'Station tone — all units', tone: 'default' });
-    toast('📢 Station Tone', 'Sent to all connected units');
+    // Play the dedicated duress alarm (louder + faster than hi-lo)
+    await tone.play("duress");
+
+    // Update and show the persistent banner
+    qs("#duressText").textContent = `⚠ DURESS — ${callsign} ACTIVATED EMR`;
+    qs("#duressSub").textContent  = `${at} — Confirm unit welfare immediately`;
+    qs("#duressBar").classList.add("active");
+
+    // Also show a toast for visibility if they're looking away from the screen
+    toast("🚨 DURESS ALERT", `${callsign} hit the emergency button at ${at}`);
+
+    console.warn(`[DURESS] ${callsign} at ${at}`);
   });
 
-  qs('#btnCreate').addEventListener('click', () => {
-    const nature = qs('#nature').value.trim();
-    const msgEl  = qs('#createMsg');
-    if (!nature) { msgEl.className = 'msg-err'; msgEl.textContent = '⚠ Enter a type/nature'; return; }
-    socket.emit('dispatch:createIncident', {
+  qs("#btnDuressAck").addEventListener("click", () => {
+    qs("#duressBar").classList.remove("active");
+  });
+  socket.on("disconnect", () => toast("⚠ Disconnected","Lost connection to server"));
+
+  // ── TOOLBAR BUTTONS ───────────────────────────────────────────────────────────
+  qs("#btnLogout").addEventListener("click", logout);
+  qs("#btnPage").addEventListener("click", async () => {
+    await tone.play("default");
+    socket.emit("dispatch:page",{message:"Station tone — all units",tone:"default"});
+    toast("📢 Station Tone","Sent to all connected units");
+  });
+  qs("#mapVariant").addEventListener("change", () => loadMap(qs("#mapVariant").value));
+  qs("#btnRecenter").addEventListener("click", () => lmap.fitBounds([[0,0],[H,W]]));
+
+  // ── CREATE INCIDENT ───────────────────────────────────────────────────────────
+  qs("#btnCreate").addEventListener("click", () => {
+    const nature=qs("#nature").value.trim(), msgEl=qs("#createMsg");
+    if(!nature){ msgEl.className="msg-err"; msgEl.textContent="⚠ Enter a type/nature"; return; }
+    socket.emit("dispatch:createIncident",{
       nature,
-      priority:       qs('#priority').value,
-      notes:          qs('#notes').value,
-      location_label: qs('#location_label').value,
-      postal_code:    qs('#postal_code').value,
-      street_name:    qs('#street_name').value,
+      priority:       qs("#priority").value,
+      notes:          qs("#notes").value,
+      location_label: qs("#location_label").value,
+      postal_code:    qs("#postal_code").value,
+      street_name:    qs("#street_name").value,
       building_number: null,
-      location_x: null,
-      location_z: null
+      location_x:     pendingLocX,   // null if no map pin was set — that is fine
+      location_z:     pendingLocZ,
     });
-    ['nature','location_label','postal_code','street_name','notes'].forEach(id => { qs('#' + id).value = ''; });
-    msgEl.className = 'msg-ok'; msgEl.textContent = '✓ Created';
-    setTimeout(() => { msgEl.textContent = ''; }, 2500);
+    ["nature","location_label","postal_code","street_name","notes"].forEach(id=>{ qs("#"+id).value=""; });
+    clearNewLocPick();
+    msgEl.className="msg-ok"; msgEl.textContent="✓ Created";
+    setTimeout(()=>{ msgEl.textContent=""; },2500);
   });
 
-  qs('#mapVariant').addEventListener('change', () => loadMap(qs('#mapVariant').value));
-  qs('#btnRecenter').addEventListener('click', () => lmap.fitBounds([[0,0],[H,W]]));
-
-  // ── EDIT INCIDENT MODAL ───────────────────────────────────────────────────────
+  // ── EDIT MODAL ────────────────────────────────────────────────────────────────
   function openEditModal(inc) {
-    qs('#editIncId').value         = inc.id;
-    qs('#editNature').value        = inc.nature        || '';
-    qs('#editPriority').value      = inc.priority      || 'P2';
-    qs('#editLocationLabel').value = inc.location_label|| '';
-    qs('#editPostal').value        = inc.postal_code   || '';
-    qs('#editStreet').value        = inc.street_name   || '';
-    qs('#editNotes').value         = inc.notes         || '';
-    qs('#editSaveMsg').textContent = '';
-    qs('#editModal').classList.add('open');
-    qs('#editNature').focus();
+    qs("#editIncId").value         = inc.id;
+    qs("#editNature").value        = inc.nature         || "";
+    qs("#editPriority").value      = inc.priority       || "P2";
+    qs("#editLocationLabel").value = inc.location_label || "";
+    qs("#editPostal").value        = inc.postal_code    || "";
+    qs("#editStreet").value        = inc.street_name    || "";
+    qs("#editNotes").value         = inc.notes          || "";
+    qs("#editSaveMsg").textContent = "";
+    qs("#editLocInfo").textContent = inc.location_x != null
+      ? `📍 Map coords: X:${Number(inc.location_x).toFixed(0)}, Z:${Number(inc.location_z).toFixed(0)} — close modal and click "Move location" on the map icon to change`
+      : `📍 No map location — close modal and click "🗺 Set map location" in the table`;
+    qs("#editModal").classList.add("open");
+    qs("#editNature").focus();
   }
 
-  qs('#btnCancelEdit').addEventListener('click', () => qs('#editModal').classList.remove('open'));
-  qs('#editModal').addEventListener('click', e => { if (e.target === qs('#editModal')) qs('#editModal').classList.remove('open'); });
-
-  qs('#btnSaveEdit').addEventListener('click', () => {
-    const id     = qs('#editIncId').value;
-    const nature = qs('#editNature').value.trim();
-    const msg    = qs('#editSaveMsg');
-    if (!nature) { msg.style.color = 'var(--danger)'; msg.textContent = '⚠ Nature/Type is required'; return; }
-    socket.emit('dispatch:updateIncident', {
-      incident_id:    id,
-      nature,
-      priority:       qs('#editPriority').value,
-      location_label: qs('#editLocationLabel').value.trim(),
-      postal_code:    qs('#editPostal').value.trim(),
-      street_name:    qs('#editStreet').value.trim(),
-      notes:          qs('#editNotes').value.trim()
+  qs("#btnCancelEdit").addEventListener("click", ()=>qs("#editModal").classList.remove("open"));
+  qs("#editModal").addEventListener("click", e=>{ if(e.target===qs("#editModal")) qs("#editModal").classList.remove("open"); });
+  qs("#btnSaveEdit").addEventListener("click", ()=>{
+    const id=qs("#editIncId").value, nature=qs("#editNature").value.trim(), msg=qs("#editSaveMsg");
+    if(!nature){ msg.style.color="var(--danger)"; msg.textContent="⚠ Nature/Type required"; return; }
+    socket.emit("dispatch:updateIncident",{
+      incident_id: id, nature,
+      priority:       qs("#editPriority").value,
+      location_label: qs("#editLocationLabel").value.trim(),
+      postal_code:    qs("#editPostal").value.trim(),
+      street_name:    qs("#editStreet").value.trim(),
+      notes:          qs("#editNotes").value.trim(),
     });
-    msg.style.color = 'var(--ok)';
-    msg.textContent = '✓ Saved';
-    setTimeout(() => qs('#editModal').classList.remove('open'), 900);
+    msg.style.color="var(--ok)"; msg.textContent="✓ Saved";
+    setTimeout(()=>qs("#editModal").classList.remove("open"),900);
   });
 
   // ── INIT ──────────────────────────────────────────────────────────────────────
   (async () => {
     const me = await whoami();
-    if (!me) { window.location.href = '/index.html'; return; }
-    qs('#who').textContent = `${me.username} · DISPATCH`;
-
-    loadMap('fall_postals');
-
-    const res  = await fetch('/api/state');
-    const data = await res.json().catch(() => ({}));
-    if (data.ok) { state = { units: [], incidents: [], assignments: [], mapPins: [], bulletins: [], preplans: [], ...data }; renderAll(); }
+    if (!me) { window.location.href="/index.html"; return; }
+    qs("#who").textContent=`${me.username} · DISPATCH`;
+    loadMap("fall_postals");
+    try {
+      const r=await fetch("/api/state"), d=await r.json();
+      if(d.ok){ state={units:[],incidents:[],assignments:[],mapPins:[],bulletins:[],preplans:[],...d}; renderAll(); }
+    } catch(_){}
   })();
 })();
 </script>
